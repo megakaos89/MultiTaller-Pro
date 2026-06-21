@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editando %}Editar{% else %}Nuevo{% endif %} Dispositivo - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if editando %}✏️ Editar{% else %}➕ Nuevo{% endif %} Dispositivo</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cliente</label>
+                    <select class="form-select" name="cliente_id" required>
+                        <option value="">Seleccionar cliente...</option>
+                        {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}" {% if dispositivo and dispositivo.cliente_id == cliente.id %}selected{% endif %}>{{ cliente.nombre_completo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tipo de Equipo</label>
+                    <select class="form-select" name="tipo_equipo" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Laptop" {% if dispositivo and dispositivo.tipo_equipo == 'Laptop' %}selected{% endif %}>Laptop</option>
+                        <option value="PC Escritorio" {% if dispositivo and dispositivo.tipo_equipo == 'PC Escritorio' %}selected{% endif %}>PC Escritorio</option>
+                        <option value="Smartphone" {% if dispositivo and dispositivo.tipo_equipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
+                        <option value="Tablet" {% if dispositivo and dispositivo.tipo_equipo == 'Tablet' %}selected{% endif %}>Tablet</option>
+                        <option value="Impresora" {% if dispositivo and dispositivo.tipo_equipo == 'Impresora' %}selected{% endif %}>Impresora</option>
+                        <option value="Otro" {% if dispositivo and dispositivo.tipo_equipo == 'Otro' %}selected{% endif %}>Otro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Marca</label>
+                    <input type="text" class="form-control" name="marca" value="{{ dispositivo.marca if dispositivo else '' }}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Modelo</label>
+                    <input type="text" class="form-control" name="modelo" value="{{ dispositivo.modelo if dispositivo else '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Número de Serie</label>
+                    <input type="text" class="form-control" name="numero_serie" value="{{ dispositivo.numero_serie if dispositivo else '' }}">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Descripción del Problema</label>
+                <textarea class="form-control" name="problema_reportado" rows="3">{{ dispositivo.problema_reportado if dispositivo else '' }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Accesorios Incluidos</label>
+                <textarea class="form-control" name="accesorios" rows="2" placeholder="Ej: Cargador, cable USB, funda...">{{ dispositivo.accesorios if dispositivo else '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">{% if editando %}Actualizar{% else %}Crear{% endif %}</button>
+            <a href="{{ url_for('dispositivos.listar_dispositivos') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

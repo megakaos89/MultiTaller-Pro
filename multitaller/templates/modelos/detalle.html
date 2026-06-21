@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Ver Modelo - MultiTaller{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('modelos.listar_modelos') }}" class="btn btn-secondary">← Volver</a>
+    <a href="{{ url_for('modelos.editar_modelo', id=modelo.id) }}" class="btn btn-primary">Editar</a>
+</div>
+
+<h2 class="mb-4">📦 {{ modelo.marca }} {{ modelo.nombre_modelo }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Información General</h5>
+        <table class="table table-borderless">
+            <tr><th>Marca:</th><td>{{ modelo.marca }}</td></tr>
+            <tr><th>Nombre del Modelo:</th><td>{{ modelo.nombre_modelo }}</td></tr>
+            <tr><th>Tipo de Equipo:</th><td>{{ modelo.tipo_equipo }}</td></tr>
+        </table>
+        
+        <h5 class="mt-4">Descripción</h5>
+        <p>{{ modelo.descripcion or 'Sin descripción' }}</p>
+        
+        <h5 class="mt-4">Piezas Compatibles</h5>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Pieza</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pieza in piezas_compatibles %}
+                <tr>
+                    <td>{{ pieza.nombre }}</td>
+                    <td>{{ pieza.categoria or '-' }}</td>
+                    <td>{{ pieza.cantidad }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">No hay piezas compatibles registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

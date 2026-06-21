@@ -106,7 +106,7 @@ def create_app():
         primera_ejecucion = Configuracion.query.filter_by(clave='primera_ejecucion').first()
         if not primera_ejecucion:
             # Primera ejecución - iniciar período de prueba
-            now = datetime.utcnow()
+            now = datetime.now(datetime.UTC)
             conf = Configuracion(clave='primera_ejecucion', valor=now.isoformat(), 
                                descripcion='Fecha de primera ejecución')
             db.session.add(conf)
@@ -115,7 +115,7 @@ def create_app():
         
         # Calcular días restantes
         fecha_inicio = datetime.fromisoformat(primera_ejecucion.valor)
-        dias_transcurridos = (datetime.utcnow() - fecha_inicio).days
+        dias_transcurridos = (datetime.now(datetime.UTC) - fecha_inicio).days
         
         if dias_transcurridos <= 15:
             return True
@@ -140,7 +140,7 @@ def create_app():
         primera_ejecucion = Configuracion.query.filter_by(clave='primera_ejecucion').first()
         if primera_ejecucion:
             fecha_inicio = datetime.fromisoformat(primera_ejecucion.valor)
-            dias_transcurridos = (datetime.utcnow() - fecha_inicio).days
+            dias_transcurridos = (datetime.now(datetime.UTC) - fecha_inicio).days
             dias_restantes = max(0, 15 - dias_transcurridos)
             
             return {

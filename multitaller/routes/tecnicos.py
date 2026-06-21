@@ -120,7 +120,7 @@ def productividad():
     
     from datetime import datetime, timedelta
     
-    hoy = datetime.utcnow()
+    hoy = datetime.now(datetime.UTC)
     if periodo == 'semana':
         fecha_inicio = hoy - timedelta(days=7)
     elif periodo == 'mes':

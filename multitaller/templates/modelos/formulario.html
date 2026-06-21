@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editando %}Editar{% else %}Nuevo{% endif %} Modelo - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if editando %}✏️ Editar{% else %}➕ Nuevo{% endif %} Modelo de Equipo</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Marca</label>
+                    <input type="text" class="form-control" name="marca" value="{{ modelo.marca if modelo else '' }}" required list="marcas_list">
+                    <datalist id="marcas_list">
+                        <option value="HP">
+                        <option value="Dell">
+                        <option value="Lenovo">
+                        <option value="Apple">
+                        <option value="Asus">
+                        <option value="Acer">
+                        <option value="Samsung">
+                    </datalist>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre del Modelo</label>
+                    <input type="text" class="form-control" name="nombre_modelo" value="{{ modelo.nombre_modelo if modelo else '' }}" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Tipo de Equipo</label>
+                <select class="form-select" name="tipo_equipo" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Laptop" {% if modelo and modelo.tipo_equipo == 'Laptop' %}selected{% endif %}>Laptop</option>
+                    <option value="PC Escritorio" {% if modelo and modelo.tipo_equipo == 'PC Escritorio' %}selected{% endif %}>PC Escritorio</option>
+                    <option value="Smartphone" {% if modelo and modelo.tipo_equipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
+                    <option value="Tablet" {% if modelo and modelo.tipo_equipo == 'Tablet' %}selected{% endif %}>Tablet</option>
+                    <option value="Impresora" {% if modelo and modelo.tipo_equipo == 'Impresora' %}selected{% endif %}>Impresora</option>
+                    <option value="Otro" {% if modelo and modelo.tipo_equipo == 'Otro' %}selected{% endif %}>Otro</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" name="descripcion" rows="3">{{ modelo.descripcion if modelo else '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">{% if editando %}Actualizar{% else %}Crear{% endif %}</button>
+            <a href="{{ url_for('modelos.listar_modelos') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

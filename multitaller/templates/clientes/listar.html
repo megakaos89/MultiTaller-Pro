@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">👥 Clientes</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('clientes.listar_clientes') }}" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busqueda" value="{{ busqueda }}" placeholder="Nombre, teléfono...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tipo Cliente</label>
+                <select class="form-select" name="tipo_cliente">
+                    <option value="">Todos</option>
+                    <option value="Particular" {% if tipo_cliente == 'Particular' %}selected{% endif %}>Particular</option>
+                    <option value="Empresa" {% if tipo_cliente == 'Empresa' %}selected{% endif %}>Empresa</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Botón nuevo cliente -->
+<div class="mb-3">
+    <a href="{{ url_for('clientes.nuevo_cliente') }}" class="btn btn-success">➕ Nuevo Cliente</a>
+</div>
+
+<!-- Tabla de clientes -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Teléfono Móvil</th>
+                    <th>Teléfono Fijo</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes.items %}
+                <tr>
+                    <td><a href="{{ url_for('clientes.ver_cliente', id=cliente.id) }}">{{ cliente.nombre_completo }}</a></td>
+                    <td>{{ cliente.telefono_movil or '-' }}</td>
+                    <td>{{ cliente.telefono_fijo or '-' }}</td>
+                    <td>{{ cliente.tipo_cliente }}</td>
+                    <td>
+                        <a href="{{ url_for('clientes.editar_cliente', id=cliente.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        {% if session.get('usuario_rol') == 'admin' %}
+                        <a href="{{ url_for('clientes.eliminar_cliente', id=cliente.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este cliente?')">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No hay clientes registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Paginación -->
+        {% if clientes.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if clientes.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('clientes.listar_clientes', pagina=clientes.prev_num, busqueda=busqueda, tipo_cliente=tipo_cliente) }}">Anterior</a>
+                </li>
+                {% endif %}
+                
+                {% for p in clientes.iter_pages() %}
+                    {% if p %}
+                        <li class="page-item {% if p == clientes.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('clientes.listar_clientes', pagina=p, busqueda=busqueda, tipo_cliente=tipo_cliente) }}">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if clientes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('clientes.listar_clientes', pagina=clientes.next_num, busqueda=busqueda, tipo_cliente=tipo_cliente) }}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

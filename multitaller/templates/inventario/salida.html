@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Salida de Pieza - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📤 Registrar Salida de Pieza</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Pieza:</strong> {{ pieza.nombre }} (Stock actual: {{ pieza.cantidad }})</p>
+        
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cantidad a Retirar</label>
+                    <input type="number" class="form-control" name="cantidad" min="1" max="{{ pieza.cantidad }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Motivo</label>
+                    <select class="form-select" name="motivo" required>
+                        <option value="">Seleccionar motivo...</option>
+                        <option value="Reparación">Uso en reparación</option>
+                        <option value="Garantía">Reemplazo por garantía</option>
+                        <option value="Pérdida">Pérdida o daño</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Notas</label>
+                <textarea class="form-control" name="notas" rows="2"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-warning">Registrar Salida</button>
+            <a href="{{ url_for('inventario.ver_pieza', id=pieza.id) }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

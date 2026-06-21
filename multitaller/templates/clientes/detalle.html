@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">👥 Detalle del Cliente</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        {{ cliente.nombre_completo }}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Tipo Cliente:</strong> {{ cliente.tipo_cliente }}</p>
+                <p><strong>Identificación:</strong> {{ cliente.identificacion or 'N/A' }}</p>
+                <p><strong>Teléfono Móvil:</strong> {{ cliente.telefono_movil or 'N/A' }}</p>
+                <p><strong>Teléfono Fijo:</strong> {{ cliente.telefono_fijo or 'N/A' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Dirección:</strong> {{ cliente.direccion or 'N/A' }}</p>
+                <p><strong>Email:</strong> {{ cliente.email or 'N/A' }}</p>
+                <p><strong>Fecha Registro:</strong> {{ cliente.fecha_registro.strftime('%d/%m/%Y') if cliente.fecha_registro else 'N/A' }}</p>
+            </div>
+        </div>
+        <a href="{{ url_for('clientes.editar_cliente', id=cliente.id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('clientes.listar_clientes') }}" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+
+<!-- Dispositivos -->
+<div class="card mb-4">
+    <div class="card-header">
+        💻 Dispositivos del Cliente
+    </div>
+    <div class="card-body">
+        {% if dispositivos %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo</th>
+                    <th>Número Serie</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for disp in dispositivos %}
+                <tr>
+                    <td>{{ disp.marca }}</td>
+                    <td>{{ disp.modelo_texto or '-' }}</td>
+                    <td>{{ disp.tipo or 'Sin tipo' }}</td>
+                    <td>{{ disp.numero_serie or '-' }}</td>
+                    <td>
+                        <a href="{{ url_for('dispositivos.ver_dispositivo', id=disp.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No tiene dispositivos registrados</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Últimas Órdenes -->
+<div class="card">
+    <div class="card-header">
+        📋 Últimas Órdenes
+    </div>
+    <div class="card-body">
+        {% if ordenes %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Tipo Servicio</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.numero_orden }}</td>
+                    <td>{{ orden.tipo_servicio }}</td>
+                    <td>
+                        <span class="badge bg-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% else %}warning{% endif %}">
+                            {{ orden.estado_general }}
+                        </span>
+                    </td>
+                    <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ "%.2f"|format(orden.costo_total) }} {{ moneda_principal if moneda_principal else 'USD' }}</td>
+                    <td>
+                        <a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No tiene órdenes registradas</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

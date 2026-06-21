@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Generar Licencia - MultiTaller{% endblock %}
+{% block content %}
+<h2 class="mb-4">🎫 Generar Licencia</h2>
+<div class="card">
+    <div class="card-body">
+        {% if licencia_generada %}
+        <div class="alert alert-success">
+            <strong>Licencia generada:</strong> {{ licencia_generada }}
+        </div>
+        {% endif %}
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cliente</label>
+                    <input type="text" class="form-control" name="cliente" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tipo de Licencia</label>
+                    <select class="form-select" name="tipo">
+                        <option value="profesional">Profesional</option>
+                        <option value="empresarial">Empresarial</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Generar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

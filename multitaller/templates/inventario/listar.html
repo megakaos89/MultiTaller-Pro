@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Inventario de Piezas - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🔩 Inventario de Piezas</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('inventario.nueva_pieza') }}" class="btn btn-success">➕ Nueva Pieza</a>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busqueda" value="{{ busqueda }}" placeholder="Nombre o código...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" name="categoria">
+                    <option value="">Todas</option>
+                    {% for cat in categorias %}
+                    <option value="{{ cat }}" {% if categoria == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="estado">
+                    <option value="">Todos</option>
+                    <option value="stock_bajo" {% if estado == 'stock_bajo' %}selected{% endif %}>Stock Bajo</option>
+                    <option value="sin_stock" {% if estado == 'sin_stock' %}selected{% endif %}>Sin Stock</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th>Precio Venta</th>
+                    <th>Ubicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pieza in piezas.items %}
+                <tr>
+                    <td>{{ pieza.codigo_interno or '-' }}</td>
+                    <td>{{ pieza.nombre }}</td>
+                    <td>{{ pieza.categoria or 'Sin categoría' }}</td>
+                    <td>
+                        <span class="badge bg-{% if pieza.cantidad == 0 %}danger{% elif pieza.cantidad <= pieza.stock_minimo %}warning{% else %}success{% endif %}">
+                            {{ pieza.cantidad }}
+                        </span>
+                    </td>
+                    <td>{{ "%.2f"|format(pieza.precio_venta) }} {{ moneda_principal if moneda_principal else 'USD' }}</td>
+                    <td>{{ pieza.ubicacion or '-' }}</td>
+                    <td>
+                        <a href="{{ url_for('inventario.ver_pieza', id=pieza.id) }}" class="btn btn-sm btn-info">Ver</a>
+                        <a href="{{ url_for('inventario.entrada_pieza', id=pieza.id) }}" class="btn btn-sm btn-success">Entrada</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No hay piezas registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if piezas.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if piezas.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('inventario.listar_piezas', pagina=piezas.prev_num) }}">Anterior</a></li>
+                {% endif %}
+                {% for p in piezas.iter_pages() %}
+                    {% if p %}
+                    <li class="page-item {% if p == piezas.page %}active{% endif %}"><a class="page-link" href="{{ url_for('inventario.listar_piezas', pagina=p) }}">{{ p }}</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                {% if piezas.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('inventario.listar_piezas', pagina=piezas.next_num) }}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Compatibilidad de Piezas - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🔗 Compatibilidad de Piezas</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Buscar por Modelo de Equipo</label>
+                    <input type="text" class="form-control" name="modelo_id" value="{{ modelo_id }}" list="modelos_list" placeholder="Escribe para buscar...">
+                    <datalist id="modelos_list">
+                        {% for m in modelos %}
+                        <option value="{{ m.id }}">{{ m.marca }} {{ m.nombre_modelo }}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if piezas_compatibles %}
+<div class="card">
+    <div class="card-body">
+        <h5>Piezas Compatibles</h5>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Pieza</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pieza in piezas_compatibles %}
+                <tr>
+                    <td>{{ pieza.nombre }}</td>
+                    <td>{{ pieza.categoria or '-' }}</td>
+                    <td>{{ pieza.cantidad }}</td>
+                    <td>{{ "%.2f"|format(pieza.precio_venta) }} {{ moneda_principal if moneda_principal else 'USD' }}</td>
+                    <td>
+                        <a href="{{ url_for('inventario.ver_pieza', id=pieza.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% elif modelo_id %}
+<div class="alert alert-info">
+    No se encontraron piezas compatibles para este modelo.
+</div>
+{% else %}
+<div class="alert alert-info">
+    Selecciona un modelo de equipo para ver las piezas compatibles.
+</div>
+{% endif %}
+{% endblock %}

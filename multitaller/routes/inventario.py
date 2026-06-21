@@ -133,7 +133,7 @@ def editar_pieza(id):
         pieza.proveedor_id = request.form.get('proveedor_id', type=int)
         pieza.descripcion = request.form.get('descripcion', '').strip()
         
-        pieza.fecha_actualizacion = datetime.utcnow()
+        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
         
         db.session.commit()
         flash('Pieza actualizada correctamente', 'success')
@@ -210,7 +210,7 @@ def registrar_entrada(id):
         # Actualizar stock
         pieza.cantidad += cantidad
         pieza.precio_costo = precio_costo  # Actualizar costo
-        pieza.fecha_actualizacion = datetime.utcnow()
+        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
         
         # Registrar movimiento
         movimiento = MovimientoInventario(
@@ -258,7 +258,7 @@ def registrar_salida(id):
         
         # Actualizar stock
         pieza.cantidad -= cantidad
-        pieza.fecha_actualizacion = datetime.utcnow()
+        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
         
         # Registrar movimiento
         movimiento = MovimientoInventario(

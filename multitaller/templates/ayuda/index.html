@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Ayuda - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">❓ Centro de Ayuda</h2>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">📋 Órdenes de Servicio</h5>
+                <p class="card-text">Gestión completa de órdenes de servicio, desde la creación hasta la entrega.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='ordenes') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">👥 Clientes</h5>
+                <p class="card-text">Administración de clientes y su información de contacto.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='clientes') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">💻 Dispositivos</h5>
+                <p class="card-text">Registro y seguimiento de dispositivos en reparación.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='dispositivos') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🔩 Inventario</h5>
+                <p class="card-text">Control de piezas y repuestos del taller.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='inventario') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">📈 Reportes</h5>
+                <p class="card-text">Generación de reportes de ingresos, productividad y más.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='reportes') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">⚙️ Configuración</h5>
+                <p class="card-text">Personalización del sistema según las necesidades del taller.</p>
+                <a href="{{ url_for('ayuda.modulo', nombre='configuracion') }}" class="btn btn-primary">Ver ayuda</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5>📞 Contacto de Soporte</h5>
+        <p>Si necesitas ayuda adicional, contacta al soporte técnico:</p>
+        <ul>
+            <li>Email: soporte@multitaller.com</li>
+            <li>Teléfono: +1 234 567 890</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

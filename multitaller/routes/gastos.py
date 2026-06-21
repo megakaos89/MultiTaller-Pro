@@ -64,7 +64,7 @@ def nuevo_gasto():
             categoria_id=categoria_id,
             descripcion=descripcion,
             monto=monto,
-            fecha=datetime.fromisoformat(fecha) if fecha else datetime.utcnow(),
+            fecha=datetime.fromisoformat(fecha) if fecha else datetime.now(datetime.UTC),
             usuario_id=session['usuario_id']
         )
         

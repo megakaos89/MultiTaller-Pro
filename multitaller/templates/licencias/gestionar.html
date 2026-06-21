@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Licencias - MultiTaller{% endblock %}
+{% block content %}
+<h2 class="mb-4">🎫 Gestión de Licencias</h2>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead><tr><th>Licencia</th><th>Estado</th><th>Vencimiento</th><th>Acciones</th></tr></thead>
+            <tbody>
+                {% for licencia in licencias %}
+                <tr>
+                    <td>{{ licencia.nombre }}</td>
+                    <td><span class="badge bg-{% if licencia.activa %}success{% else %}danger{% endif %}">{{ 'Activa' if licencia.activa else 'Inactiva' }}</span></td>
+                    <td>{{ licencia.fecha_vencimiento.strftime('%d/%m/%Y') if licencia.fecha_vencimiento else '-' }}</td>
+                    <td><a href="{{ url_for('licencias.editar_licencia', id=licencia.id) }}" class="btn btn-sm btn-primary">Gestionar</a></td>
+                </tr>
+                {% else %}<tr><td colspan="4" class="text-center">No hay licencias</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

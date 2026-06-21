@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Ver Pieza - MultiTaller{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('inventario.listar_piezas') }}" class="btn btn-secondary">← Volver</a>
+    <a href="{{ url_for('inventario.editar_pieza', id=pieza.id) }}" class="btn btn-primary">Editar</a>
+    <a href="{{ url_for('inventario.entrada_pieza', id=pieza.id) }}" class="btn btn-success">Registrar Entrada</a>
+    <a href="{{ url_for('inventario.salida_pieza', id=pieza.id) }}" class="btn btn-warning">Registrar Salida</a>
+</div>
+
+<h2 class="mb-4">🔩 {{ pieza.nombre }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Información General</h5>
+        <table class="table table-borderless">
+            <tr><th>Código Interno:</th><td>{{ pieza.codigo_interno or 'N/A' }}</td></tr>
+            <tr><th>Categoría:</th><td>{{ pieza.categoria or 'Sin categoría' }}</td></tr>
+            <tr><th>Stock Actual:</th><td><span class="badge bg-{% if pieza.cantidad == 0 %}danger{% elif pieza.cantidad <= pieza.stock_minimo %}warning{% else %}success{% endif %}">{{ pieza.cantidad }}</span></td></tr>
+            <tr><th>Stock Mínimo:</th><td>{{ pieza.stock_minimo }}</td></tr>
+            <tr><th>Ubicación:</th><td>{{ pieza.ubicacion or 'N/A' }}</td></tr>
+            <tr><th>Precio Costo:</th><td>{{ "%.2f"|format(pieza.precio_costo) }} {{ moneda_principal if moneda_principal else 'USD' }}</td></tr>
+            <tr><th>Precio Venta:</th><td>{{ "%.2f"|format(pieza.precio_venta) }} {{ moneda_principal if moneda_principal else 'USD' }}</td></tr>
+        </table>
+        
+        <h5 class="mt-4">Descripción</h5>
+        <p>{{ pieza.descripcion or 'Sin descripción' }}</p>
+        
+        <h5 class="mt-4">Historial de Movimientos</h5>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Cantidad</th>
+                    <th>Usuario</th>
+                    <th>Notas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movimiento in movimientos %}
+                <tr>
+                    <td>{{ movimiento.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>
+                        <span class="badge bg-{% if movimiento.tipo == 'entrada' %}success{% else %}warning{% endif %}">
+                            {{ movimiento.tipo|capitalize }}
+                        </span>
+                    </td>
+                    <td>{{ movimiento.cantidad }}</td>
+                    <td>{{ movimiento.usuario.nombre_completo if movimiento.usuario else 'N/A' }}</td>
+                    <td>{{ movimiento.notas or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No hay movimientos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
