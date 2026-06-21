@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Proveedores - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📦 Proveedores</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('proveedores.listar_proveedores') }}" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busqueda" value="{{ busqueda }}" placeholder="Nombre, contacto, teléfono...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" name="tipo">
+                    <option value="">Todos</option>
+                    <option value="formal" {% if tipo == 'formal' %}selected{% endif %}>Formal</option>
+                    <option value="informal" {% if tipo == 'informal' %}selected{% endif %}>Informal</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Botón nuevo proveedor -->
+<div class="mb-3">
+    <a href="{{ url_for('proveedores.nuevo_proveedor') }}" class="btn btn-success">➕ Nuevo Proveedor</a>
+</div>
+
+<!-- Tabla de proveedores -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedores.items %}
+                <tr>
+                    <td><a href="{{ url_for('proveedores.ver_proveedor', id=proveedor.id) }}">{{ proveedor.nombre }}</a></td>
+                    <td>{{ proveedor.contacto or '-' }}</td>
+                    <td>{{ proveedor.telefono or '-' }}</td>
+                    <td>{{ proveedor.tipo }}</td>
+                    <td>
+                        <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        {% if session.get('usuario_rol') == 'admin' %}
+                        <a href="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este proveedor?')">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No hay proveedores registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Paginación -->
+        {% if proveedores.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if proveedores.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('proveedores.listar_proveedores', pagina=proveedores.prev_num, busqueda=busqueda, tipo=tipo) }}">Anterior</a>
+                </li>
+                {% endif %}
+
+                {% for p in proveedores.iter_pages() %}
+                    {% if p %}
+                        <li class="page-item {% if p == proveedores.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('proveedores.listar_proveedores', pagina=p, busqueda=busqueda, tipo=tipo) }}">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if proveedores.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('proveedores.listar_proveedores', pagina=proveedores.next_num, busqueda=busqueda, tipo=tipo) }}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
