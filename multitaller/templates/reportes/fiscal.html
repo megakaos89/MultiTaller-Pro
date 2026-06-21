@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Reporte Fiscal - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📊 Reporte Fiscal</h2>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label class="form-label">Período:</label>
+            </div>
+            <div class="col-auto">
+                <select name="periodo" class="form-select" onchange="this.form.submit()">
+                    <option value="semana" {% if periodo == 'semana' %}selected{% endif %}>Última Semana</option>
+                    <option value="mes" {% if periodo == 'mes' %}selected{% endif %}>Este Mes</option>
+                    <option value="ano" {% if periodo == 'ano' %}selected{% endif %}>Este Año</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Resumen financiero -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                💰 Ingresos y Gastos
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <td>Ingresos Brutos:</td>
+                        <td class="text-end fw-bold">${{ "%.2f"|format(ingresos_brutos) }} {{ moneda }}</td>
+                    </tr>
+                    <tr>
+                        <td>Costo Piezas (estimado 40%):</td>
+                        <td class="text-end text-danger">-${{ "%.2f"|format(costo_piezas) }} {{ moneda }}</td>
+                    </tr>
+                    <tr>
+                        <td>Gastos Operativos:</td>
+                        <td class="text-end text-danger">-${{ "%.2f"|format(gastos_operativos) }} {{ moneda }}</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><strong>Ganancia Neta:</strong></td>
+                        <td class="text-end fw-bold">${{ "%.2f"|format(ganancia_neta) }} {{ moneda }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                🏛️ Tributos
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <td>Seguridad Social ({{ (seguridad_social / ganancia_neta * 100)|round(1) if ganancia_neta > 0 else 0 }}%):</td>
+                        <td class="text-end text-danger">-${{ "%.2f"|format(seguridad_social) }} {{ moneda }}</td>
+                    </tr>
+                    <tr>
+                        <td>ISIP Estimado:</td>
+                        <td class="text-end text-danger">-${{ "%.2f"|format(isip_estimado) }} {{ moneda }}</td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td><strong>Total Tributos:</strong></td>
+                        <td class="text-end fw-bold">${{ "%.2f"|format(total_tributos) }} {{ moneda }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ganancia final -->
+<div class="card">
+    <div class="card-header bg-success text-white text-center">
+        💵 Ganancia Final Estimada
+    </div>
+    <div class="card-body text-center">
+        <h1 class="display-4 fw-bold text-success">${{ "%.2f"|format(ganancia_final) }} {{ moneda }}</h1>
+        <p class="text-muted">Correspondiente al período seleccionado</p>
+    </div>
+</div>
+{% endblock %}
