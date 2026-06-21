@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
 from routes.auth import login_required
 import csv
-from io import StringIO
+from io import BytesIO
 
 reportes_bp = Blueprint('reportes', __name__)
 
@@ -262,8 +262,14 @@ def reporte_fiscal():
 @login_required
 def exportar_csv(tipo):
     """Exportar reportes a CSV"""
-    output = StringIO()
-    writer = csv.writer(output)
+    output = BytesIO()
+    # Codificar como UTF-8 con BOM para Excel
+    output.write(b'\xef\xbb\xbf')
+    
+    # Usar StringIO temporal para escribir el CSV y luego codificarlo
+    from io import StringIO
+    temp_output = StringIO()
+    writer = csv.writer(temp_output)
     
     if tipo == 'ordenes':
         writer.writerow(['Número Orden', 'Cliente', 'Tipo Servicio', 'Estado', 'Fecha Entrada', 'Total'])
@@ -303,6 +309,8 @@ def exportar_csv(tipo):
                 p.precio_venta
             ])
     
+    # Convertir StringIO a bytes y escribir en BytesIO
+    output.write(temp_output.getvalue().encode('utf-8'))
     output.seek(0)
     
     return send_file(

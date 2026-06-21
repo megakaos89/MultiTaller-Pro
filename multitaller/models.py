@@ -410,6 +410,17 @@ class Configuracion(db.Model):
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
+class LogoTaller(db.Model):
+    """Logo del taller para documentos"""
+    __tablename__ = 'logo_taller'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    archivo_nombre = db.Column(db.String(255), nullable=False)
+    archivo_ruta = db.Column(db.String(255), nullable=False)
+    fecha_subida = db.Column(db.DateTime, default=datetime.utcnow)
+    activo = db.Column(db.Boolean, default=True)
+
+
 class Licencia(db.Model):
     """Registro de licencias generadas (solo en copia maestra)"""
     __tablename__ = 'licencias'

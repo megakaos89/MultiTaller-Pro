@@ -2,10 +2,12 @@
 Blueprint para gestión de contratos de mantenimiento
 """
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, send_file
 from datetime import datetime, timedelta
 from models import db, Contrato, Cliente
 from routes.auth import login_required, role_required
+import csv
+from io import BytesIO
 
 contratos_bp = Blueprint('contratos', __name__)
 
@@ -164,3 +166,39 @@ def registrar_servicio(id):
         flash('Fecha de servicio es requerida', 'warning')
     
     return redirect(url_for('contratos.ver_contrato', id=id))
+
+
+@contratos_bp.route('/exportar/contratos')
+@login_required
+def exportar_contratos_csv():
+    """Exportar lista de contratos a CSV"""
+    output = BytesIO()
+    output.write(b'\xef\xbb\xbf')  # BOM para Excel
+    
+    from io import StringIO
+    temp_output = StringIO()
+    writer = csv.writer(temp_output)
+    
+    writer.writerow(['ID', 'Cliente', 'Frecuencia', 'Fecha Inicio', 'Fecha Fin', 'Precio', 'Equipos', 'Activo'])
+    contratos = Contrato.query.all()
+    for c in contratos:
+        writer.writerow([
+            c.id,
+            c.cliente.nombre_completo if c.cliente else '',
+            c.frecuencia,
+            c.fecha_inicio.strftime('%Y-%m-%d') if c.fecha_inicio else '',
+            c.fecha_fin.strftime('%Y-%m-%d') if c.fecha_fin else '',
+            c.precio,
+            c.cantidad_equipos,
+            'Sí' if c.activo else 'No'
+        ])
+    
+    output.write(temp_output.getvalue().encode('utf-8'))
+    output.seek(0)
+    
+    return send_file(
+        output,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name=f'contratos_{datetime.now().strftime("%Y%m%d")}.csv'
+    )
