@@ -68,6 +68,36 @@ def editar_configuracion():
                 conf = Configuracion(clave=clave, valor=str(valor))
                 db.session.add(conf)
         
+        # Manejar subida de logo
+        if 'logo_taller' in request.files:
+            archivo = request.files['logo_taller']
+            if archivo and archivo.filename != '':
+                from werkzeug.utils import secure_filename
+                import os
+                from datetime import datetime
+                
+                # Asegurar que el directorio existe
+                upload_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'uploads', 'logos')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generar nombre único
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                nombre_archivo = f"logo_{timestamp}_{secure_filename(archivo.filename)}"
+                ruta_completa = os.path.join(upload_dir, nombre_archivo)
+                
+                # Guardar archivo
+                archivo.save(ruta_completa)
+                
+                # Registrar en base de datos
+                from models import LogoTaller
+                # Desactivar logos anteriores
+                LogoTaller.query.update({'activo': False})
+                nuevo_logo = LogoTaller(
+                    archivo_nombre=nombre_archivo,
+                    archivo_ruta=f'static/uploads/logos/{nombre_archivo}'
+                )
+                db.session.add(nuevo_logo)
+        
         db.session.commit()
         flash('Configuración actualizada correctamente', 'success')
         return redirect(url_for('configuracion.ver_configuracion'))
@@ -87,9 +117,13 @@ def editar_configuracion():
     while len(tramos_isip) < 5:
         tramos_isip.append({'hasta': '', 'porcentaje': 0})
     
+    # Obtener logo actual
+    logo_actual = LogoTaller.query.filter_by(activo=True).first()
+    
     return render_template('configuracion/editar.html', 
                          configs=configs_dict,
-                         tramos_isip=tramos_isip)
+                         tramos_isip=tramos_isip,
+                         logo_actual=logo_actual)
 
 
 @configuracion_bp.route('/configuracion/restaurar_valores')
