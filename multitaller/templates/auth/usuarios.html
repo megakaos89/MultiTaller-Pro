@@ -65,23 +65,19 @@
 <div class="modal fade" id="modalNuevoUsuario" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{{ url_for('auth.crear_usuario') }}">
+            <form method="POST" action="{{ url_for('auth.gestionar_usuarios') }}">
                 <div class="modal-header">
                     <h5 class="modal-title">Nuevo Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombres" required>
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" name="apellidos" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" required>
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" name="nombre_completo" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Contraseña</label>
@@ -93,6 +89,10 @@
                             <option value="tecnico">Técnico</option>
                             <option value="admin">Administrador</option>
                         </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="activo" id="activo" checked>
+                        <label class="form-check-label" for="activo">Activo</label>
                     </div>
                 </div>
                 <div class="modal-footer">
