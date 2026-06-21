@@ -79,7 +79,10 @@ def nuevo_cliente():
 @login_required
 def editar_cliente(id):
     """Editar cliente existente"""
-    cliente = Cliente.query.get_or_404(id)
+    cliente = db.session.get(Cliente, id)
+    if not cliente:
+        flash('Cliente no encontrado', 'danger')
+        return redirect(url_for('clientes.listar_clientes'))
     
     if request.method == 'POST':
         cliente.nombres = request.form.get('nombres', '').strip()
@@ -102,7 +105,10 @@ def editar_cliente(id):
 @role_required('admin')
 def eliminar_cliente(id):
     """Eliminar cliente (solo admin)"""
-    cliente = Cliente.query.get_or_404(id)
+    cliente = db.session.get(Cliente, id)
+    if not cliente:
+        flash('Cliente no encontrado', 'danger')
+        return redirect(url_for('clientes.listar_clientes'))
     
     # Verificar si tiene órdenes
     if cliente.ordenes:
@@ -119,7 +125,10 @@ def eliminar_cliente(id):
 @login_required
 def ver_cliente(id):
     """Ver detalle de cliente con historial"""
-    cliente = Cliente.query.get_or_404(id)
+    cliente = db.session.get(Cliente, id)
+    if not cliente:
+        flash('Cliente no encontrado', 'danger')
+        return redirect(url_for('clientes.listar_clientes'))
     dispositivos = Dispositivo.query.filter_by(cliente_id=id).all()
     ordenes = Orden.query.filter_by(cliente_id=id).order_by(Orden.fecha_creacion.desc()).limit(20).all()
     

@@ -117,7 +117,10 @@ def nueva_pieza():
 @role_required('admin', 'tecnico')
 def editar_pieza(id):
     """Editar pieza existente"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         pieza.nombre = request.form.get('nombre', '').strip()
@@ -150,7 +153,10 @@ def editar_pieza(id):
 @login_required
 def ver_pieza(id):
     """Ver detalle de pieza con movimientos y compatibilidades"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     movimientos = MovimientoInventario.query.filter_by(pieza_id=id).order_by(MovimientoInventario.fecha_movimiento.desc()).limit(50).all()
     compatibilidades = PiezaCompatible.query.filter_by(pieza_id=id).all()
     
@@ -165,7 +171,10 @@ def ver_pieza(id):
 @role_required('admin')
 def eliminar_pieza(id):
     """Eliminar pieza (solo admin)"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Verificar si tiene movimientos o está en órdenes
     if pieza.movimientos or pieza.usos_en_ordenes:
@@ -183,7 +192,10 @@ def eliminar_pieza(id):
 @role_required('admin', 'tecnico')
 def registrar_entrada(id):
     """Registrar entrada de pieza al inventario"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         cantidad = request.form.get('cantidad', type=int, default=0)
@@ -227,7 +239,10 @@ def registrar_entrada(id):
 @role_required('admin', 'tecnico')
 def registrar_salida(id):
     """Registrar salida de pieza del inventario"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         cantidad = request.form.get('cantidad', type=int, default=0)
@@ -268,7 +283,10 @@ def registrar_salida(id):
 @role_required('admin', 'tecnico')
 def gestionar_compatibilidad(id):
     """Gestionar compatibilidad de pieza con modelos"""
-    pieza = Pieza.query.get_or_404(id)
+    pieza = Pieza = db.session.get(Pieza, id)
+    if not Pieza:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         modelo_id = request.form.get('modelo_id', type=int)
@@ -290,7 +308,7 @@ def gestionar_compatibilidad(id):
         
         elif accion == 'eliminar':
             compat_id = request.form.get('compatibilidad_id', type=int)
-            compatibilidad = PiezaCompatible.query.get(compat_id)
+            compatibilidad = db.session.get(PiezaCompatible, compat_id)
             if compatibilidad and compatibilidad.pieza_id == id:
                 db.session.delete(compatibilidad)
                 db.session.commit()

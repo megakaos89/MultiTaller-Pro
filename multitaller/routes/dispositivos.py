@@ -81,7 +81,7 @@ def nuevo_dispositivo():
         
         # Si se seleccionó modelo, obtener tipo del modelo
         if modelo_id:
-            modelo = ModeloEquipo.query.get(modelo_id)
+            modelo = db.session.get(ModeloEquipo, modelo_id)
             if modelo:
                 tipo = modelo.tipo
         
@@ -115,7 +115,10 @@ def nuevo_dispositivo():
 @login_required
 def editar_dispositivo(id):
     """Editar dispositivo existente"""
-    dispositivo = Dispositivo.query.get_or_404(id)
+    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
+    if not Dispositivo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         dispositivo.cliente_id = request.form.get('cliente_id', type=int)
@@ -157,7 +160,10 @@ def editar_dispositivo(id):
 @role_required('admin')
 def eliminar_dispositivo(id):
     """Eliminar dispositivo (solo admin)"""
-    dispositivo = Dispositivo.query.get_or_404(id)
+    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
+    if not Dispositivo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Verificar si tiene órdenes asociadas
     if dispositivo.ordenes:
@@ -178,7 +184,10 @@ def eliminar_dispositivo(id):
 @login_required
 def ver_dispositivo(id):
     """Ver detalle del dispositivo con historial"""
-    dispositivo = Dispositivo.query.get_or_404(id)
+    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
+    if not Dispositivo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Obtener historial de órdenes
     ordenes_dispositivo = OrdenDispositivo.query.filter_by(dispositivo_id=id).all()

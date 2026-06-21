@@ -86,7 +86,10 @@ def nuevo_gasto():
 @role_required('admin')
 def editar_gasto(id):
     """Editar gasto existente"""
-    gasto = Gasto.query.get_or_404(id)
+    gasto = Gasto = db.session.get(Gasto, id)
+    if not Gasto:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         gasto.categoria_id = request.form.get('categoria_id', type=int)
@@ -110,7 +113,10 @@ def editar_gasto(id):
 @role_required('admin')
 def eliminar_gasto(id):
     """Eliminar gasto (solo admin)"""
-    gasto = Gasto.query.get_or_404(id)
+    gasto = Gasto = db.session.get(Gasto, id)
+    if not Gasto:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     db.session.delete(gasto)
     db.session.commit()
@@ -155,7 +161,10 @@ def nueva_categoria():
 @role_required('admin')
 def eliminar_categoria(id):
     """Eliminar categoría de gasto (solo admin)"""
-    categoria = CategoriaGasto.query.get_or_404(id)
+    categoria = CategoriaGasto = db.session.get(CategoriaGasto, id)
+    if not CategoriaGasto:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Verificar si tiene gastos asociados
     if categoria.gastos:

@@ -184,7 +184,10 @@ def generar_licencia():
 @admin_required
 def revocar_licencia(id):
     """Revocar licencia (control interno)"""
-    licencia = Licencia.query.get_or_404(id)
+    licencia = Licencia = db.session.get(Licencia, id)
+    if not Licencia:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     licencia.activa = False
     db.session.commit()
     flash('Licencia revocada', 'info')
