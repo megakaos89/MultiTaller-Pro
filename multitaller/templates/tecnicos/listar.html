@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Técnicos - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🔧 Técnicos</h2>
+
+<!-- Botón nuevo técnico -->
+<div class="mb-3">
+    <a href="{{ url_for('tecnicos.nuevo_tecnico') }}" class="btn btn-success">➕ Nuevo Técnico</a>
+</div>
+
+<!-- Tabla de técnicos -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Costo Hora</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tecnico in tecnicos.items %}
+                <tr>
+                    <td><a href="{{ url_for('tecnicos.ver_tecnico', id=tecnico.id) }}">{{ tecnico.nombre }}</a></td>
+                    <td>{{ tecnico.especialidad or '-' }}</td>
+                    <td>${{ "%.2f"|format(tecnico.costo_hora) }}</td>
+                    <td>
+                        <a href="{{ url_for('tecnicos.editar_tecnico', id=tecnico.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        {% if session.get('usuario_rol') == 'admin' %}
+                        <a href="{{ url_for('tecnicos.eliminar_tecnico', id=tecnico.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este técnico?')">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No hay técnicos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Paginación -->
+        {% if tecnicos.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if tecnicos.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tecnicos.listar_tecnicos', pagina=tecnicos.prev_num) }}">Anterior</a>
+                </li>
+                {% endif %}
+                
+                {% for p in tecnicos.iter_pages() %}
+                    {% if p %}
+                        <li class="page-item {% if p == tecnicos.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('tecnicos.listar_tecnicos', pagina=p) }}">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if tecnicos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tecnicos.listar_tecnicos', pagina=tecnicos.next_num) }}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
