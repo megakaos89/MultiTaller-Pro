@@ -84,6 +84,7 @@ def nueva_pieza():
         )
         
         db.session.add(pieza)
+        db.session.flush()  # Para obtener el ID generado
         
         # Registrar movimiento de entrada inicial
         if cantidad > 0:

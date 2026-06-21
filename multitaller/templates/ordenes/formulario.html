@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editando %}Editar{% else %}Nueva{% endif %} Orden - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if editando %}✏️ Editar{% else %}➕ Nueva{% endif %} Orden de Servicio</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Cliente</label>
+                <select class="form-select" name="cliente_id" required>
+                    <option value="">Seleccionar cliente...</option>
+                    {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}" {% if orden and orden.cliente_id == cliente.id %}selected{% endif %}>
+                        {{ cliente.nombres }} {{ cliente.apellidos }} - {{ cliente.telefono }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de Servicio</label>
+                <select class="form-select" name="tipo_servicio">
+                    <option value="">Seleccionar...</option>
+                    <option value="Reparación" {% if orden and orden.tipo_servicio == 'Reparación' %}selected{% endif %}>Reparación</option>
+                    <option value="Mantenimiento preventivo" {% if orden and orden.tipo_servicio == 'Mantenimiento preventivo' %}selected{% endif %}>Mantenimiento preventivo</option>
+                    <option value="Instalación/Configuración" {% if orden and orden.tipo_servicio == 'Instalación/Configuración' %}selected{% endif %}>Instalación/Configuración</option>
+                    <option value="Recuperación de datos" {% if orden and orden.tipo_servicio == 'Recuperación de datos' %}selected{% endif %}>Recuperación de datos</option>
+                    <option value="Limpieza" {% if orden and orden.tipo_servicio == 'Limpieza' %}selected{% endif %}>Limpieza</option>
+                    <option value="Diagnóstico" {% if orden and orden.tipo_servicio == 'Diagnóstico' %}selected{% endif %}>Diagnóstico</option>
+                    <option value="Presupuesto" {% if orden and orden.tipo_servicio == 'Presupuesto' %}selected{% endif %}>Presupuesto</option>
+                    <option value="Otro" {% if orden and orden.tipo_servicio == 'Otro' %}selected{% endif %}>Otro</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Técnico Asignado</label>
+                <select class="form-select" name="tecnico_id">
+                    <option value="">Sin asignar</option>
+                    {% for tecnico in tecnicos %}
+                    <option value="{{ tecnico.id }}" {% if orden and orden.tecnico_id == tecnico.id %}selected{% endif %}>
+                        {{ tecnico.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fecha Entrega Prevista</label>
+                <input type="date" class="form-control" name="fecha_entrega_prevista" 
+                       value="{{ orden.fecha_entrega_prevista.strftime('%Y-%m-%d') if orden and orden.fecha_entrega_prevista else '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Garantía (meses)</label>
+                <input type="number" class="form-control" name="garantia_meses" 
+                       value="{{ orden.garantia_meses if orden else 0 }}" min="0">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notas Internas</label>
+                <textarea class="form-control" name="notas_internas" rows="3">{{ orden.notas_internas if orden else '' }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notas para el Cliente</label>
+                <textarea class="form-control" name="notas_cliente" rows="3">{{ orden.notas_cliente if orden else '' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{% if editando %}Actualizar{% else %}Crear{% endif %}</button>
+            <a href="{{ url_for('ordenes.listar_ordenes') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
