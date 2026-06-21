@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Control - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📊 Panel de Control</h2>
+
+<!-- Selector de período -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="btn-group" role="group">
+            <a href="{{ url_for('dashboard.index', periodo='hoy') }}" class="btn btn-outline-primary {% if periodo == 'hoy' %}active{% endif %}">Hoy</a>
+            <a href="{{ url_for('dashboard.index', periodo='semana') }}" class="btn btn-outline-primary {% if periodo == 'semana' %}active{% endif %}">Semana</a>
+            <a href="{{ url_for('dashboard.index', periodo='mes') }}" class="btn btn-outline-primary {% if periodo == 'mes' %}active{% endif %}">Mes</a>
+            <a href="{{ url_for('dashboard.index', periodo='ano') }}" class="btn btn-outline-primary {% if periodo == 'ano' %}active{% endif %}">Año</a>
+        </div>
+    </div>
+</div>
+
+<!-- Tarjetas de resumen -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">Órdenes Activas</h5>
+                <h2 class="display-4">{{ ordenes_activas }}</h2>
+                <a href="{{ url_for('ordenes.listar_ordenes') }}" class="text-white">Ver todas →</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark h-100">
+            <div class="card-body">
+                <h5 class="card-title">Pendientes Diagnóstico</h5>
+                <h2 class="display-4">{{ ordenes_pendientes_diagnostico }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">Listas para Entregar</h5>
+                <h2 class="display-4">{{ ordenes_listas_entregar }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-danger text-white h-100">
+            <div class="card-body">
+                <h5 class="card-title">Piezas Bajo Stock</h5>
+                <h2 class="display-4">{{ piezas_bajo_stock|length }}</h2>
+                {% if piezas_bajo_stock %}
+                <a href="{{ url_for('inventario.listar_piezas', bajo_stock='1') }}" class="text-white">Ver →</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Próximos mantenimientos y Garantías -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                🔔 Próximos Mantenimientos (esta semana)
+            </div>
+            <div class="card-body">
+                {% if proximos_mantenimientos %}
+                <ul class="list-group list-group-flush">
+                    {% for m in proximos_mantenimientos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ m.cliente.nombre_completo }}</strong><br>
+                            <small class="text-muted">Frecuencia: {{ m.contrato.frecuencia }}</small>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{ m.fecha_proxima.strftime('%d/%m') }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted text-center">No hay mantenimientos programados esta semana</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-warning">
+                ⚠️ Garantías por Vencer (15 días)
+            </div>
+            <div class="card-body">
+                {% if garantias_por_vencer %}
+                <ul class="list-group list-group-flush">
+                    {% for orden in garantias_por_vencer %}
+                    <li class="list-group-item">
+                        <strong>{{ orden.numero_orden }}</strong> - {{ orden.cliente.nombre_completo }}<br>
+                        <small class="text-muted">Vence: {{ orden.fecha_fin_garantia.strftime('%d/%m/%Y') }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted text-center">No hay garantías próximas a vencer</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Panel Financiero -->
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+        💰 Panel Financiero ({{ periodo }})
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <h6 class="text-muted">Ingresos Brutos</h6>
+                    <h4 class="text-success">{{ "%.2f"|format(datos_financieros.ingresos_brutos) }} {{ moneda_principal }}</h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <h6 class="text-muted">Costo Piezas</h6>
+                    <h4 class="text-danger">{{ "%.2f"|format(datos_financieros.costo_piezas) }} {{ moneda_principal }}</h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <h6 class="text-muted">Gastos Operativos</h6>
+                    <h4 class="text-danger">{{ "%.2f"|format(datos_financieros.gastos_operativos) }} {{ moneda_principal }}</h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <h6 class="text-muted">Ganancia Neta</h6>
+                    <h4 class="text-primary">{{ "%.2f"|format(datos_financieros.ganancia_neta) }} {{ moneda_principal }}</h4>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6 class="text-muted">ISIP Estimado</h6>
+                    <h5 class="text-warning">{{ "%.2f"|format(datos_financieros.isip_estimado) }} {{ moneda_principal }}</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6 class="text-muted">Seguridad Social</h6>
+                    <h5 class="text-warning">{{ "%.2f"|format(datos_financieros.seguridad_social) }} {{ moneda_principal }}</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6 class="text-muted">Total Tributos</h6>
+                    <h5 class="text-danger">{{ "%.2f"|format(datos_financieros.total_tributos) }} {{ moneda_principal }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Últimas órdenes -->
+<div class="card">
+    <div class="card-header">
+        📋 Últimas Órdenes
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Tipo Servicio</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ultimas_ordenes %}
+                <tr>
+                    <td><a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}">{{ orden.numero_orden }}</a></td>
+                    <td>{{ orden.cliente.nombre_completo }}</td>
+                    <td>{{ orden.tipo_servicio }}</td>
+                    <td>
+                        <span class="badge bg-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% elif 'Listo' in orden.estado_general %}info{% else %}warning{% endif %}">
+                            {{ orden.estado_general }}
+                        </span>
+                    </td>
+                    <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ "%.2f"|format(orden.costo_total) }} {{ moneda_principal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

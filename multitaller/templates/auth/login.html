@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión - MultiTaller{% endblock %}
+
+{% block content_public %}
+<div class="row justify-content-center align-items-center vh-100">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>🔧 MultiTaller</h3>
+                <p class="mb-0">Sistema de Gestión para Talleres</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center small">
+                <p>Usuario por defecto: <strong>admin</strong></p>
+                <p>Contraseña por defecto: <strong>admin123</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
