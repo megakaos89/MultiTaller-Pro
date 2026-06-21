@@ -1,1 +1,1 @@
-Nothing should be ignored based on the provided file changes, as they only include HTML template files which are source code files.
+Nothing needs to be added to .gitignore since the only change is adding a template HTML file, which is a source file that should be tracked in version control.
