@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}{% if editando %}Editar{% else %}Nueva{% endif %} Pieza - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if editando %}✏️ Editar{% else %}➕ Nueva{% endif %} Pieza</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" value="{{ pieza.nombre if pieza else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Código Interno</label>
+                    <input type="text" class="form-control" name="codigo_interno" value="{{ pieza.codigo_interno if pieza else '' }}">
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Categoría</label>
+                    <input type="text" class="form-control" name="categoria" value="{{ pieza.categoria if pieza else '' }}" list="categorias_list">
+                    <datalist id="categorias_list">
+                        <option value="Pantallas">
+                        <option value="Baterías">
+                        <option value="Teclados">
+                        <option value="Discos Duros">
+                        <option value="Memorias RAM">
+                        <option value="Cargadores">
+                        <option value="Repuestos Varios">
+                    </datalist>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Cantidad Inicial</label>
+                    <input type="number" class="form-control" name="cantidad" value="{{ pieza.cantidad if pieza else 0 }}" min="0">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Stock Mínimo</label>
+                    <input type="number" class="form-control" name="stock_minimo" value="{{ pieza.stock_minimo if pieza else 5 }}" min="0">
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Precio Costo</label>
+                    <input type="number" step="0.01" class="form-control" name="precio_costo" value="{{ pieza.precio_costo if pieza else 0 }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Precio Venta</label>
+                    <input type="number" step="0.01" class="form-control" name="precio_venta" value="{{ pieza.precio_venta if pieza else 0 }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Ubicación</label>
+                    <input type="text" class="form-control" name="ubicacion" value="{{ pieza.ubicacion if pieza else '' }}">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" name="descripcion" rows="3">{{ pieza.descripcion if pieza else '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">{% if editando %}Actualizar{% else %}Crear{% endif %}</button>
+            <a href="{{ url_for('inventario.listar_piezas') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

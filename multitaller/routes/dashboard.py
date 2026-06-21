@@ -19,7 +19,7 @@ def index():
     periodo = request.args.get('periodo', 'mes')
     
     # Calcular fechas del período
-    hoy = datetime.utcnow()
+    hoy = datetime.now(datetime.UTC)
     if periodo == 'hoy':
         fecha_inicio = hoy.replace(hour=0, minute=0, second=0, microsecond=0)
     elif periodo == 'semana':

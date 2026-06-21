@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Modelos de Equipos - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📦 Modelos de Equipos</h2>
+
+<!-- Filtros y búsqueda -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('modelos.listar_modelos') }}" class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busqueda" value="{{ busqueda }}" placeholder="Marca, modelo...">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" name="tipo">
+                    <option value="">Todos</option>
+                    {% for t in tipos_equipo %}
+                    <option value="{{ t }}" {% if tipo == t %}selected{% endif %}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Botón nuevo modelo -->
+<div class="mb-3">
+    <a href="{{ url_for('modelos.nuevo_modelo') }}" class="btn btn-success">➕ Nuevo Modelo</a>
+</div>
+
+<!-- Tabla de modelos -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for modelo in modelos.items %}
+                <tr>
+                    <td>{{ modelo.marca }}</td>
+                    <td>{{ modelo.modelo }}</td>
+                    <td>{{ modelo.tipo }}</td>
+                    <td>
+                        <a href="{{ url_for('modelos.ver_modelo', id=modelo.id) }}" class="btn btn-sm btn-info">Ver</a>
+                        <a href="{{ url_for('modelos.editar_modelo', id=modelo.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        {% if session.get('usuario_rol') == 'admin' %}
+                        <a href="{{ url_for('modelos.eliminar_modelo', id=modelo.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este modelo?')">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No hay modelos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Paginación -->
+        {% if modelos.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if modelos.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('modelos.listar_modelos', pagina=modelos.prev_num, busqueda=busqueda, tipo=tipo) }}">Anterior</a>
+                </li>
+                {% endif %}
+                
+                {% for p in modelos.iter_pages() %}
+                    {% if p %}
+                        <li class="page-item {% if p == modelos.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('modelos.listar_modelos', pagina=p, busqueda=busqueda, tipo=tipo) }}">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if modelos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('modelos.listar_modelos', pagina=modelos.next_num, busqueda=busqueda, tipo=tipo) }}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

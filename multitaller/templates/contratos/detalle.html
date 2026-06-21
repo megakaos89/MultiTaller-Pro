@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Ver Contrato - MultiTaller{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('contratos.listar_contratos') }}" class="btn btn-secondary">← Volver</a>
+    <a href="{{ url_for('contratos.editar_contrato', id=contrato.id) }}" class="btn btn-primary">Editar</a>
+</div>
+
+<h2 class="mb-4">📄 Contrato {{ contrato.numero_contrato }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Información General</h5>
+        <table class="table table-borderless">
+            <tr><th>Cliente:</th><td>{{ contrato.cliente.nombre_completo if contrato.cliente else 'N/A' }}</td></tr>
+            <tr><th>Tipo de Servicio:</th><td>{{ contrato.tipo_servicio }}</td></tr>
+            <tr><th>Fecha Inicio:</th><td>{{ contrato.fecha_inicio.strftime('%d/%m/%Y') if contrato.fecha_inicio else '-' }}</td></tr>
+            <tr><th>Fecha Fin:</th><td>{{ contrato.fecha_fin.strftime('%d/%m/%Y') if contrato.fecha_fin else '-' }}</td></tr>
+            <tr><th>Estado:</th><td><span class="badge bg-{% if contrato.estado == 'Activo' %}success{% else %}secondary{% endif %}">{{ contrato.estado }}</span></td></tr>
+            <tr><th>Valor Total:</th><td>{{ "%.2f"|format(contrato.valor_total) }} {{ moneda_principal if moneda_principal else 'USD' }}</td></tr>
+        </table>
+        
+        <h5 class="mt-4">Descripción</h5>
+        <p>{{ contrato.descripcion or 'Sin descripción' }}</p>
+        
+        <h5 class="mt-4">Términos y Condiciones</h5>
+        <p>{{ contrato.terminos_condiciones or 'Sin términos especificados' }}</p>
+    </div>
+</div>
+{% endblock %}

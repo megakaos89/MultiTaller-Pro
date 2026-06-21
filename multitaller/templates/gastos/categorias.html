@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Categorías de Gastos - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📁 Categorías de Gastos</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('gastos.nueva_categoria') }}" class="btn btn-success">➕ Nueva Categoría</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.nombre }}</td>
+                    <td>{{ categoria.descripcion or '-' }}</td>
+                    <td>
+                        <a href="{{ url_for('gastos.editar_categoria', id=categoria.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">No hay categorías registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

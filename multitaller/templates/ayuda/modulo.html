@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Ayuda: {{ modulo_nombre }} - MultiTaller{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('ayuda.index') }}" class="btn btn-secondary">← Volver a Ayuda</a>
+</div>
+
+<h2 class="mb-4">📖 Ayuda: {{ modulo_nombre|capitalize }}</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5>Descripción del Módulo</h5>
+        <p>Aquí encontrarás información detallada sobre cómo utilizar el módulo de {{ modulo_nombre }}.</p>
+        
+        <h5 class="mt-4">Funcionalidades Principales</h5>
+        <ul>
+            <li>Crear nuevos registros</li>
+            <li>Editar registros existentes</li>
+            <li>Eliminar registros (según permisos)</li>
+            <li>Filtrar y buscar información</li>
+            <li>Exportar datos</li>
+        </ul>
+        
+        <h5 class="mt-4">Instrucciones de Uso</h5>
+        <ol>
+            <li>Navega hasta la sección correspondiente en el menú lateral.</li>
+            <li>Utiliza los filtros para encontrar la información que necesitas.</li>
+            <li>Haz clic en "Nuevo" para crear un registro.</li>
+            <li>Haz clic en "Ver" o "Editar" para modificar un registro existente.</li>
+        </ol>
+        
+        <div class="alert alert-info mt-4">
+            <strong>💡 Consejo:</strong> Si tienes dudas adicionales, contacta al administrador del sistema.
+        </div>
+    </div>
+</div>
+{% endblock %}

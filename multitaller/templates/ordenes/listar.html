@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Órdenes de Servicio - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📋 Órdenes de Servicio</h2>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('ordenes.listar_ordenes') }}" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" name="busqueda" value="{{ busqueda }}" placeholder="N° orden, cliente...">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="estado">
+                    <option value="">Todos</option>
+                    {% for e in estados %}
+                    <option value="{{ e }}" {% if estado == e %}selected{% endif %}>{{ e }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Tipo Servicio</label>
+                <select class="form-select" name="tipo_servicio">
+                    <option value="">Todos</option>
+                    {% for t in tipos_servicio %}
+                    <option value="{{ t }}" {% if tipo_servicio == t %}selected{% endif %}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Cliente</label>
+                <select class="form-select" name="cliente_id">
+                    <option value="">Todos</option>
+                    {% for c in clientes %}
+                    <option value="{{ c.id }}" {% if cliente_id == c.id %}selected{% endif %}>{{ c.nombre_completo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Técnico</label>
+                <select class="form-select" name="tecnico_id">
+                    <option value="">Todos</option>
+                    {% for t in tecnicos %}
+                    <option value="{{ t.id }}" {% if tecnico_id == t.id %}selected{% endif %}>{{ t.nombre_completo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Botón nueva orden -->
+<div class="mb-3">
+    <a href="{{ url_for('ordenes.nueva_orden') }}" class="btn btn-success">➕ Nueva Orden</a>
+</div>
+
+<!-- Tabla de órdenes -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Dispositivo</th>
+                    <th>Tipo Servicio</th>
+                    <th>Estado</th>
+                    <th>Técnico</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes.items %}
+                <tr>
+                    <td><a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}">{{ orden.numero_orden }}</a></td>
+                    <td>{{ orden.cliente.nombre_completo }}</td>
+                    <td>
+                        {% if orden.dispositivos %}
+                            {{ orden.dispositivos[0].dispositivo.marca }} {{ orden.dispositivos[0].dispositivo.modelo_texto or '' }}
+                        {% else %}
+                            <span class="text-muted">Sin dispositivo</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ orden.tipo_servicio }}</td>
+                    <td>
+                        <span class="badge bg-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% elif 'Listo' in orden.estado_general %}info{% else %}warning{% endif %}">
+                            {{ orden.estado_general }}
+                        </span>
+                    </td>
+                    <td>{{ orden.tecnico.nombre_completo if orden.tecnico else 'Sin asignar' }}</td>
+                    <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ "%.2f"|format(orden.costo_total) }} {{ moneda_principal if moneda_principal else 'USD' }}</td>
+                    <td>
+                        <a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">No hay órdenes registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Paginación -->
+        {% if ordenes.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if ordenes.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ordenes.listar_ordenes', pagina=ordenes.prev_num, estado=estado, cliente_id=cliente_id, tecnico_id=tecnico_id, tipo_servicio=tipo_servicio, busqueda=busqueda) }}">Anterior</a>
+                </li>
+                {% endif %}
+                
+                {% for p in ordenes.iter_pages() %}
+                    {% if p %}
+                        <li class="page-item {% if p == ordenes.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('ordenes.listar_ordenes', pagina=p, estado=estado, cliente_id=cliente_id, tecnico_id=tecnico_id, tipo_servicio=tipo_servicio, busqueda=busqueda) }}">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if ordenes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ordenes.listar_ordenes', pagina=ordenes.next_num, estado=estado, cliente_id=cliente_id, tecnico_id=tecnico_id, tipo_servicio=tipo_servicio, busqueda=busqueda) }}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

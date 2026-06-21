@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Gastos - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">💰 Gastos del Taller</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('gastos.nuevo_gasto') }}" class="btn btn-success">➕ Nuevo Gasto</a>
+    <a href="{{ url_for('gastos.gestionar_categorias') }}" class="btn btn-info">📁 Categorías</a>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Fecha Desde</label>
+                <input type="date" class="form-control" name="fecha_desde" value="{{ fecha_desde }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Fecha Hasta</label>
+                <input type="date" class="form-control" name="fecha_hasta" value="{{ fecha_hasta }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" name="categoria_id">
+                    <option value="">Todas</option>
+                    {% for cat in categorias %}
+                    <option value="{{ cat.id }}" {% if categoria_id == cat.id %}selected{% endif %}>{{ cat.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                    <th>Usuario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gasto in gastos.items %}
+                <tr>
+                    <td>{{ gasto.fecha.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ gasto.descripcion }}</td>
+                    <td>{{ gasto.categoria.nombre if gasto.categoria else 'Sin categoría' }}</td>
+                    <td>{{ "%.2f"|format(gasto.monto) }} {{ moneda_principal if moneda_principal else 'USD' }}</td>
+                    <td>{{ gasto.usuario.nombre_completo if gasto.usuario else 'N/A' }}</td>
+                    <td>
+                        <a href="{{ url_for('gastos.editar_gasto', id=gasto.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay gastos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if gastos.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if gastos.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('gastos.listar_gastos', pagina=gastos.prev_num) }}">Anterior</a></li>
+                {% endif %}
+                {% for p in gastos.iter_pages() %}
+                    {% if p %}
+                    <li class="page-item {% if p == gastos.page %}active{% endif %}"><a class="page-link" href="{{ url_for('gastos.listar_gastos', pagina=p) }}">{{ p }}</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                {% if gastos.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('gastos.listar_gastos', pagina=gastos.next_num) }}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

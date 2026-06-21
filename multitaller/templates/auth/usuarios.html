@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Usuarios - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">👤 Gestión de Usuarios</h2>
+
+<div class="mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">➕ Nuevo Usuario</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.id }}</td>
+                    <td>{{ usuario.nombre_completo }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>
+                        <span class="badge bg-{% if usuario.rol == 'admin' %}danger{% else %}primary{% endif %}">
+                            {{ usuario.rol|capitalize }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-{% if usuario.activo %}success{% else %}secondary{% endif %}">
+                            {% if usuario.activo %}Activo{% else %}Inactivo{% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editarUsuario({{ usuario.id }})">Editar</button>
+                        {% if usuario.activo %}
+                        <form method="POST" action="{{ url_for('auth.desactivar_usuario', id=usuario.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('¿Desactivar usuario?')">Desactivar</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" action="{{ url_for('auth.activar_usuario', id=usuario.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('¿Activar usuario?')">Activar</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay usuarios registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Nuevo Usuario -->
+<div class="modal fade" id="modalNuevoUsuario" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('auth.crear_usuario') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombres" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" name="apellidos" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <select class="form-select" name="rol">
+                            <option value="tecnico">Técnico</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

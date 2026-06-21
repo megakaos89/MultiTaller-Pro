@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">👤 Mi Perfil</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('auth.perfil') }}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombres" value="{{ usuario.nombres }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" name="apellidos" value="{{ usuario.apellidos }}" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" value="{{ usuario.email }}" required>
+            </div>
+            
+            <hr class="my-4">
+            
+            <h5>Cambiar Contraseña</h5>
+            <div class="mb-3">
+                <label class="form-label">Contraseña Actual</label>
+                <input type="password" class="form-control" name="password_actual">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Nueva Contraseña</label>
+                <input type="password" class="form-control" name="password_nuevo">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Confirmar Nueva Contraseña</label>
+                <input type="password" class="form-control" name="password_confirm">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

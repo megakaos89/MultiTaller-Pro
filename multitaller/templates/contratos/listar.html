@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Contratos - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📄 Contratos de Servicio</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('contratos.nuevo_contrato') }}" class="btn btn-success">➕ Nuevo Contrato</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Tipo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrato in contratos.items %}
+                <tr>
+                    <td>{{ contrato.numero_contrato }}</td>
+                    <td>{{ contrato.cliente.nombre_completo if contrato.cliente else 'N/A' }}</td>
+                    <td>{{ contrato.tipo_servicio }}</td>
+                    <td>{{ contrato.fecha_inicio.strftime('%d/%m/%Y') if contrato.fecha_inicio else '-' }}</td>
+                    <td>{{ contrato.fecha_fin.strftime('%d/%m/%Y') if contrato.fecha_fin else '-' }}</td>
+                    <td>
+                        <span class="badge bg-{% if contrato.estado == 'Activo' %}success{% elif contrato.estado == 'Finalizado' %}secondary{% else %}danger{% endif %}">
+                            {{ contrato.estado }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('contratos.ver_contrato', id=contrato.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No hay contratos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if contratos.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if contratos.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('contratos.listar_contratos', pagina=contratos.prev_num) }}">Anterior</a></li>
+                {% endif %}
+                {% for p in contratos.iter_pages() %}
+                    {% if p %}
+                    <li class="page-item {% if p == contratos.page %}active{% endif %}"><a class="page-link" href="{{ url_for('contratos.listar_contratos', pagina=p) }}">{{ p }}</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                {% if contratos.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('contratos.listar_contratos', pagina=contratos.next_num) }}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

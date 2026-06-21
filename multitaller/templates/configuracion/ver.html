@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Configuración - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">⚙️ Configuración del Sistema</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Información General</h5>
+        <table class="table table-borderless">
+            <tr>
+                <th>Nombre del Taller:</th>
+                <td>{{ configs.get('nombre_taller', 'No configurado') }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono:</th>
+                <td>{{ configs.get('telefono', 'No configurado') }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{ configs.get('email', 'No configurado') }}</td>
+            </tr>
+            <tr>
+                <th>Dirección:</th>
+                <td>{{ configs.get('direccion', 'No configurado') }}</td>
+            </tr>
+            <tr>
+                <th>Moneda Principal:</th>
+                <td>{{ configs.get('moneda_principal', 'USD') }}</td>
+            </tr>
+        </table>
+        <a href="{{ url_for('configuracion.editar_configuracion') }}" class="btn btn-primary">Editar Configuración</a>
+    </div>
+</div>
+{% endblock %}

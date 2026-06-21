@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Acerca de - MultiTaller{% endblock %}
+{% block content %}
+<h2 class="mb-4">ℹ️ Acerca de MultiTaller</h2>
+<div class="card">
+    <div class="card-body">
+        <p><strong>Versión:</strong> {{ version if version else '1.0.0' }}</p>
+        <p><strong>Estado de Licencia:</strong> 
+            {% if info_licencia and info_licencia.activada %}
+                <span class="badge bg-success">Activada</span>
+            {% else %}
+                <span class="badge bg-danger">No activada</span>
+            {% endif %}
+        </p>
+        <hr>
+        <p>MultiTaller es un sistema de gestión para talleres de reparación de equipos electrónicos.</p>
+    </div>
+</div>
+{% endblock %}

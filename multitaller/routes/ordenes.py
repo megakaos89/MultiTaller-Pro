@@ -86,7 +86,7 @@ def nueva_orden():
             return redirect(url_for('ordenes.nueva_orden'))
         
         # Generar número de orden
-        ano = datetime.utcnow().year % 100
+        ano = datetime.now(datetime.UTC).year % 100
         ultima_orden = Orden.query.order_by(Orden.id.desc()).first()
         siguiente_numero = (ultima_orden.id + 1) if ultima_orden else 1
         numero_orden = f"OT-{ano:02d}-{siguiente_numero:04d}"
@@ -183,7 +183,7 @@ def editar_orden(id):
         
         # Calcular fecha fin garantía si se entrega
         if orden.estado_general == 'Entregado' and orden.garantia_meses > 0 and not orden.fecha_fin_garantia:
-            orden.fecha_fin_garantia = datetime.utcnow() + timedelta(days=orden.garantia_meses * 30)
+            orden.fecha_fin_garantia = datetime.now(datetime.UTC) + timedelta(days=orden.garantia_meses * 30)
         
         db.session.commit()
         flash('Orden actualizada correctamente', 'success')
@@ -217,7 +217,7 @@ def actualizar_estado(id):
     
     # Si se entrega, registrar fecha
     if nuevo_estado == 'Entregado' and not orden.fecha_entrega_real:
-        orden.fecha_entrega_real = datetime.utcnow()
+        orden.fecha_entrega_real = datetime.now(datetime.UTC)
         if orden.garantia_meses > 0:
             orden.fecha_fin_garantia = orden.fecha_entrega_real + timedelta(days=orden.garantia_meses * 30)
     
@@ -324,7 +324,7 @@ def agregar_pieza_a_orden(orden_id, disp_id):
     # Descontar del inventario si no es garantía
     if not es_garantia:
         pieza.cantidad -= cantidad
-        pieza.fecha_actualizacion = datetime.utcnow()
+        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
     
     # Recalcular costo total de la orden
     recalcular_costo_orden(orden_dispositivo.orden)
