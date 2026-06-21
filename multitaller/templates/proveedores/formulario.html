@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{% if proveedor %}Editar{% else %}Nuevo{% endif %} Proveedor - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if proveedor %}✏️ Editar{% else %}➕ Nuevo{% endif %} Proveedor</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Nombre *</label>
+                <input type="text" class="form-control" name="nombre" value="{{ proveedor.nombre if proveedor else '' }}" required>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Contacto</label>
+                    <input type="text" class="form-control" name="contacto" value="{{ proveedor.contacto if proveedor else '' }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" value="{{ proveedor.telefono if proveedor else '' }}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" name="tipo">
+                    <option value="formal" {% if proveedor and proveedor.tipo == 'formal' %}selected{% endif %}>Formal</option>
+                    <option value="informal" {% if proveedor and proveedor.tipo == 'informal' %}selected{% endif %}>Informal</option>
+                </select>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{{ url_for('proveedores.listar_proveedores') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

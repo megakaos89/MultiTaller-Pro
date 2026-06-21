@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle del Proveedor - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📦 Detalle del Proveedor</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        {{ proveedor.nombre }}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Contacto:</strong> {{ proveedor.contacto or 'N/A' }}</p>
+                <p><strong>Teléfono:</strong> {{ proveedor.telefono or 'N/A' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Tipo:</strong> {{ proveedor.tipo }}</p>
+                <p><strong>Estado:</strong> {% if proveedor.activo %}Activo{% else %}Inactivo{% endif %}</p>
+            </div>
+        </div>
+        <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('proveedores.listar_proveedores') }}" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+
+<!-- Piezas asociadas -->
+<div class="card">
+    <div class="card-header">
+        🔧 Piezas Asociadas
+    </div>
+    <div class="card-body">
+        {% if piezas %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pieza in piezas %}
+                <tr>
+                    <td>{{ pieza.nombre }}</td>
+                    <td>{{ pieza.codigo or '-' }}</td>
+                    <td>{{ pieza.stock }}</td>
+                    <td>${{ pieza.precio_venta or '0.00' }}</td>
+                    <td>
+                        <a href="{{ url_for('inventario.ver_pieza', id=pieza.id) }}" class="btn btn-sm btn-info">Ver</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No tiene piezas asociadas</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
