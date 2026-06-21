@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Reporte de Productividad - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📊 Reporte de Productividad por Técnico</h2>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label class="form-label">Período:</label>
+            </div>
+            <div class="col-auto">
+                <select name="periodo" class="form-select" onchange="this.form.submit()">
+                    <option value="semana" {% if periodo == 'semana' %}selected{% endif %}>Última Semana</option>
+                    <option value="mes" {% if periodo == 'mes' %}selected{% endif %}>Este Mes</option>
+                    <option value="ano" {% if periodo == 'ano' %}selected{% endif %}>Este Año</option>
+                    <option value="todo" {% if periodo == 'todo' %}selected{% endif %}>Todo el Tiempo</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla -->
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Técnico</th>
+                    <th>Especialidad</th>
+                    <th>Órdenes Totales</th>
+                    <th>Órdenes Completadas</th>
+                    <th>% Efectividad</th>
+                    <th>Ingresos Generados</th>
+                    <th>Tiempo Promedio (días)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in productividad_data %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('tecnicos.ver_tecnico', id=item.tecnico.id) }}">
+                            {{ item.tecnico.nombre }}
+                        </a>
+                    </td>
+                    <td>{{ item.tecnico.especialidad or '-' }}</td>
+                    <td>{{ item.ordenes_totales }}</td>
+                    <td>{{ item.ordenes_completadas }}</td>
+                    <td>
+                        {% if item.ordenes_totales > 0 %}
+                            {{ "%.1f"|format((item.ordenes_completadas / item.ordenes_totales) * 100) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </td>
+                    <td>${{ "%.2f"|format(item.ingresos_generados) }}</td>
+                    <td>{{ "%.1f"|format(item.tiempo_promedio) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No hay datos disponibles</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Orden {{ orden.numero_orden }} - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📋 Orden {{ orden.numero_orden }}</h2>
+
+<!-- Información principal -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Información General</span>
+        <span class="badge bg-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% else %}warning{% endif %}">
+            {{ orden.estado_general }}
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Cliente:</strong> 
+                    <a href="{{ url_for('clientes.ver_cliente', id=orden.cliente.id) }}">
+                        {{ orden.cliente.nombre_completo }}
+                    </a>
+                </p>
+                <p><strong>Tipo Servicio:</strong> {{ orden.tipo_servicio }}</p>
+                <p><strong>Técnico Asignado:</strong> 
+                    {% if orden.tecnico %}
+                        <a href="{{ url_for('tecnicos.ver_tecnico', id=orden.tecnico.id) }}">{{ orden.tecnico.nombre }}</a>
+                    {% else %}
+                        <span class="text-muted">No asignado</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Fecha Creación:</strong> {{ orden.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+                <p><strong>Fecha Entrega Prevista:</strong> 
+                    {{ orden.fecha_entrega_prevista.strftime('%d/%m/%Y') if orden.fecha_entrega_prevista else 'No definida' }}
+                </p>
+                <p><strong>Garantía:</strong> {{ orden.garantia_meses }} meses</p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <p><strong>Notas Internas:</strong></p>
+                <p class="text-muted">{{ orden.notas_internas or 'Sin notas internas' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Notas para Cliente:</strong></p>
+                <p class="text-muted">{{ orden.notas_cliente or 'Sin notas para el cliente' }}</p>
+            </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+            <a href="{{ url_for('ordenes.editar_orden', id=orden.id) }}" class="btn btn-warning">Editar</a>
+            <a href="{{ url_for('ordenes.listar_ordenes') }}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+</div>
+
+<!-- Dispositivos -->
+<div class="card mb-4">
+    <div class="card-header">
+        💻 Dispositivos ({{ dispositivos_orden|length }})
+    </div>
+    <div class="card-body">
+        {% if dispositivos_orden %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo</th>
+                    <th>Número Serie</th>
+                    <th>Problema Reportado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for disp_ord in dispositivos_orden %}
+                <tr>
+                    <td>{{ disp_ord.dispositivo.marca }}</td>
+                    <td>{{ disp_ord.dispositivo.modelo_texto or '-' }}</td>
+                    <td>{{ disp_ord.dispositivo.tipo or 'Sin tipo' }}</td>
+                    <td>{{ disp_ord.dispositivo.numero_serie or '-' }}</td>
+                    <td>{{ disp_ord.problema_reportado or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No hay dispositivos asociados</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Historial de estados -->
+<div class="card mb-4">
+    <div class="card-header">
+        📜 Historial de Estados
+    </div>
+    <div class="card-body">
+        {% if historial %}
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Fecha Cambio</th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in historial %}
+                <tr>
+                    <td>{{ h.estado_anterior }} → {{ h.estado_nuevo }}</td>
+                    <td>{{ h.fecha_cambio.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ h.usuario_nombre or 'Sistema' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No hay historial registrado</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Notas -->
+<div class="card mb-4">
+    <div class="card-header">
+        📝 Notas
+    </div>
+    <div class="card-body">
+        {% if notas %}
+        {% for nota in notas %}
+        <div class="border-bottom pb-2 mb-2">
+            <p class="mb-1">{{ nota.contenido }}</p>
+            <small class="text-muted">
+                {{ nota.usuario_nombre }} - {{ nota.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}
+            </small>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">No hay notas registradas</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Costos -->
+<div class="card">
+    <div class="card-header">
+        💰 Costos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <p><strong>Costo Mano de Obra:</strong> ${{ "%.2f"|format(orden.costo_mano_obra) }}</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Costo Piezas:</strong> ${{ "%.2f"|format(orden.costo_piezas) }}</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Total:</strong> ${{ "%.2f"|format(orden.costo_total) }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

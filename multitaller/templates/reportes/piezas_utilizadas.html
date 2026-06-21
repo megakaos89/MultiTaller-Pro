@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Piezas Utilizadas - MultiTaller{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🔧 Reporte de Piezas Utilizadas</h2>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label class="form-label">Período:</label>
+            </div>
+            <div class="col-auto">
+                <select name="periodo" class="form-select" onchange="this.form.submit()">
+                    <option value="semana" {% if periodo == 'semana' %}selected{% endif %}>Última Semana</option>
+                    <option value="mes" {% if periodo == 'mes' %}selected{% endif %}>Este Mes</option>
+                    <option value="ano" {% if periodo == 'ano' %}selected{% endif %}>Este Año</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla Top 20 -->
+<div class="card">
+    <div class="card-header">
+        📋 Top 20 Piezas Más Utilizadas
+    </div>
+    <div class="card-body">
+        {% if piezas_lista %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pieza</th>
+                    <th>Cantidad Utilizada</th>
+                    <th>Ingreso Generado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nombre, datos in piezas_lista %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ nombre }}</td>
+                    <td>{{ datos.cantidad }}</td>
+                    <td>${{ "%.2f"|format(datos.ingreso) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted text-center">No hay registros de piezas utilizadas en este período</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
