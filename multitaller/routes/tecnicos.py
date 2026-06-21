@@ -118,9 +118,9 @@ def productividad():
     """Reporte de productividad por técnico"""
     periodo = request.args.get('periodo', 'mes')
     
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
     
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'semana':
         fecha_inicio = hoy - timedelta(days=7)
     elif periodo == 'mes':

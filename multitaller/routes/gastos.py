@@ -3,7 +3,7 @@ Blueprint para gestión de gastos operativos
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from datetime import datetime
+from datetime import datetime, timezone
 from models import db, Gasto, CategoriaGasto
 from routes.auth import login_required, role_required
 
@@ -64,7 +64,7 @@ def nuevo_gasto():
             categoria_id=categoria_id,
             descripcion=descripcion,
             monto=monto,
-            fecha=datetime.fromisoformat(fecha) if fecha else datetime.now(datetime.UTC),
+            fecha=datetime.fromisoformat(fecha) if fecha else datetime.now(timezone.utc),
             usuario_id=session['usuario_id']
         )
         

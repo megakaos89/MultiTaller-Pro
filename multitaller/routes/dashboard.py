@@ -3,7 +3,7 @@ Blueprint para el dashboard (panel de control)
 """
 
 from flask import Blueprint, render_template, session, request
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from models import db, Orden, Pieza, Cliente, Contrato, Gasto, Configuracion
 
 dashboard_bp = Blueprint('dashboard', __name__)
@@ -19,7 +19,7 @@ def index():
     periodo = request.args.get('periodo', 'mes')
     
     # Calcular fechas del período
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'hoy':
         fecha_inicio = hoy.replace(hour=0, minute=0, second=0, microsecond=0)
     elif periodo == 'semana':

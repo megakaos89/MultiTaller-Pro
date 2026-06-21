@@ -6,7 +6,7 @@ import os
 import hmac
 import hashlib
 import platform
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
 from models import db, Configuracion, Licencia
 from routes.auth import login_required, admin_required
@@ -104,7 +104,7 @@ def activacion():
             # Guardar licencia
             license_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'license.dat')
             with open(license_file, 'w') as f:
-                f.write(f"ACTIVADO|{datetime.now(datetime.UTC).isoformat()}|{tipo_licencia}")
+                f.write(f"ACTIVADO|{datetime.now(timezone.utc).isoformat()}|{tipo_licencia}")
             
             flash(f'Sistema activado correctamente. Licencia: {tipo_licencia}', 'success')
             return redirect(url_for('dashboard.index'))
