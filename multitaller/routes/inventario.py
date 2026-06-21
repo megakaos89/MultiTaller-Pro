@@ -3,7 +3,7 @@ Blueprint para gestión de inventario de piezas
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
-from datetime import datetime
+from datetime import datetime, timezone
 from models import db, Pieza, Proveedor, MovimientoInventario, PiezaCompatible, ModeloEquipo
 from routes.auth import login_required, role_required
 
@@ -133,7 +133,7 @@ def editar_pieza(id):
         pieza.proveedor_id = request.form.get('proveedor_id', type=int)
         pieza.descripcion = request.form.get('descripcion', '').strip()
         
-        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
+        pieza.fecha_actualizacion = datetime.now(timezone.utc)
         
         db.session.commit()
         flash('Pieza actualizada correctamente', 'success')
@@ -210,7 +210,7 @@ def registrar_entrada(id):
         # Actualizar stock
         pieza.cantidad += cantidad
         pieza.precio_costo = precio_costo  # Actualizar costo
-        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
+        pieza.fecha_actualizacion = datetime.now(timezone.utc)
         
         # Registrar movimiento
         movimiento = MovimientoInventario(
@@ -258,7 +258,7 @@ def registrar_salida(id):
         
         # Actualizar stock
         pieza.cantidad -= cantidad
-        pieza.fecha_actualizacion = datetime.now(datetime.UTC)
+        pieza.fecha_actualizacion = datetime.now(timezone.utc)
         
         # Registrar movimiento
         movimiento = MovimientoInventario(

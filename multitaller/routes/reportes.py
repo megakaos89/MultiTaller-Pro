@@ -3,7 +3,7 @@ Blueprint para reportes y exportaciones
 """
 
 from flask import Blueprint, render_template, request, send_file, session
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
 from routes.auth import login_required
 import csv
@@ -27,7 +27,7 @@ def reporte_ingresos():
     tipo_servicio = request.args.get('tipo_servicio', '')
     tecnico_id = request.args.get('tecnico_id', type=int)
     
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'hoy':
         fecha_inicio = hoy.replace(hour=0, minute=0, second=0, microsecond=0)
     elif periodo == 'semana':
@@ -86,7 +86,7 @@ def reporte_productividad():
     """Reporte de productividad por técnico"""
     periodo = request.args.get('periodo', 'mes')
     
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'semana':
         fecha_inicio = hoy - timedelta(days=7)
     elif periodo == 'mes':
@@ -139,7 +139,7 @@ def reporte_piezas_utilizadas():
     """Reporte de piezas más utilizadas"""
     periodo = request.args.get('periodo', 'mes')
     
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'mes':
         fecha_inicio = hoy.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     elif periodo == 'ano':
@@ -182,7 +182,7 @@ def reporte_fiscal():
     """Reporte fiscal con cálculo de tributos"""
     periodo = request.args.get('periodo', 'mes')
     
-    hoy = datetime.now(datetime.UTC)
+    hoy = datetime.now(timezone.utc)
     if periodo == 'mes':
         fecha_inicio = hoy.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     elif periodo == 'ano':
