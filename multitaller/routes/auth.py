@@ -26,7 +26,7 @@ def admin_required(f):
     def decorated_function(*args, **kwargs):
         if 'usuario_id' not in session:
             return redirect(url_for('auth.login'))
-        usuario = Usuario.query.get(session['usuario_id'])
+        usuario = db.session.get(Usuario, session['usuario_id'])
         if not usuario or usuario.rol != 'admin':
             flash('Acceso denegado. Se requiere rol de administrador.', 'danger')
             return redirect(url_for('dashboard.index'))
@@ -41,7 +41,7 @@ def role_required(*roles):
         def decorated_function(*args, **kwargs):
             if 'usuario_id' not in session:
                 return redirect(url_for('auth.login'))
-            usuario = Usuario.query.get(session['usuario_id'])
+            usuario = db.session.get(Usuario, session['usuario_id'])
             if not usuario or usuario.rol not in roles:
                 flash('Acceso denegado. No tiene permisos suficientes.', 'danger')
                 return redirect(url_for('dashboard.index'))
@@ -111,7 +111,7 @@ def gestionar_usuarios():
         
         if usuario_id:
             # Editar existente
-            usuario = Usuario.query.get(usuario_id)
+            usuario = db.session.get(Usuario, usuario_id)
             if usuario:
                 usuario.username = username
                 usuario.nombre_completo = nombre_completo
@@ -156,7 +156,7 @@ def eliminar_usuario(id):
         flash('No puede eliminar su propio usuario', 'warning')
         return redirect(url_for('auth.gestionar_usuarios'))
     
-    usuario = Usuario.query.get(id)
+    usuario = db.session.get(Usuario, id)
     if usuario:
         db.session.delete(usuario)
         db.session.commit()
@@ -171,7 +171,7 @@ def eliminar_usuario(id):
 @login_required
 def perfil():
     """Editar perfil del usuario actual"""
-    usuario = Usuario.query.get(session['usuario_id'])
+    usuario = db.session.get(Usuario, session['usuario_id'])
     
     if request.method == 'POST':
         nombre_completo = request.form.get('nombre_completo', '').strip()

@@ -80,7 +80,10 @@ def nuevo_contrato():
 @role_required('admin')
 def editar_contrato(id):
     """Editar contrato existente"""
-    contrato = Contrato.query.get_or_404(id)
+    contrato = Contrato = db.session.get(Contrato, id)
+    if not Contrato:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         contrato.cliente_id = request.form.get('cliente_id', type=int)
@@ -108,7 +111,10 @@ def editar_contrato(id):
 @role_required('admin')
 def eliminar_contrato(id):
     """Eliminar/Desactivar contrato (solo admin)"""
-    contrato = Contrato.query.get_or_404(id)
+    contrato = Contrato = db.session.get(Contrato, id)
+    if not Contrato:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # En lugar de eliminar, desactivamos
     contrato.activo = False
@@ -122,7 +128,10 @@ def eliminar_contrato(id):
 @login_required
 def ver_contrato(id):
     """Ver detalle del contrato"""
-    contrato = Contrato.query.get_or_404(id)
+    contrato = Contrato = db.session.get(Contrato, id)
+    if not Contrato:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Calcular próximo mantenimiento
     proximo_mantenimiento = contrato.get_proximo_mantenimiento()
@@ -140,7 +149,10 @@ def ver_contrato(id):
 @login_required
 def registrar_servicio(id):
     """Registrar servicio realizado en el contrato"""
-    contrato = Contrato.query.get_or_404(id)
+    contrato = Contrato = db.session.get(Contrato, id)
+    if not Contrato:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     fecha_servicio = request.form.get('fecha_servicio')
     

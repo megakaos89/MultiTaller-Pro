@@ -77,7 +77,7 @@ def create_app():
         dias_prueba = 0
         
         if 'usuario_id' in session:
-            usuario = Usuario.query.get(session['usuario_id'])
+            usuario = db.session.get(Usuario, session['usuario_id'])
             menu_visible = True
         
         # Información de licencia

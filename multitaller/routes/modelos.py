@@ -82,7 +82,10 @@ def nuevo_modelo():
 @login_required
 def editar_modelo(id):
     """Editar modelo existente"""
-    modelo = ModeloEquipo.query.get_or_404(id)
+    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
+    if not ModeloEquipo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         modelo.marca = request.form.get('marca', '').strip()
@@ -107,7 +110,10 @@ def editar_modelo(id):
 @role_required('admin')
 def eliminar_modelo(id):
     """Eliminar modelo (solo admin)"""
-    modelo = ModeloEquipo.query.get_or_404(id)
+    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
+    if not ModeloEquipo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     
     # Verificar si tiene dispositivos asociados
     if modelo.dispositivos:
@@ -124,7 +130,10 @@ def eliminar_modelo(id):
 @login_required
 def ver_modelo(id):
     """Ver detalle del modelo con compatibilidades"""
-    modelo = ModeloEquipo.query.get_or_404(id)
+    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
+    if not ModeloEquipo:
+        flash('Registro no encontrado', 'danger')
+        return redirect(url_for('index'))
     piezas_compatibles = PiezaCompatible.query.filter_by(modelo_id=id).all()
     
     return render_template('modelos/detalle.html', 
