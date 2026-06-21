@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Reportes - MultiTaller{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="bi bi-graph-up"></i> Reportes y Estadísticas</h2>
+    <hr>
+    
+    <div class="row g-4">
+        <!-- Reporte de Ingresos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-cash-coin display-4 text-success mb-3"></i>
+                    <h5 class="card-title">Ingresos por Período</h5>
+                    <p class="card-text">Visualiza los ingresos totales agrupados por tipo de servicio y técnico.</p>
+                    <a href="{{ url_for('reportes.reporte_ingresos') }}" class="btn btn-outline-success">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reporte de Productividad -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-speedometer2 display-4 text-primary mb-3"></i>
+                    <h5 class="card-title">Productividad Técnicos</h5>
+                    <p class="card-text">Analiza el rendimiento de cada técnico: órdenes completadas, tiempos promedio e ingresos generados.</p>
+                    <a href="{{ url_for('reportes.reporte_productividad') }}" class="btn btn-outline-primary">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reporte de Piezas Utilizadas -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-box-seam display-4 text-warning mb-3"></i>
+                    <h5 class="card-title">Piezas Más Utilizadas</h5>
+                    <p class="card-text">Conoce las piezas con mayor rotación y su contribución a los ingresos.</p>
+                    <a href="{{ url_for('reportes.reporte_piezas_utilizadas') }}" class="btn btn-outline-warning">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reporte Fiscal -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-receipt-cutoff display-4 text-danger mb-3"></i>
+                    <h5 class="card-title">Reporte Fiscal</h5>
+                    <p class="card-text">Calcula ingresos, gastos, ganancias netas y tributos estimados (ISIP, seguridad social).</p>
+                    <a href="{{ url_for('reportes.reporte_fiscal') }}" class="btn btn-outline-danger">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exportar Datos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-download display-4 text-info mb-3"></i>
+                    <h5 class="card-title">Exportar Datos</h5>
+                    <p class="card-text">Descarga listados de órdenes, clientes y piezas en formato CSV.</p>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Exportar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('reportes.exportar_csv', tipo='ordenes') }}">Órdenes</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reportes.exportar_csv', tipo='clientes') }}">Clientes</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reportes.exportar_csv', tipo='piezas') }}">Piezas</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

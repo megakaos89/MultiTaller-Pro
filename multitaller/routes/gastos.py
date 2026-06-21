@@ -127,7 +127,7 @@ def eliminar_gasto(id):
 @gastos_bp.route('/categorias_gastos')
 @login_required
 @role_required('admin')
-def listar_categorias():
+def gestionar_categorias():
     """Listado de categorías de gastos"""
     categorias = CategoriaGasto.query.all()
     return render_template('gastos/categorias.html', categorias=categorias)
@@ -151,7 +151,7 @@ def nueva_categoria():
         db.session.commit()
         
         flash('Categoría creada correctamente', 'success')
-        return redirect(url_for('gastos.listar_categorias'))
+        return redirect(url_for('gastos.gestionar_categorias'))
     
     return render_template('gastos/categoria_formulario.html', categoria=None)
 
@@ -161,17 +161,17 @@ def nueva_categoria():
 @role_required('admin')
 def eliminar_categoria(id):
     """Eliminar categoría de gasto (solo admin)"""
-    categoria = CategoriaGasto = db.session.get(CategoriaGasto, id)
-    if not CategoriaGasto:
+    categoria = db.session.get(CategoriaGasto, id)
+    if not categoria:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
     # Verificar si tiene gastos asociados
     if categoria.gastos:
         flash('No se puede eliminar: hay gastos asociados a esta categoría', 'warning')
-        return redirect(url_for('gastos.listar_categorias'))
+        return redirect(url_for('gastos.gestionar_categorias'))
     
     db.session.delete(categoria)
     db.session.commit()
     flash('Categoría eliminada correctamente', 'success')
-    return redirect(url_for('gastos.listar_categorias'))
+    return redirect(url_for('gastos.gestionar_categorias'))
