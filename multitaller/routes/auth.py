@@ -167,6 +167,27 @@ def eliminar_usuario(id):
     return redirect(url_for('auth.gestionar_usuarios'))
 
 
+@auth_bp.route('/usuarios/desactivar/<int:id>')
+@login_required
+@admin_required
+def desactivar_usuario(id):
+    """Desactivar/Activar usuario (solo admin)"""
+    if id == session.get('usuario_id'):
+        flash('No puede desactivar su propio usuario', 'warning')
+        return redirect(url_for('auth.gestionar_usuarios'))
+    
+    usuario = db.session.get(Usuario, id)
+    if usuario:
+        usuario.activo = not usuario.activo
+        estado = "Activado" if usuario.activo else "Desactivado"
+        db.session.commit()
+        flash(f'Usuario {estado} correctamente', 'success')
+    else:
+        flash('Usuario no encontrado', 'danger')
+    
+    return redirect(url_for('auth.gestionar_usuarios'))
+
+
 @auth_bp.route('/perfil', methods=['GET', 'POST'])
 @login_required
 def perfil():

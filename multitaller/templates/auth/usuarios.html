@@ -45,7 +45,7 @@
                             <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('¿Desactivar usuario?')">Desactivar</button>
                         </form>
                         {% else %}
-                        <form method="POST" action="{{ url_for('auth.activar_usuario', id=usuario.id) }}" style="display:inline;">
+                        <form method="POST" action="{{ url_for('auth.desactivar_usuario', id=usuario.id) }}" style="display:inline;">
                             <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('¿Activar usuario?')">Activar</button>
                         </form>
                         {% endif %}
