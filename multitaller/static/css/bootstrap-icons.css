@@ -1,0 +1,61 @@
+/*!
+ * Bootstrap Icons v1.11.1 (https://icons.getbootstrap.com/)
+ * Copyright 2019-2023 The Bootstrap Authors
+ * Licensed under MIT (https://github.com/twbs/icons/blob/main/LICENSE)
+ */
+
+@font-face {
+  font-display: block;
+  font-family: "bootstrap-icons";
+  src: url("../fonts/bootstrap-icons.woff2") format("woff2");
+}
+
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Íconos principales usados en MultiTaller */
+.bi-speedometer2::before { content: "\F634"; }
+.bi-clipboard-check::before { content: "\F279"; }
+.bi-people::before { content: "\F4DD"; }
+.bi-laptop::before { content: "\F3E5"; }
+.bi-box-seam::before { content: "\F26A"; }
+.bi-gear::before { content: "\F35E"; }
+.bi-truck::before { content: "\F6CC"; }
+.bi-person-gear::before { content: "\F65E"; }
+.bi-file-earmark-text::before { content: "\F329"; }
+.bi-cash-coin::before { content: "\F272"; }
+.bi-graph-up::before { content: "\F381"; }
+.bi-person-badge::before { content: "\F4DA"; }
+.bi-sliders::before { content: "\F60C"; }
+.bi-patch-check::before { content: "\F4B5"; }
+.bi-question-circle::before { content: "\F54C"; }
+.bi-list::before { content: "\F3E0"; }
+.bi-moon-fill::before { content: "\F43C"; }
+.bi-sun-fill::before { content: "\F67D"; }
+.bi-chevron-down::before { content: "\F285"; }
+.bi-person::before { content: "\F4DC"; }
+.bi-info-circle::before { content: "\F3D4"; }
+.bi-box-arrow-right::before { content: "\F268"; }
+.bi-bell::before { content: "\F233"; }
+.bi-shield-exclamation::before { content: "\F5F6"; }
+.bi-currency-dollar::before { content: "\F2CA"; }
+.bi-list-ul::before { content: "\F3E2"; }
+.bi-hourglass-split::before { content: "\F39A"; }
+.bi-check-circle::before { content: "\F26A"; }
+.bi-exclamation-triangle::before { content: "\F337"; }
+.bi-eye-fill::before { content: "\F331"; }
+.bi-eye-slash-fill::before { content: "\F330"; }
+.bi-x::before { content: "\F6C6"; }
+.bi-caret-down-fill::before { content: "\F275"; }
