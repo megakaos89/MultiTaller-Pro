@@ -85,10 +85,11 @@ def nueva_orden():
             flash('Cliente y al menos un dispositivo son obligatorios', 'warning')
             return redirect(url_for('ordenes.nueva_orden'))
         
-        # Generar número de orden
+        # Generar número de orden - Usar conteo para evitar duplicaciones
+        # En SQLite no podemos depender del ID autoincremental para numbering business
         ano = datetime.now(timezone.utc).year % 100
-        ultima_orden = Orden.query.order_by(Orden.id.desc()).first()
-        siguiente_numero = (ultima_orden.id + 1) if ultima_orden else 1
+        total_ordenes = db.session.query(db.func.count(Orden.id)).scalar() or 0
+        siguiente_numero = total_ordenes + 1
         numero_orden = f"OT-{ano:02d}-{siguiente_numero:04d}"
         
         # Crear orden

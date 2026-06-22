@@ -2,13 +2,19 @@
 Blueprint para gestión de dispositivos de clientes
 """
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, current_app
 from models import db, Dispositivo, Cliente, ModeloEquipo, OrdenDispositivo
 from routes.auth import login_required, role_required
 import os
 from werkzeug.utils import secure_filename
 
 dispositivos_bp = Blueprint('dispositivos', __name__)
+
+
+def allowed_file(filename):
+    """Verificar si el archivo tiene extensión permitida"""
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in current_app.config.get('ALLOWED_EXTENSIONS', {'png', 'jpg', 'jpeg', 'gif', 'pdf'})
 
 
 @dispositivos_bp.route('/dispositivos')
@@ -65,11 +71,13 @@ def nuevo_dispositivo():
         foto_path = None
         if 'foto' in request.files:
             archivo = request.files['foto']
-            if archivo and archivo.filename:
+            if archivo and archivo.filename and allowed_file(archivo.filename):
                 filename = secure_filename(archivo.filename)
                 filepath = os.path.join('static', 'uploads', f'dispositivo_{filename}')
                 archivo.save(filepath)
                 foto_path = filepath
+            elif archivo and archivo.filename:
+                flash('Extensión de archivo no permitida. Solo png, jpg, jpeg, gif, pdf', 'warning')
         
         if not cliente_id or not marca:
             flash('Cliente y marca son obligatorios', 'warning')
@@ -132,7 +140,7 @@ def editar_dispositivo(id):
         # Manejo de foto
         if 'foto' in request.files:
             archivo = request.files['foto']
-            if archivo and archivo.filename:
+            if archivo and archivo.filename and allowed_file(archivo.filename):
                 # Eliminar foto anterior si existe
                 if dispositivo.foto_path and os.path.exists(dispositivo.foto_path):
                     os.remove(dispositivo.foto_path)
@@ -141,6 +149,9 @@ def editar_dispositivo(id):
                 filepath = os.path.join('static', 'uploads', f'dispositivo_{filename}')
                 archivo.save(filepath)
                 dispositivo.foto_path = filepath
+            elif archivo and archivo.filename:
+                flash('Extensión de archivo no permitida. Solo png, jpg, jpeg, gif, pdf', 'warning')
+                return redirect(url_for('dispositivos.editar_dispositivo', id=dispositivo.id))
         
         db.session.commit()
         flash('Dispositivo actualizado correctamente', 'success')
