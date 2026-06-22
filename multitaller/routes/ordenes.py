@@ -153,6 +153,13 @@ def ver_orden(id):
     historial = OrdenHistorialEstado.query.filter_by(orden_id=id).order_by(OrdenHistorialEstado.fecha_cambio.desc()).all()
     notas = OrdenNota.query.filter_by(orden_id=id).order_by(OrdenNota.fecha_creacion.desc()).all()
     
+    # Calcular costo de piezas
+    costo_piezas = 0
+    for od in dispositivos_orden:
+        for op in od.piezas_usadas:
+            total = op.cantidad * op.precio_unitario * (1 - op.descuento_aplicado / 100)
+            costo_piezas += total
+    
     estados = ['Recibido', 'En diagnóstico', 'Esperando piezas', 'En reparación', 
                'Listo parcial', 'Listo para entregar', 'Entregado', 'Cancelado']
     
@@ -161,7 +168,8 @@ def ver_orden(id):
                          dispositivos_orden=dispositivos_orden,
                          historial=historial,
                          notas=notas,
-                         estados=estados)
+                         estados=estados,
+                         costo_piezas=costo_piezas)
 
 
 @ordenes_bp.route('/orden/<int:id>/editar', methods=['GET', 'POST'])
