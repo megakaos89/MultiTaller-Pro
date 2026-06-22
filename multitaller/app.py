@@ -39,6 +39,15 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
     
+    # Seguridad de sesiones Flask
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
+    
+    # Validación de subida de archivos
+    app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB máximo
+    app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif', 'pdf'}
+    
     # Inicializar extensiones
     db.init_app(app)
     

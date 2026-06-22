@@ -75,6 +75,13 @@ def editar_configuracion():
                 from werkzeug.utils import secure_filename
                 import os
                 from datetime import datetime
+                from flask import current_app
+                
+                # Validar extensión permitida
+                allowed_extensions = current_app.config.get('ALLOWED_EXTENSIONS', {'png', 'jpg', 'jpeg', 'gif', 'pdf'})
+                if '.' not in archivo.filename or archivo.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+                    flash('Extensión de archivo no permitida. Solo png, jpg, jpeg, gif, pdf', 'warning')
+                    return redirect(url_for('configuracion.editar_configuracion'))
                 
                 # Asegurar que el directorio existe
                 upload_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'uploads', 'logos')
