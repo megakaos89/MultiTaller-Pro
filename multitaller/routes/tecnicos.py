@@ -54,8 +54,8 @@ def nuevo_tecnico():
 @role_required('admin')
 def editar_tecnico(id):
     """Editar técnico existente"""
-    tecnico = Tecnico = db.session.get(Tecnico, id)
-    if not Tecnico:
+    tecnico = db.session.get(Tecnico, id)
+    if not tecnico:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -76,8 +76,8 @@ def editar_tecnico(id):
 @role_required('admin')
 def eliminar_tecnico(id):
     """Eliminar técnico (solo admin)"""
-    tecnico = Tecnico = db.session.get(Tecnico, id)
-    if not Tecnico:
+    tecnico = db.session.get(Tecnico, id)
+    if not tecnico:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -96,8 +96,8 @@ def eliminar_tecnico(id):
 @login_required
 def ver_tecnico(id):
     """Ver detalle del técnico con estadísticas"""
-    tecnico = Tecnico = db.session.get(Tecnico, id)
-    if not Tecnico:
+    tecnico = db.session.get(Tecnico, id)
+    if not tecnico:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
