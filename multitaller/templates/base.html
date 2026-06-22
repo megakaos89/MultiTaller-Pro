@@ -6,6 +6,8 @@
     <title>{% block title %}MultiTaller{% endblock %}</title>
     <!-- Bootstrap 5 local -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
     <!-- Estilos personalizados modernos -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     {% block extra_css %}{% endblock %}
@@ -29,7 +31,7 @@
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <h4>
-                    <span class="sidebar-brand-icon">🔧</span>
+                    <i class="bi bi-wrench-adjustable sidebar-brand-icon"></i>
                     <span>MultiTaller</span>
                 </h4>
             </div>
@@ -123,6 +125,26 @@
             </div>
             
             <div class="topbar-right">
+                <!-- Banner de Período de Prueba -->
+                {% if info_licencia and info_licencia.en_prueba %}
+                <div class="trial-banner d-none d-md-flex align-items-center me-3 px-3 py-2 rounded bg-primary bg-opacity-10 border border-primary border-opacity-25">
+                    <i class="bi bi-crown text-warning me-2 fs-5"></i>
+                    <span class="small fw-semibold text-primary me-2">Período de prueba iniciado</span>
+                    <a href="{{ url_for('licencias.activacion') }}" class="btn btn-sm btn-primary">Activar ahora</a>
+                </div>
+                {% endif %}
+                
+                <!-- Botón de tema claro/oscuro -->
+                <button class="theme-toggle-btn" id="theme-toggle" title="Cambiar tema">
+                    <i class="bi bi-sun-fill"></i>
+                </button>
+                
+                <!-- Notificaciones -->
+                <button class="notification-btn" title="Notificaciones">
+                    <i class="bi bi-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                
                 <!-- Selector de período (solo en dashboard) -->
                 {% if request.endpoint == 'dashboard.index' %}
                 <div class="period-selector d-none d-md-block">
@@ -135,16 +157,14 @@
                 </div>
                 {% endif %}
                 
-                <!-- Botón tema oscuro/claro -->
-                <button class="theme-toggle-btn" id="theme-toggle" title="Cambiar tema">
-                    <i class="bi bi-moon-fill"></i>
-                </button>
-                
                 <!-- Menú de usuario -->
                 <div class="dropdown">
                     <div class="user-menu" data-bs-toggle="dropdown">
                         <div class="user-avatar">{{ usuario.nombre_completo[0]|upper }}</div>
-                        <span class="user-name d-none d-md-inline">{{ usuario.nombre_completo }}</span>
+                        <div class="user-info d-none d-md-block">
+                            <span class="user-name">{{ usuario.nombre_completo }}</span>
+                            <span class="user-role">Administrador</span>
+                        </div>
                         <i class="bi bi-chevron-down ms-1"></i>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
