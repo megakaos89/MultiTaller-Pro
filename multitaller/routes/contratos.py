@@ -82,8 +82,8 @@ def nuevo_contrato():
 @role_required('admin')
 def editar_contrato(id):
     """Editar contrato existente"""
-    contrato = Contrato = db.session.get(Contrato, id)
-    if not Contrato:
+    contrato = db.session.get(Contrato, id)
+    if not contrato:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -113,8 +113,8 @@ def editar_contrato(id):
 @role_required('admin')
 def eliminar_contrato(id):
     """Eliminar/Desactivar contrato (solo admin)"""
-    contrato = Contrato = db.session.get(Contrato, id)
-    if not Contrato:
+    contrato = db.session.get(Contrato, id)
+    if not contrato:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -130,8 +130,8 @@ def eliminar_contrato(id):
 @login_required
 def ver_contrato(id):
     """Ver detalle del contrato"""
-    contrato = Contrato = db.session.get(Contrato, id)
-    if not Contrato:
+    contrato = db.session.get(Contrato, id)
+    if not contrato:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -151,8 +151,8 @@ def ver_contrato(id):
 @login_required
 def registrar_servicio(id):
     """Registrar servicio realizado en el contrato"""
-    contrato = Contrato = db.session.get(Contrato, id)
-    if not Contrato:
+    contrato = db.session.get(Contrato, id)
+    if not contrato:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     

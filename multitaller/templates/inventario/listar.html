@@ -62,7 +62,7 @@
                     <td>{{ pieza.nombre }}</td>
                     <td>{{ pieza.categoria or 'Sin categoría' }}</td>
                     <td>
-                        <span class="badge bg-{% if pieza.cantidad == 0 %}danger{% elif pieza.cantidad <= pieza.stock_minimo %}warning{% else %}success{% endif %}">
+                        <span class="badge bg-{% if pieza.cantidad == 0 %}danger{% elif pieza.cantidad <= pieza.cantidad_minima %}warning{% else %}success{% endif %}">
                             {{ pieza.cantidad }}
                         </span>
                     </td>

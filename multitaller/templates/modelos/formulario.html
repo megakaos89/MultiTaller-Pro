@@ -24,26 +24,33 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Nombre del Modelo</label>
-                    <input type="text" class="form-control" name="nombre_modelo" value="{{ modelo.nombre_modelo if modelo else '' }}" required>
+                    <input type="text" class="form-control" name="modelo" value="{{ modelo.modelo if modelo else '' }}" required>
                 </div>
             </div>
             
             <div class="mb-3">
                 <label class="form-label">Tipo de Equipo</label>
-                <select class="form-select" name="tipo_equipo" required>
+                <select class="form-select" name="tipo" required>
                     <option value="">Seleccionar...</option>
-                    <option value="Laptop" {% if modelo and modelo.tipo_equipo == 'Laptop' %}selected{% endif %}>Laptop</option>
-                    <option value="PC Escritorio" {% if modelo and modelo.tipo_equipo == 'PC Escritorio' %}selected{% endif %}>PC Escritorio</option>
-                    <option value="Smartphone" {% if modelo and modelo.tipo_equipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
-                    <option value="Tablet" {% if modelo and modelo.tipo_equipo == 'Tablet' %}selected{% endif %}>Tablet</option>
-                    <option value="Impresora" {% if modelo and modelo.tipo_equipo == 'Impresora' %}selected{% endif %}>Impresora</option>
-                    <option value="Otro" {% if modelo and modelo.tipo_equipo == 'Otro' %}selected{% endif %}>Otro</option>
+                    {% for tipo_opcion in tipos_equipo %}
+                    <option value="{{ tipo_opcion }}" {% if modelo and modelo.tipo == tipo_opcion %}selected{% endif %}>{{ tipo_opcion }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
             <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion" rows="3">{{ modelo.descripcion if modelo else '' }}</textarea>
+                <label class="form-label">Especificaciones</label>
+                <textarea class="form-control" name="especificaciones" rows="3">{{ modelo.especificaciones if modelo else '' }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Problemas Frecuentes</label>
+                <textarea class="form-control" name="problemas_frecuentes" rows="2">{{ modelo.problemas_frecuentes if modelo else '' }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Notas de Servicio</label>
+                <textarea class="form-control" name="notas_servicio" rows="2">{{ modelo.notas_servicio if modelo else '' }}</textarea>
             </div>
             
             <button type="submit" class="btn btn-primary">{% if editando %}Actualizar{% else %}Crear{% endif %}</button>
