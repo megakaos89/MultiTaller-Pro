@@ -1,109 +1,94 @@
 {% extends "base.html" %}
 
 {% block title %}Panel de Control - MultiTaller{% endblock %}
+{% block page_title %}📊 Panel de Control{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">📊 Panel de Control</h2>
-
-<!-- Selector de período -->
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="btn-group" role="group">
-            <a href="{{ url_for('dashboard.index', periodo='hoy') }}" class="btn btn-outline-primary {% if periodo == 'hoy' %}active{% endif %}">Hoy</a>
-            <a href="{{ url_for('dashboard.index', periodo='semana') }}" class="btn btn-outline-primary {% if periodo == 'semana' %}active{% endif %}">Semana</a>
-            <a href="{{ url_for('dashboard.index', periodo='mes') }}" class="btn btn-outline-primary {% if periodo == 'mes' %}active{% endif %}">Mes</a>
-            <a href="{{ url_for('dashboard.index', periodo='ano') }}" class="btn btn-outline-primary {% if periodo == 'ano' %}active{% endif %}">Año</a>
-        </div>
-    </div>
-</div>
-
 <!-- Tarjetas de resumen -->
 <div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card bg-primary text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Órdenes Activas</h5>
-                <h2 class="display-4">{{ ordenes_activas }}</h2>
-                <a href="{{ url_for('ordenes.listar_ordenes') }}" class="text-white">Ver todas →</a>
-            </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="summary-card primary animate-fade-in-up delay-1">
+            <span class="summary-card-icon"><i class="bi bi-clipboard-check"></i></span>
+            <div class="summary-card-label">Órdenes Activas</div>
+            <div class="summary-card-value">{{ ordenes_activas }}</div>
+            <a href="{{ url_for('ordenes.listar_ordenes') }}" class="summary-card-link">Ver todas →</a>
         </div>
     </div>
     
-    <div class="col-md-3">
-        <div class="card bg-warning text-dark h-100">
-            <div class="card-body">
-                <h5 class="card-title">Pendientes Diagnóstico</h5>
-                <h2 class="display-4">{{ ordenes_pendientes_diagnostico }}</h2>
-            </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="summary-card warning animate-fade-in-up delay-2">
+            <span class="summary-card-icon"><i class="bi bi-hourglass-split"></i></span>
+            <div class="summary-card-label">Pendientes Diagnóstico</div>
+            <div class="summary-card-value">{{ ordenes_pendientes_diagnostico }}</div>
         </div>
     </div>
     
-    <div class="col-md-3">
-        <div class="card bg-success text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Listas para Entregar</h5>
-                <h2 class="display-4">{{ ordenes_listas_entregar }}</h2>
-            </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="summary-card success animate-fade-in-up delay-3">
+            <span class="summary-card-icon"><i class="bi bi-check-circle"></i></span>
+            <div class="summary-card-label">Listas para Entregar</div>
+            <div class="summary-card-value">{{ ordenes_listas_entregar }}</div>
         </div>
     </div>
     
-    <div class="col-md-3">
-        <div class="card bg-danger text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Piezas Bajo Stock</h5>
-                <h2 class="display-4">{{ piezas_bajo_stock|length }}</h2>
-                {% if piezas_bajo_stock %}
-                <a href="{{ url_for('inventario.listar_piezas', bajo_stock='1') }}" class="text-white">Ver →</a>
-                {% endif %}
-            </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="summary-card danger animate-fade-in-up delay-4">
+            <span class="summary-card-icon"><i class="bi bi-exclamation-triangle"></i></span>
+            <div class="summary-card-label">Piezas Bajo Stock</div>
+            <div class="summary-card-value">{{ piezas_bajo_stock|length }}</div>
+            {% if piezas_bajo_stock %}
+            <a href="{{ url_for('inventario.listar_piezas', bajo_stock='1') }}" class="summary-card-link">Ver →</a>
+            {% endif %}
         </div>
     </div>
 </div>
 
 <!-- Próximos mantenimientos y Garantías -->
 <div class="row g-4 mb-4">
-    <div class="col-md-6">
-        <div class="card h-100">
+    <div class="col-lg-6">
+        <div class="card h-100 animate-fade-in-up">
             <div class="card-header bg-info text-white">
-                🔔 Próximos Mantenimientos (esta semana)
+                <i class="bi bi-bell me-2"></i>Próximos Mantenimientos (esta semana)
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
                 {% if proximos_mantenimientos %}
-                <ul class="list-group list-group-flush">
+                <div class="list-group list-group-flush">
                     {% for m in proximos_mantenimientos %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="maintenance-item">
                         <div>
                             <strong>{{ m.cliente.nombre_completo }}</strong><br>
                             <small class="text-muted">Frecuencia: {{ m.contrato.frecuencia }}</small>
                         </div>
                         <span class="badge bg-primary rounded-pill">{{ m.fecha_proxima.strftime('%d/%m') }}</span>
-                    </li>
+                    </div>
                     {% endfor %}
-                </ul>
+                </div>
                 {% else %}
-                <p class="text-muted text-center">No hay mantenimientos programados esta semana</p>
+                <p class="text-muted text-center py-4">No hay mantenimientos programados esta semana</p>
                 {% endif %}
             </div>
         </div>
     </div>
     
-    <div class="col-md-6">
-        <div class="card h-100">
+    <div class="col-lg-6">
+        <div class="card h-100 animate-fade-in-up">
             <div class="card-header bg-warning">
-                ⚠️ Garantías por Vencer (15 días)
+                <i class="bi bi-shield-exclamation me-2"></i>Garantías por Vencer (15 días)
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
                 {% if garantias_por_vencer %}
-                <ul class="list-group list-group-flush">
+                <div class="list-group list-group-flush">
                     {% for orden in garantias_por_vencer %}
-                    <li class="list-group-item">
-                        <strong>{{ orden.numero_orden }}</strong> - {{ orden.cliente.nombre_completo }}<br>
-                        <small class="text-muted">Vence: {{ orden.fecha_fin_garantia.strftime('%d/%m/%Y') }}</small>
-                    </li>
+                    <div class="maintenance-item urgent">
+                        <div>
+                            <strong>{{ orden.numero_orden }}</strong> - {{ orden.cliente.nombre_completo }}<br>
+                            <small class="text-muted">Vence: {{ orden.fecha_fin_garantia.strftime('%d/%m/%Y') }}</small>
+                        </div>
+                    </div>
                     {% endfor %}
-                </ul>
+                </div>
                 {% else %}
-                <p class="text-muted text-center">No hay garantías próximas a vencer</p>
+                <p class="text-muted text-center py-4">No hay garantías próximas a vencer</p>
                 {% endif %}
             </div>
         </div>
@@ -111,34 +96,34 @@
 </div>
 
 <!-- Panel Financiero -->
-<div class="card mb-4">
+<div class="card mb-4 animate-fade-in-up">
     <div class="card-header bg-dark text-white">
-        💰 Panel Financiero ({{ periodo }})
+        <i class="bi bi-currency-dollar me-2"></i>Panel Financiero ({{ periodo }})
     </div>
     <div class="card-body">
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-3">
-                <div class="text-center">
-                    <h6 class="text-muted">Ingresos Brutos</h6>
-                    <h4 class="text-success">{{ "%.2f"|format(datos_financieros.ingresos_brutos) }} {{ moneda_principal }}</h4>
+                <div class="text-center p-3 bg-light rounded">
+                    <h6 class="text-muted mb-2">Ingresos Brutos</h6>
+                    <h4 class="text-success-custom mb-0">{{ "%.2f"|format(datos_financieros.ingresos_brutos) }} {{ moneda_principal }}</h4>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="text-center">
-                    <h6 class="text-muted">Costo Piezas</h6>
-                    <h4 class="text-danger">{{ "%.2f"|format(datos_financieros.costo_piezas) }} {{ moneda_principal }}</h4>
+                <div class="text-center p-3 bg-light rounded">
+                    <h6 class="text-muted mb-2">Costo Piezas</h6>
+                    <h4 class="text-danger-custom mb-0">{{ "%.2f"|format(datos_financieros.costo_piezas) }} {{ moneda_principal }}</h4>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="text-center">
-                    <h6 class="text-muted">Gastos Operativos</h6>
-                    <h4 class="text-danger">{{ "%.2f"|format(datos_financieros.gastos_operativos) }} {{ moneda_principal }}</h4>
+                <div class="text-center p-3 bg-light rounded">
+                    <h6 class="text-muted mb-2">Gastos Operativos</h6>
+                    <h4 class="text-danger-custom mb-0">{{ "%.2f"|format(datos_financieros.gastos_operativos) }} {{ moneda_principal }}</h4>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="text-center">
-                    <h6 class="text-muted">Ganancia Neta</h6>
-                    <h4 class="text-primary">{{ "%.2f"|format(datos_financieros.ganancia_neta) }} {{ moneda_principal }}</h4>
+                <div class="text-center p-3 bg-light rounded">
+                    <h6 class="text-muted mb-2">Ganancia Neta</h6>
+                    <h4 class="text-primary-custom mb-0">{{ "%.2f"|format(datos_financieros.ganancia_neta) }} {{ moneda_principal }}</h4>
                 </div>
             </div>
         </div>
@@ -147,19 +132,19 @@
             <div class="col-md-4">
                 <div class="text-center">
                     <h6 class="text-muted">ISIP Estimado</h6>
-                    <h5 class="text-warning">{{ "%.2f"|format(datos_financieros.isip_estimado) }} {{ moneda_principal }}</h5>
+                    <h5 class="text-warning-custom">{{ "%.2f"|format(datos_financieros.isip_estimado) }} {{ moneda_principal }}</h5>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="text-center">
                     <h6 class="text-muted">Seguridad Social</h6>
-                    <h5 class="text-warning">{{ "%.2f"|format(datos_financieros.seguridad_social) }} {{ moneda_principal }}</h5>
+                    <h5 class="text-warning-custom">{{ "%.2f"|format(datos_financieros.seguridad_social) }} {{ moneda_principal }}</h5>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="text-center">
                     <h6 class="text-muted">Total Tributos</h6>
-                    <h5 class="text-danger">{{ "%.2f"|format(datos_financieros.total_tributos) }} {{ moneda_principal }}</h5>
+                    <h5 class="text-danger-custom">{{ "%.2f"|format(datos_financieros.total_tributos) }} {{ moneda_principal }}</h5>
                 </div>
             </div>
         </div>
@@ -167,39 +152,42 @@
 </div>
 
 <!-- Últimas órdenes -->
-<div class="card">
-    <div class="card-header">
-        📋 Últimas Órdenes
+<div class="card animate-fade-in-up">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-list-ul me-2"></i>Últimas Órdenes</span>
+        <a href="{{ url_for('ordenes.listar_ordenes') }}" class="btn btn-sm btn-outline-primary">Ver todas</a>
     </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Número</th>
-                    <th>Cliente</th>
-                    <th>Tipo Servicio</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for orden in ultimas_ordenes %}
-                <tr>
-                    <td><a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}">{{ orden.numero_orden }}</a></td>
-                    <td>{{ orden.cliente.nombre_completo }}</td>
-                    <td>{{ orden.tipo_servicio }}</td>
-                    <td>
-                        <span class="badge bg-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% elif 'Listo' in orden.estado_general %}info{% else %}warning{% endif %}">
-                            {{ orden.estado_general }}
-                        </span>
-                    </td>
-                    <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
-                    <td>{{ "%.2f"|format(orden.costo_total) }} {{ moneda_principal }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Tipo Servicio</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orden in ultimas_ordenes %}
+                    <tr>
+                        <td><a href="{{ url_for('ordenes.ver_orden', id=orden.id) }}">{{ orden.numero_orden }}</a></td>
+                        <td>{{ orden.cliente.nombre_completo }}</td>
+                        <td>{{ orden.tipo_servicio }}</td>
+                        <td>
+                            <span class="badge badge-soft-{% if orden.estado_general == 'Entregado' %}success{% elif orden.estado_general == 'Cancelado' %}danger{% elif 'Listo' in orden.estado_general %}info{% else %}warning{% endif %}">
+                                {{ orden.estado_general }}
+                            </span>
+                        </td>
+                        <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ "%.2f"|format(orden.costo_total) }} {{ moneda_principal }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

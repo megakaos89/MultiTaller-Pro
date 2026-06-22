@@ -4,124 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}MultiTaller{% endblock %}</title>
+    <!-- Bootstrap 5 local -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Estilos personalizados modernos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% if not info_licencia or not info_licencia.activada %}
+    {% if info_licencia or not info_licencia.activada %}
     <!-- Barra de aviso de licencia -->
     <div class="license-bar {% if info_licencia and info_licencia.en_prueba %}warning{% else %}danger{% endif %}">
-        <div class="container">
+        <div class="container-fluid">
             <span>{{ info_licencia.mensaje if info_licencia else 'Sistema no activado' }}</span>
             {% if not info_licencia or not info_licencia.activada %}
-            <a href="{{ url_for('licencias.activacion') }}" class="btn btn-sm btn-light ms-3">Activar ahora</a>
+            <a href="{{ url_for('licencias.activacion') }}" class="btn btn-sm btn-light">Activar ahora</a>
             {% endif %}
         </div>
     </div>
     {% endif %}
-
+    
     {% if usuario %}
-    <div class="d-flex" id="wrapper">
+    <div id="wrapper" class="{% if request.cookies.get('sidebar_mini') == 'true' %}sidebar-mini{% endif %}">
         <!-- Sidebar -->
-        <div class="sidebar" id="sidebar-wrapper">
-            <div class="sidebar-heading">
-                <h4>🔧 MultiTaller</h4>
+        <aside id="sidebar-wrapper">
+            <div class="sidebar-brand">
+                <h4>
+                    <span class="sidebar-brand-icon">🔧</span>
+                    <span>MultiTaller</span>
+                </h4>
             </div>
-            <div class="list-group list-group-flush">
-                <a href="{{ url_for('dashboard.index') }}" class="list-group-item list-group-item-action {% if request.endpoint == 'dashboard.index' %}active{% endif %}">
-                    📊 Panel de Control
+            <nav class="sidebar-menu">
+                <a href="{{ url_for('dashboard.index') }}" class="sidebar-item {% if request.endpoint == 'dashboard.index' %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-speedometer2"></i></span>
+                    <span class="sidebar-item-text">Panel de Control</span>
                 </a>
                 
-                <a href="{{ url_for('ordenes.listar_ordenes') }}" class="list-group-item list-group-item-action {% if 'ordenes' in request.endpoint %}active{% endif %}">
-                    📋 Órdenes de Servicio
+                <a href="{{ url_for('ordenes.listar_ordenes') }}" class="sidebar-item {% if 'ordenes' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-clipboard-check"></i></span>
+                    <span class="sidebar-item-text">Órdenes de Servicio</span>
                 </a>
                 
-                <a href="{{ url_for('clientes.listar_clientes') }}" class="list-group-item list-group-item-action {% if 'clientes' in request.endpoint %}active{% endif %}">
-                    👥 Clientes
+                <a href="{{ url_for('clientes.listar_clientes') }}" class="sidebar-item {% if 'clientes' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-people"></i></span>
+                    <span class="sidebar-item-text">Clientes</span>
                 </a>
                 
-                <a href="{{ url_for('dispositivos.listar_dispositivos') }}" class="list-group-item list-group-item-action {% if 'dispositivos' in request.endpoint %}active{% endif %}">
-                    💻 Dispositivos
+                <a href="{{ url_for('dispositivos.listar_dispositivos') }}" class="sidebar-item {% if 'dispositivos' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-laptop"></i></span>
+                    <span class="sidebar-item-text">Dispositivos</span>
                 </a>
                 
-                <a href="{{ url_for('modelos.listar_modelos') }}" class="list-group-item list-group-item-action {% if 'modelos' in request.endpoint %}active{% endif %}">
-                    📦 Modelos de Equipos
+                <a href="{{ url_for('modelos.listar_modelos') }}" class="sidebar-item {% if 'modelos' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-box-seam"></i></span>
+                    <span class="sidebar-item-text">Modelos de Equipos</span>
                 </a>
                 
-                <a href="{{ url_for('inventario.listar_piezas') }}" class="list-group-item list-group-item-action {% if 'inventario' in request.endpoint %}active{% endif %}">
-                    🔩 Inventario
+                <a href="{{ url_for('inventario.listar_piezas') }}" class="sidebar-item {% if 'inventario' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-gear"></i></span>
+                    <span class="sidebar-item-text">Inventario</span>
                 </a>
                 
-                <a href="{{ url_for('proveedores.listar_proveedores') }}" class="list-group-item list-group-item-action {% if 'proveedores' in request.endpoint %}active{% endif %}">
-                    🚚 Proveedores
+                <a href="{{ url_for('proveedores.listar_proveedores') }}" class="sidebar-item {% if 'proveedores' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-truck"></i></span>
+                    <span class="sidebar-item-text">Proveedores</span>
                 </a>
                 
                 {% if usuario.rol == 'admin' %}
-                <a href="{{ url_for('tecnicos.listar_tecnicos') }}" class="list-group-item list-group-item-action {% if 'tecnicos' in request.endpoint %}active{% endif %}">
-                    👨‍🔧 Técnicos
+                <a href="{{ url_for('tecnicos.listar_tecnicos') }}" class="sidebar-item {% if 'tecnicos' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-person-gear"></i></span>
+                    <span class="sidebar-item-text">Técnicos</span>
                 </a>
                 
-                <a href="{{ url_for('contratos.listar_contratos') }}" class="list-group-item list-group-item-action {% if 'contratos' in request.endpoint %}active{% endif %}">
-                    📄 Contratos
+                <a href="{{ url_for('contratos.listar_contratos') }}" class="sidebar-item {% if 'contratos' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-file-earmark-text"></i></span>
+                    <span class="sidebar-item-text">Contratos</span>
                 </a>
                 
-                <a href="{{ url_for('gastos.listar_gastos') }}" class="list-group-item list-group-item-action {% if 'gastos' in request.endpoint %}active{% endif %}">
-                    💰 Gastos
+                <a href="{{ url_for('gastos.listar_gastos') }}" class="sidebar-item {% if 'gastos' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-cash-coin"></i></span>
+                    <span class="sidebar-item-text">Gastos</span>
                 </a>
                 
-                <a href="{{ url_for('reportes.menu_reportes') }}" class="list-group-item list-group-item-action {% if 'reportes' in request.endpoint %}active{% endif %}">
-                    📈 Reportes
+                <a href="{{ url_for('reportes.menu_reportes') }}" class="sidebar-item {% if 'reportes' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-graph-up"></i></span>
+                    <span class="sidebar-item-text">Reportes</span>
                 </a>
                 
-                <a href="{{ url_for('auth.gestionar_usuarios') }}" class="list-group-item list-group-item-action {% if request.endpoint == 'auth.gestionar_usuarios' %}active{% endif %}">
-                    👤 Usuarios
+                <a href="{{ url_for('auth.gestionar_usuarios') }}" class="sidebar-item {% if request.endpoint == 'auth.gestionar_usuarios' %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-person-badge"></i></span>
+                    <span class="sidebar-item-text">Usuarios</span>
                 </a>
                 
-                <a href="{{ url_for('configuracion.ver_configuracion') }}" class="list-group-item list-group-item-action {% if 'configuracion' in request.endpoint %}active{% endif %}">
-                    ⚙️ Configuración
+                <a href="{{ url_for('configuracion.ver_configuracion') }}" class="sidebar-item {% if 'configuracion' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-sliders"></i></span>
+                    <span class="sidebar-item-text">Configuración</span>
                 </a>
                 
-                <a href="{{ url_for('licencias.gestionar_licencias') }}" class="list-group-item list-group-item-action {% if 'licencias.gestionar' in request.endpoint %}active{% endif %}">
-                    🎫 Licencias
+                <a href="{{ url_for('licencias.gestionar_licencias') }}" class="sidebar-item {% if 'licencias.gestionar' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-patch-check"></i></span>
+                    <span class="sidebar-item-text">Licencias</span>
                 </a>
                 {% endif %}
                 
-                <a href="{{ url_for('ayuda.index') }}" class="list-group-item list-group-item-action {% if 'ayuda' in request.endpoint %}active{% endif %}">
-                    ❓ Ayuda
+                <a href="{{ url_for('ayuda.index') }}" class="sidebar-item {% if 'ayuda' in request.endpoint %}active{% endif %}">
+                    <span class="sidebar-item-icon"><i class="bi bi-question-circle"></i></span>
+                    <span class="sidebar-item-text">Ayuda</span>
                 </a>
-            </div>
-        </div>
+            </nav>
+        </aside>
         
-        <!-- Page Content -->
-        <div id="page-content-wrapper" class="w-100">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-link" id="menu-toggle">☰</button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                    {{ usuario.nombre_completo }} ({{ usuario.rol|capitalize }})
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="{{ url_for('auth.perfil') }}">Mi Perfil</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ url_for('licencias.acerca_de') }}">Acerca de</a>
-                                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar Sesión</a>
-                                </div>
-                            </li>
-                        </ul>
+        <!-- Topbar -->
+        <header class="topbar {% if info_licencia or not info_licencia.activada %}has-license-bar{% endif %}">
+            <div class="topbar-left">
+                <button class="menu-toggle-btn" id="menu-toggle" title="Menú">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h1 class="topbar-title">{% block page_title %}Panel{% endblock %}</h1>
+            </div>
+            
+            <div class="topbar-right">
+                <!-- Selector de período (solo en dashboard) -->
+                {% if request.endpoint == 'dashboard.index' %}
+                <div class="period-selector d-none d-md-block">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a href="{{ url_for('dashboard.index', periodo='hoy') }}" class="btn btn-outline-primary {% if periodo == 'hoy' %}active{% endif %}">Hoy</a>
+                        <a href="{{ url_for('dashboard.index', periodo='semana') }}" class="btn btn-outline-primary {% if periodo == 'semana' %}active{% endif %}">Semana</a>
+                        <a href="{{ url_for('dashboard.index', periodo='mes') }}" class="btn btn-outline-primary {% if periodo == 'mes' %}active{% endif %}">Mes</a>
+                        <a href="{{ url_for('dashboard.index', periodo='ano') }}" class="btn btn-outline-primary {% if periodo == 'ano' %}active{% endif %}">Año</a>
                     </div>
                 </div>
-            </nav>
-            
-            <div class="container-fluid py-4">
+                {% endif %}
+                
+                <!-- Botón tema oscuro/claro -->
+                <button class="theme-toggle-btn" id="theme-toggle" title="Cambiar tema">
+                    <i class="bi bi-moon-fill"></i>
+                </button>
+                
+                <!-- Menú de usuario -->
+                <div class="dropdown">
+                    <div class="user-menu" data-bs-toggle="dropdown">
+                        <div class="user-avatar">{{ usuario.nombre_completo[0]|upper }}</div>
+                        <span class="user-name d-none d-md-inline">{{ usuario.nombre_completo }}</span>
+                        <i class="bi bi-chevron-down ms-1"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('auth.perfil') }}"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('licencias.acerca_de') }}"><i class="bi bi-info-circle me-2"></i>Acerca de</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Contenido Principal -->
+        <main id="page-content-wrapper">
+            <div class="container-fluid">
+                <!-- Alertas flash -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
                             {{ message }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
@@ -131,14 +175,15 @@
                 
                 {% block content %}{% endblock %}
             </div>
-        </div>
+        </main>
     </div>
     {% else %}
+    <!-- Layout público (login, etc.) -->
     <div class="container-fluid">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -150,8 +195,10 @@
     </div>
     {% endif %}
 
+    <!-- Bootstrap JS -->
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- App JavaScript moderno -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
