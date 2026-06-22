@@ -13,18 +13,6 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% if info_licencia or not info_licencia.activada %}
-    <!-- Barra de aviso de licencia -->
-    <div class="license-bar {% if info_licencia and info_licencia.en_prueba %}warning{% else %}danger{% endif %}">
-        <div class="container-fluid">
-            <span>{{ info_licencia.mensaje if info_licencia else 'Sistema no activado' }}</span>
-            {% if not info_licencia or not info_licencia.activada %}
-            <a href="{{ url_for('licencias.activacion') }}" class="btn btn-sm btn-light">Activar ahora</a>
-            {% endif %}
-        </div>
-    </div>
-    {% endif %}
-    
     {% if usuario %}
     <div id="wrapper" class="{% if request.cookies.get('sidebar_mini') == 'true' %}sidebar-mini{% endif %}">
         <!-- Sidebar -->
@@ -116,7 +104,7 @@
         </aside>
         
         <!-- Topbar -->
-        <header class="topbar {% if info_licencia or not info_licencia.activada %}has-license-bar{% endif %}">
+        <header class="topbar">
             <div class="topbar-left">
                 <button class="menu-toggle-btn" id="menu-toggle" title="Menú">
                     <i class="bi bi-list"></i>
