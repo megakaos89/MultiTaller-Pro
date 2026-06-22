@@ -123,7 +123,7 @@ def reporte_productividad():
             'ordenes_totales': len(ordenes_periodo),
             'ordenes_completadas': len(completadas),
             'ingresos_generados': ingresos_generados,
-            'promedio_dias': round(promedio_dias, 1)
+            'tiempo_promedio': round(promedio_dias, 1)
         })
     
     productividad_data.sort(key=lambda x: x['ordenes_completadas'], reverse=True)

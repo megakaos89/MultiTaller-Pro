@@ -2,7 +2,7 @@
 Blueprint para sistema de ayuda en línea
 """
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from routes.auth import login_required
 
 ayuda_bp = Blueprint('ayuda', __name__)
