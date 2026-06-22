@@ -85,7 +85,7 @@ def editar_modelo(id):
     modelo = db.session.get(ModeloEquipo, id)
     if not modelo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         modelo.marca = request.form.get('marca', '').strip()
@@ -113,7 +113,7 @@ def eliminar_modelo(id):
     modelo = db.session.get(ModeloEquipo, id)
     if not modelo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene dispositivos asociados
     if modelo.dispositivos:
@@ -133,7 +133,7 @@ def ver_modelo(id):
     modelo = db.session.get(ModeloEquipo, id)
     if not modelo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     piezas_compatibles = PiezaCompatible.query.filter_by(modelo_id=id).all()
     
     return render_template('modelos/detalle.html', 

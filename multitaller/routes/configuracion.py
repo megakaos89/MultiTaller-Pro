@@ -110,7 +110,7 @@ def editar_configuracion():
     if 'isip_tramos' in configs_dict:
         try:
             tramos_isip = json.loads(configs_dict['isip_tramos'])
-        except:
+        except Exception as e:
             tramos_isip = []
     
     # Asegurar 5 tramos

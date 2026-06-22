@@ -85,7 +85,7 @@ def editar_contrato(id):
     contrato = db.session.get(Contrato, id)
     if not contrato:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         contrato.cliente_id = request.form.get('cliente_id', type=int)
@@ -116,7 +116,7 @@ def eliminar_contrato(id):
     contrato = db.session.get(Contrato, id)
     if not contrato:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # En lugar de eliminar, desactivamos
     contrato.activo = False
@@ -133,7 +133,7 @@ def ver_contrato(id):
     contrato = db.session.get(Contrato, id)
     if not contrato:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Calcular próximo mantenimiento
     proximo_mantenimiento = contrato.get_proximo_mantenimiento()
@@ -154,7 +154,7 @@ def registrar_servicio(id):
     contrato = db.session.get(Contrato, id)
     if not contrato:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     fecha_servicio = request.form.get('fecha_servicio')
     

@@ -77,7 +77,7 @@ def editar_proveedor(id):
     proveedor = Proveedor = db.session.get(Proveedor, id)
     if not Proveedor:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         proveedor.nombre = request.form.get('nombre', '').strip()
@@ -100,7 +100,7 @@ def eliminar_proveedor(id):
     proveedor = Proveedor = db.session.get(Proveedor, id)
     if not Proveedor:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene piezas asociadas
     if proveedor.piezas:
@@ -120,7 +120,7 @@ def ver_proveedor(id):
     proveedor = Proveedor = db.session.get(Proveedor, id)
     if not Proveedor:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     piezas = Pieza.query.filter_by(proveedor_id=id).all()
     
     return render_template('proveedores/detalle.html', 
