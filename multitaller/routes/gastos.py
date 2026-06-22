@@ -86,8 +86,8 @@ def nuevo_gasto():
 @role_required('admin')
 def editar_gasto(id):
     """Editar gasto existente"""
-    gasto = Gasto = db.session.get(Gasto, id)
-    if not Gasto:
+    gasto = db.session.get(Gasto, id)
+    if not gasto:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -113,8 +113,8 @@ def editar_gasto(id):
 @role_required('admin')
 def eliminar_gasto(id):
     """Eliminar gasto (solo admin)"""
-    gasto = Gasto = db.session.get(Gasto, id)
-    if not Gasto:
+    gasto = db.session.get(Gasto, id)
+    if not gasto:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     

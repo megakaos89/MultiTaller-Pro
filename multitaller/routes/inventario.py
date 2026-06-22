@@ -118,8 +118,8 @@ def nueva_pieza():
 @role_required('admin', 'tecnico')
 def editar_pieza(id):
     """Editar pieza existente"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -154,8 +154,8 @@ def editar_pieza(id):
 @login_required
 def ver_pieza(id):
     """Ver detalle de pieza con movimientos y compatibilidades"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     movimientos = MovimientoInventario.query.filter_by(pieza_id=id).order_by(MovimientoInventario.fecha_movimiento.desc()).limit(50).all()
@@ -172,8 +172,8 @@ def ver_pieza(id):
 @role_required('admin')
 def eliminar_pieza(id):
     """Eliminar pieza (solo admin)"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -193,8 +193,8 @@ def eliminar_pieza(id):
 @role_required('admin', 'tecnico')
 def registrar_entrada(id):
     """Registrar entrada de pieza al inventario"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -240,8 +240,8 @@ def registrar_entrada(id):
 @role_required('admin', 'tecnico')
 def registrar_salida(id):
     """Registrar salida de pieza del inventario"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -284,8 +284,8 @@ def registrar_salida(id):
 @role_required('admin', 'tecnico')
 def gestionar_compatibilidad(id):
     """Gestionar compatibilidad de pieza con modelos"""
-    pieza = Pieza = db.session.get(Pieza, id)
-    if not Pieza:
+    pieza = db.session.get(Pieza, id)
+    if not pieza:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     

@@ -82,8 +82,8 @@ def nuevo_modelo():
 @login_required
 def editar_modelo(id):
     """Editar modelo existente"""
-    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
-    if not ModeloEquipo:
+    modelo = db.session.get(ModeloEquipo, id)
+    if not modelo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -110,8 +110,8 @@ def editar_modelo(id):
 @role_required('admin')
 def eliminar_modelo(id):
     """Eliminar modelo (solo admin)"""
-    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
-    if not ModeloEquipo:
+    modelo = db.session.get(ModeloEquipo, id)
+    if not modelo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     
@@ -130,8 +130,8 @@ def eliminar_modelo(id):
 @login_required
 def ver_modelo(id):
     """Ver detalle del modelo con compatibilidades"""
-    modelo = ModeloEquipo = db.session.get(ModeloEquipo, id)
-    if not ModeloEquipo:
+    modelo = db.session.get(ModeloEquipo, id)
+    if not modelo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('index'))
     piezas_compatibles = PiezaCompatible.query.filter_by(modelo_id=id).all()
