@@ -121,7 +121,7 @@ def editar_pieza(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         pieza.nombre = request.form.get('nombre', '').strip()
@@ -157,7 +157,7 @@ def ver_pieza(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     movimientos = MovimientoInventario.query.filter_by(pieza_id=id).order_by(MovimientoInventario.fecha_movimiento.desc()).limit(50).all()
     compatibilidades = PiezaCompatible.query.filter_by(pieza_id=id).all()
     
@@ -175,7 +175,7 @@ def eliminar_pieza(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene movimientos o está en órdenes
     if pieza.movimientos or pieza.usos_en_ordenes:
@@ -196,7 +196,7 @@ def registrar_entrada(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         cantidad = request.form.get('cantidad', type=int, default=0)
@@ -243,7 +243,7 @@ def registrar_salida(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         cantidad = request.form.get('cantidad', type=int, default=0)
@@ -287,7 +287,7 @@ def gestionar_compatibilidad(id):
     pieza = db.session.get(Pieza, id)
     if not pieza:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         modelo_id = request.form.get('modelo_id', type=int)

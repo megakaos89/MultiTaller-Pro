@@ -57,7 +57,7 @@ def editar_tecnico(id):
     tecnico = Tecnico = db.session.get(Tecnico, id)
     if not Tecnico:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         tecnico.nombre = request.form.get('nombre', '').strip()
@@ -79,7 +79,7 @@ def eliminar_tecnico(id):
     tecnico = Tecnico = db.session.get(Tecnico, id)
     if not Tecnico:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene órdenes asignadas
     if tecnico.ordenes_asignadas:
@@ -99,7 +99,7 @@ def ver_tecnico(id):
     tecnico = Tecnico = db.session.get(Tecnico, id)
     if not Tecnico:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Estadísticas básicas
     ordenes_asignadas = Orden.query.filter_by(tecnico_id=id).all()

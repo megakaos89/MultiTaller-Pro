@@ -145,10 +145,10 @@ def nueva_orden():
 @login_required
 def ver_orden(id):
     """Ver detalle de orden"""
-    orden = Orden = db.session.get(Orden, id)
-    if not Orden:
+    orden = db.session.get(Orden, id)
+    if not orden:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     dispositivos_orden = OrdenDispositivo.query.filter_by(orden_id=id).all()
     historial = OrdenHistorialEstado.query.filter_by(orden_id=id).order_by(OrdenHistorialEstado.fecha_cambio.desc()).all()
     notas = OrdenNota.query.filter_by(orden_id=id).order_by(OrdenNota.fecha_creacion.desc()).all()
@@ -168,10 +168,10 @@ def ver_orden(id):
 @login_required
 def editar_orden(id):
     """Editar orden existente"""
-    orden = Orden = db.session.get(Orden, id)
-    if not Orden:
+    orden = db.session.get(Orden, id)
+    if not orden:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         orden.tipo_servicio = request.form.get('tipo_servicio', '')
@@ -201,10 +201,10 @@ def editar_orden(id):
 @login_required
 def actualizar_estado(id):
     """Actualizar estado de la orden"""
-    orden = Orden = db.session.get(Orden, id)
-    if not Orden:
+    orden = db.session.get(Orden, id)
+    if not orden:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     nuevo_estado = request.form.get('nuevo_estado', '')
     observaciones = request.form.get('observaciones', '').strip()
     
@@ -240,10 +240,10 @@ def actualizar_estado(id):
 @login_required
 def agregar_nota(id):
     """Agregar nota interna a la orden"""
-    orden = Orden = db.session.get(Orden, id)
-    if not Orden:
+    orden = db.session.get(Orden, id)
+    if not orden:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     contenido = request.form.get('contenido', '').strip()
     
     if not contenido:
@@ -267,10 +267,10 @@ def agregar_nota(id):
 @role_required('admin')
 def eliminar_orden(id):
     """Eliminar orden (solo admin)"""
-    orden = Orden = db.session.get(Orden, id)
-    if not Orden:
+    orden = db.session.get(Orden, id)
+    if not orden:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si está entregada
     if orden.estado_general == 'Entregado':

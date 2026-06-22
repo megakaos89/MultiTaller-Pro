@@ -118,7 +118,7 @@ def editar_dispositivo(id):
     dispositivo = Dispositivo = db.session.get(Dispositivo, id)
     if not Dispositivo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         dispositivo.cliente_id = request.form.get('cliente_id', type=int)
@@ -163,7 +163,7 @@ def eliminar_dispositivo(id):
     dispositivo = Dispositivo = db.session.get(Dispositivo, id)
     if not Dispositivo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene órdenes asociadas
     if dispositivo.ordenes:
@@ -187,7 +187,7 @@ def ver_dispositivo(id):
     dispositivo = Dispositivo = db.session.get(Dispositivo, id)
     if not Dispositivo:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Obtener historial de órdenes
     ordenes_dispositivo = OrdenDispositivo.query.filter_by(dispositivo_id=id).all()

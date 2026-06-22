@@ -29,11 +29,7 @@ def index():
     elif periodo == 'ano':
         fecha_inicio = hoy.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
     else:
-        fecha_inicio = request.args.get('fecha_inicio')
-        if fecha_inicio:
-            fecha_inicio = datetime.fromisoformat(fecha_inicio)
-        else:
-            fecha_inicio = fecha_inicio = hoy.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        fecha_inicio = hoy.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     
     # Contadores de órdenes
     ordenes_activas = Orden.query.filter(

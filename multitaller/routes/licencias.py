@@ -187,7 +187,7 @@ def revocar_licencia(id):
     licencia = Licencia = db.session.get(Licencia, id)
     if not Licencia:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     licencia.activa = False
     db.session.commit()
     flash('Licencia revocada', 'info')

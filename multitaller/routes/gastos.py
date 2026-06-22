@@ -89,7 +89,7 @@ def editar_gasto(id):
     gasto = db.session.get(Gasto, id)
     if not gasto:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     if request.method == 'POST':
         gasto.categoria_id = request.form.get('categoria_id', type=int)
@@ -116,7 +116,7 @@ def eliminar_gasto(id):
     gasto = db.session.get(Gasto, id)
     if not gasto:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     db.session.delete(gasto)
     db.session.commit()
@@ -164,7 +164,7 @@ def eliminar_categoria(id):
     categoria = db.session.get(CategoriaGasto, id)
     if not categoria:
         flash('Registro no encontrado', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard.index'))
     
     # Verificar si tiene gastos asociados
     if categoria.gastos:
