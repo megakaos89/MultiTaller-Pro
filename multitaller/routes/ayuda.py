@@ -63,10 +63,12 @@ def ayuda_modulo(modulo):
                 
                 <h4>Tipos de cliente:</h4>
                 <ul>
-                    <li><strong>Particular:</strong> Personas naturales</li>
+                    <li><strong>Persona natural:</strong> Personas naturales</li>
+                    <li><strong>Mipyme:</strong> Micro, pequeñas y medianas empresas</li>
                     <li><strong>Empresa estatal:</strong> Entidades estatales</li>
-                    <li><strong>Cuentapropista:</strong> Trabajadores por cuenta propia</li>
-                    <li><strong>MIPYME:</strong> Micro, pequeñas y medianas empresas</li>
+                    <li><strong>CPA:</strong> Cooperativas de Producción Agropecuaria</li>
+                    <li><strong>CNA:</strong> Campesinos No Asociados</li>
+                    <li><strong>PDL:</strong> Pequeños Detallistas</li>
                 </ul>
                 
                 <h4>Buscar cliente:</h4>

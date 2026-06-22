@@ -17,8 +17,12 @@
                 <label class="form-label">Tipo Cliente</label>
                 <select class="form-select" name="tipo_cliente">
                     <option value="">Todos</option>
-                    <option value="Particular" {% if tipo_cliente == 'Particular' %}selected{% endif %}>Particular</option>
-                    <option value="Empresa" {% if tipo_cliente == 'Empresa' %}selected{% endif %}>Empresa</option>
+                    <option value="Persona natural" {% if tipo_cliente == 'Persona natural' %}selected{% endif %}>Persona natural</option>
+                    <option value="Mipyme" {% if tipo_cliente == 'Mipyme' %}selected{% endif %}>Mipyme</option>
+                    <option value="Empresa estatal" {% if tipo_cliente == 'Empresa estatal' %}selected{% endif %}>Empresa estatal</option>
+                    <option value="CPA" {% if tipo_cliente == 'CPA' %}selected{% endif %}>CPA</option>
+                    <option value="CNA" {% if tipo_cliente == 'CNA' %}selected{% endif %}>CNA</option>
+                    <option value="PDL" {% if tipo_cliente == 'PDL' %}selected{% endif %}>PDL</option>
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">

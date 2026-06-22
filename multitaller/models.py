@@ -42,7 +42,7 @@ class Cliente(db.Model):
     telefono_fijo = db.Column(db.String(20))
     telefono_movil = db.Column(db.String(20))
     direccion = db.Column(db.String(200))
-    tipo_cliente = db.Column(db.String(30))  # Particular, Empresa estatal, Cuentapropista, MIPYME
+    tipo_cliente = db.Column(db.String(30))  # Persona natural, Mipyme, Empresa estatal, CPA, CNA, PDL
     identificacion = db.Column(db.String(50))  # Opcional
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
     activo = db.Column(db.Boolean, default=True)
