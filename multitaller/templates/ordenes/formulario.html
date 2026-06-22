@@ -14,7 +14,7 @@
                     <option value="">Seleccionar cliente...</option>
                     {% for cliente in clientes %}
                     <option value="{{ cliente.id }}" {% if orden and orden.cliente_id == cliente.id %}selected{% endif %}>
-                        {{ cliente.nombres }} {{ cliente.apellidos }} - {{ cliente.telefono }}
+                        {{ cliente.nombres }} {{ cliente.apellidos }} - {{ cliente.telefono_movil or cliente.telefono_fijo or 'Sin teléfono' }}
                     </option>
                     {% endfor %}
                 </select>
