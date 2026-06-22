@@ -16,21 +16,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cargar preferencia guardada en localStorage
     function loadThemePreference() {
         const savedTheme = localStorage.getItem('multitaller-theme');
-        if (savedTheme === 'dark') {
-            body.setAttribute('data-theme', 'dark');
-            updateThemeIcon(true);
-        } else if (savedTheme === 'light') {
-            body.removeAttribute('data-theme');
+        if (savedTheme === 'light') {
+            body.setAttribute('data-theme', 'light');
             updateThemeIcon(false);
+        } else if (savedTheme === 'dark') {
+            body.removeAttribute('data-theme');
+            updateThemeIcon(true);
         } else {
-            // Preferencia del sistema
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (prefersDark) {
-                body.setAttribute('data-theme', 'dark');
-                updateThemeIcon(true);
-            } else {
-                updateThemeIcon(false);
-            }
+            // Dark mode por defecto
+            body.removeAttribute('data-theme');
+            updateThemeIcon(true);
         }
     }
     
@@ -52,14 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle del tema
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', function() {
-            const isDark = body.hasAttribute('data-theme');
+            const isDark = !body.hasAttribute('data-theme');
             
             if (isDark) {
-                body.removeAttribute('data-theme');
+                body.setAttribute('data-theme', 'light');
                 updateThemeIcon(false);
                 saveThemePreference(false);
             } else {
-                body.setAttribute('data-theme', 'dark');
+                body.removeAttribute('data-theme');
                 updateThemeIcon(true);
                 saveThemePreference(true);
             }
@@ -73,11 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
         if (!localStorage.getItem('multitaller-theme')) {
             if (e.matches) {
-                body.setAttribute('data-theme', 'dark');
+                body.removeAttribute('data-theme');
                 updateThemeIcon(true);
             } else {
                 body.removeAttribute('data-theme');
-                updateThemeIcon(false);
+                updateThemeIcon(true);
             }
         }
     });
