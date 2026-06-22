@@ -1,183 +1,154 @@
 /* ==========================================================================
-   MultiTaller - Estilos Modernos (2025-2026)
-   Diseño limpio, profesional y responsive
+   MultiTaller Pro - Sistema de Diseño UI/UX 2025-2026
+   Diseño SaaS profesional, limpio y responsive
+   Inspirado en: Odoo, ERPNext, Stripe Dashboard, Linear, Notion
    ========================================================================== */
 
 /* ==========================================================================
-   Variables CSS - Temas Claro y Oscuro
+   Variables CSS Globales - Paleta Corporativa
    ========================================================================== */
 :root {
-    /* Paleta de colores principal - Tema Claro */
-    --color-primary: #1e3a5f;        /* Azul medianoche */
-    --color-primary-light: #2c5282;
-    --color-accent: #00b4d8;         /* Cian vibrante */
-    --color-accent-hover: #0096c7;
-    --color-bg: #f0f2f5;             /* Fondo general gris muy claro */
-    --color-surface: #ffffff;        /* Superficies (tarjetas, paneles) */
-    --color-text: #1e3a5f;           /* Texto principal */
-    --color-text-secondary: #6c757d; /* Gris pizarra para textos secundarios */
-    --color-border: #e0e0e0;
-    
-    /* Colores semánticos suaves */
-    --color-success: #10b981;
-    --color-success-bg: #d1fae5;
-    --color-warning: #f59e0b;
-    --color-warning-bg: #fef3c7;
-    --color-danger: #ef4444;
-    --color-danger-bg: #fee2e2;
-    --color-info: #00b4d8;
-    --color-info-bg: #e0f2fe;
-    
-    /* Sombras */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
-    
-    /* Bordes redondeados */
-    --radius-sm: 4px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 12px;
-    
-    /* Transiciones */
-    --transition-fast: 0.15s ease;
-    --transition-normal: 0.2s ease;
-    --transition-slow: 0.3s ease;
-    
-    /* Sidebar */
-    --sidebar-width: 260px;
-    --sidebar-width-mini: 70px;
-    --sidebar-bg: #1e3a5f;
-    --sidebar-text: rgba(255, 255, 255, 0.85);
-    --sidebar-text-hover: #ffffff;
-    --sidebar-active-bg: rgba(255, 255, 255, 0.1);
-    --sidebar-active-border: #00b4d8;
+  /* Colores Primarios */
+  --primary: #2563EB;
+  --primary-hover: #1D4ED8;
+  --primary-light: #EFF6FF;
+
+  /* Colores Secundarios */
+  --secondary: #475569;
+  --secondary-light: #F1F5F9;
+
+  /* Colores Semánticos */
+  --success: #16A34A;
+  --success-bg: #DCFCE7;
+  --warning: #F59E0B;
+  --warning-bg: #FEF3C7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+  --info: #0891B2;
+  --info-bg: #ECFEFF;
+
+  /* Fondos y Superficies */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-hover: #F1F5F9;
+
+  /* Bordes */
+  --border: #E2E8F0;
+  --border-focus: #CBD5E1;
+
+  /* Texto */
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  /* Sidebar */
+  --sidebar-bg: #0F172A;
+  --sidebar-hover: #1E293B;
+  --sidebar-text: #94A3B8;
+  --sidebar-text-active: #FFFFFF;
+  --sidebar-width: 260px;
+  --sidebar-width-mini: 70px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.08);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.1);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,.15);
+
+  /* Bordes Redondeados */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Transiciones */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 /* Tema Oscuro */
 [data-theme="dark"] {
-    --color-primary: #0f3460;
-    --color-primary-light: #1a4a7a;
-    --color-accent: #00b4d8;
-    --color-accent-hover: #0096c7;
-    --color-bg: #1a1a2e;
-    --color-surface: #16213e;
-    --color-text: #e8e8e8;
-    --color-text-secondary: #a0a0a0;
-    --color-border: #2a2a4a;
-    
-    --color-success-bg: #064e3b;
-    --color-warning-bg: #78350f;
-    --color-danger-bg: #7f1d1d;
-    --color-info-bg: #0c4a6e;
-    
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
-    
-    --sidebar-bg: #0f3460;
+  --background: #0F172A;
+  --surface: #1E293B;
+  --surface-hover: #334155;
+  --border: #334155;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --sidebar-bg: #020617;
+  --sidebar-hover: #0F172A;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.4);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.5);
 }
 
 /* ==========================================================================
-   Fuentes - Inter (local)
+   Sistema Tipográfico - Sin dependencias externas
+   Usa fuentes nativas del sistema para máximo rendimiento offline
    ========================================================================== */
-@font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('../fonts/Inter-Regular.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url('../fonts/Inter-Medium.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
-    src: url('../fonts/Inter-SemiBold.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('../fonts/Inter-Bold.woff2') format('woff2');
-}
-
-/* Bootstrap Icons (local) */
-@font-face {
-    font-family: 'bootstrap-icons';
-    src: url('../fonts/bootstrap-icons.woff2') format('woff2');
-}
-
-.bi::before,
-[class^="bi-"]::before,
-[class*=" bi-"]::before {
-    display: inline-block;
-    font-family: bootstrap-icons !important;
-    font-style: normal;
-    font-weight: normal !important;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: -.125em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* ==========================================================================
-   Estilos Base
-   ========================================================================== */
-* {
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    font-size: 15px;
-    line-height: 1.6;
+    font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
     overflow-x: hidden;
     transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
-/* Mejorar legibilidad en tablets */
-@media (min-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    color: var(--color-text);
+/* Jerarquía tipográfica */
+h1 { 
+    font-size: 32px; 
+    font-weight: 700; 
+    color: var(--text-primary);
     margin-bottom: 0.75rem;
 }
 
-h1 { font-size: 1.75rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1.125rem; }
+h2 { 
+    font-size: 24px; 
+    font-weight: 600; 
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+h3 { 
+    font-size: 20px; 
+    font-weight: 600; 
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+h4 { 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+h5, h6 {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
 
 a {
-    color: var(--color-accent);
+    color: var(--primary);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
 a:hover {
-    color: var(--color-accent-hover);
+    color: var(--primary-hover);
 }
 
 /* ==========================================================================
@@ -190,15 +161,15 @@ a:hover {
 }
 
 /* ==========================================================================
-   Barra Superior (Topbar)
+   Barra Superior (Topbar) - Diseño SaaS Moderno
    ========================================================================== */
 .topbar {
     position: fixed;
     top: 0;
     right: 0;
     left: var(--sidebar-width);
-    height: 60px;
-    background-color: var(--color-surface);
+    height: 64px;
+    background-color: var(--surface);
     box-shadow: var(--shadow-sm);
     display: flex;
     align-items: center;
@@ -206,6 +177,7 @@ a:hover {
     padding: 0 1.5rem;
     z-index: 1000;
     transition: left var(--transition-slow);
+    border-bottom: 1px solid var(--border);
 }
 
 .topbar-left {
@@ -215,9 +187,9 @@ a:hover {
 }
 
 .topbar-title {
-    font-size: 1.125rem;
+    font-size: 20px;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -231,16 +203,17 @@ a:hover {
 .menu-toggle-btn {
     background: transparent;
     border: none;
-    color: var(--color-text);
+    color: var(--text-secondary);
     font-size: 1.25rem;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: var(--radius-md);
-    transition: background-color var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .menu-toggle-btn:hover {
-    background-color: var(--color-bg);
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
 }
 
 /* Selector de período */
@@ -249,14 +222,16 @@ a:hover {
 }
 
 .period-selector .btn-outline-primary {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--border);
+    color: var(--text-secondary);
+    background: var(--surface);
 }
 
 .period-selector .btn-outline-primary:hover,
 .period-selector .btn-outline-primary.active {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
 }
 
 /* Menú de usuario */
@@ -267,18 +242,18 @@ a:hover {
     cursor: pointer;
     padding: 0.5rem 0.75rem;
     border-radius: var(--radius-md);
-    transition: background-color var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .user-menu:hover {
-    background-color: var(--color-bg);
+    background-color: var(--surface-hover);
 }
 
 .user-avatar {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    background-color: var(--color-primary);
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
     color: white;
     display: flex;
     align-items: center;
@@ -290,14 +265,14 @@ a:hover {
 .user-name {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--text-primary);
 }
 
 /* Botón de tema */
 .theme-toggle-btn {
     background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
@@ -309,9 +284,9 @@ a:hover {
 }
 
 .theme-toggle-btn:hover {
-    background-color: var(--color-bg);
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 /* ==========================================================================
@@ -327,15 +302,15 @@ a:hover {
     text-align: center;
     z-index: 1100;
     font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .license-bar.warning {
-    background: linear-gradient(135deg, var(--color-warning) 0%, #fbbf24 100%);
-    color: #000;
+    background-color: var(--warning);
 }
 
 .license-bar.danger {
-    background: linear-gradient(135deg, var(--color-danger) 0%, #dc2626 100%);
+    background-color: var(--danger);
 }
 
 .license-bar .btn-light {
@@ -343,6 +318,7 @@ a:hover {
     font-size: 0.75rem;
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-md);
+    font-weight: 600;
 }
 
 /* Ajustar topbar cuando hay barra de licencia */
@@ -351,11 +327,11 @@ a:hover {
 }
 
 .has-license-bar #page-content-wrapper {
-    padding-top: 98px;
+    padding-top: 102px;
 }
 
 /* ==========================================================================
-   Sidebar (Menú Lateral)
+   Sidebar Profesional - Estilo SaaS Enterprise
    ========================================================================== */
 #sidebar-wrapper {
     position: fixed;
@@ -369,6 +345,7 @@ a:hover {
     z-index: 1050;
     overflow-y: auto;
     overflow-x: hidden;
+    box-shadow: var(--shadow-lg);
 }
 
 /* Scrollbar personalizado para sidebar */
@@ -386,33 +363,38 @@ a:hover {
 }
 
 .sidebar-brand {
-    padding: 1.25rem;
+    padding: 1.5rem 1.25rem;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .sidebar-brand h4 {
     margin: 0;
     color: white;
-    font-size: 1.25rem;
+    font-size: 20px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    letter-spacing: -0.5px;
 }
 
 .sidebar-brand-icon {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
 }
 
 .sidebar-menu {
-    padding: 0.75rem 0;
+    padding: 1rem 0;
 }
 
 .sidebar-item {
     display: flex;
     align-items: center;
-    padding: 0.875rem 1.25rem;
+    padding: 0.75rem 1.25rem;
+    margin: 0.125rem 0.5rem;
+    border-radius: var(--radius-md);
     color: var(--sidebar-text);
     text-decoration: none;
     transition: all var(--transition-fast);
@@ -421,14 +403,14 @@ a:hover {
 }
 
 .sidebar-item:hover {
-    background-color: var(--sidebar-active-bg);
-    color: var(--sidebar-text-hover);
+    background-color: var(--sidebar-hover);
+    color: var(--sidebar-text-active);
 }
 
 .sidebar-item.active {
-    background-color: var(--sidebar-active-bg);
-    color: var(--sidebar-text-hover);
-    border-left-color: var(--sidebar-active-border);
+    background: rgba(37,99,235,.15);
+    color: var(--sidebar-text-active);
+    border-left: 3px solid var(--primary);
 }
 
 .sidebar-item-icon {
@@ -436,6 +418,11 @@ a:hover {
     width: 24px;
     text-align: center;
     flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.sidebar-item.active .sidebar-item-icon {
+    opacity: 1;
 }
 
 .sidebar-item-text {
@@ -460,6 +447,7 @@ a:hover {
 .sidebar-mini #sidebar-wrapper .sidebar-item {
     justify-content: center;
     padding: 0.875rem 0;
+    margin: 0.125rem 0.25rem;
 }
 
 .sidebar-mini #sidebar-wrapper .sidebar-brand h4 span:not(.sidebar-brand-icon) {
@@ -476,9 +464,10 @@ a:hover {
 #page-content-wrapper {
     flex: 1;
     margin-left: var(--sidebar-width);
-    padding: 80px 1.5rem 1.5rem;
+    padding: 80px 2rem 2rem;
     min-height: 100vh;
     transition: margin-left var(--transition-slow);
+    background-color: var(--background);
 }
 
 .sidebar-mini #page-content-wrapper {
@@ -490,81 +479,85 @@ a:hover {
 }
 
 /* ==========================================================================
-   Tarjetas (Cards)
+   Tarjetas (Cards) - Diseño Moderno SaaS
    ========================================================================== */
 .card {
-    background-color: var(--color-surface);
-    border: none;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     margin-bottom: 1.5rem;
 }
 
 .card:hover {
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .card-header {
     background-color: transparent;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--border);
     padding: 1rem 1.25rem;
     font-weight: 600;
     font-size: 1rem;
+    color: var(--text-primary);
 }
 
-.card-header.bg-primary { background-color: var(--color-primary) !important; color: white; }
-.card-header.bg-success { background-color: var(--color-success) !important; color: white; }
-.card-header.bg-warning { background-color: var(--color-warning) !important; color: #000; }
-.card-header.bg-danger { background-color: var(--color-danger) !important; color: white; }
-.card-header.bg-info { background-color: var(--color-info) !important; color: white; }
-.card-header.bg-dark { background-color: #343a40 !important; color: white; }
+.card-header.bg-primary { background-color: var(--primary) !important; color: white; border-color: var(--primary); }
+.card-header.bg-success { background-color: var(--success) !important; color: white; border-color: var(--success); }
+.card-header.bg-warning { background-color: var(--warning) !important; color: #000; border-color: var(--warning); }
+.card-header.bg-danger { background-color: var(--danger) !important; color: white; border-color: var(--danger); }
+.card-header.bg-info { background-color: var(--info) !important; color: white; border-color: var(--info); }
+.card-header.bg-dark { background-color: var(--sidebar-bg) !important; color: white; border-color: var(--sidebar-bg); }
 
 .card-body {
     padding: 1.25rem;
 }
 
 .card-footer {
-    background-color: transparent;
-    border-top: 1px solid var(--color-border);
+    background-color: var(--surface-hover);
+    border-top: 1px solid var(--border);
     padding: 1rem 1.25rem;
 }
 
-/* Tarjetas de resumen del dashboard */
+/* Tarjetas de resumen del dashboard - KPI Cards */
 .summary-card {
-    background: linear-gradient(135deg, var(--color-surface) 0%, rgba(255,255,255,0.5) 100%);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
     padding: 1.5rem;
     position: relative;
     overflow: hidden;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .summary-card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
 }
 
 .summary-card-icon {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 1.25rem;
+    right: 1.25rem;
     font-size: 2.5rem;
-    opacity: 0.15;
-    color: var(--color-primary);
+    opacity: 0.12;
+    color: var(--primary);
 }
 
 .summary-card-value {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--text-primary);
     margin: 0.5rem 0;
+    letter-spacing: -1px;
 }
 
 .summary-card-label {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -572,52 +565,54 @@ a:hover {
 
 .summary-card-link {
     font-size: 0.875rem;
-    color: var(--color-accent);
+    color: var(--primary);
     text-decoration: none;
+    font-weight: 500;
 }
 
 .summary-card-link:hover {
-    text-decoration: underline;
+    color: var(--primary-hover);
 }
 
 /* Variantes de tarjetas de resumen */
-.summary-card.primary { border-left: 4px solid var(--color-primary); }
-.summary-card.success { border-left: 4px solid var(--color-success); }
-.summary-card.warning { border-left: 4px solid var(--color-warning); }
-.summary-card.danger { border-left: 4px solid var(--color-danger); }
-.summary-card.info { border-left: 4px solid var(--color-info); }
+.summary-card.primary { border-left: 4px solid var(--primary); }
+.summary-card.success { border-left: 4px solid var(--success); }
+.summary-card.warning { border-left: 4px solid var(--warning); }
+.summary-card.danger { border-left: 4px solid var(--danger); }
+.summary-card.info { border-left: 4px solid var(--info); }
 
 /* ==========================================================================
-   Formularios
+   Formularios - Estilo Moderno
    ========================================================================== */
 .form-label {
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
 
 .form-control,
 .form-select {
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 0.625rem 0.875rem;
+    padding: 10px 12px;
+    height: 44px;
     font-size: 0.95rem;
-    background-color: var(--color-surface);
-    color: var(--color-text);
+    background-color: var(--surface);
+    color: var(--text-primary);
     transition: all var(--transition-fast);
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 0.2rem rgba(0, 180, 216, 0.25);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
     outline: none;
 }
 
 .form-control::placeholder {
-    color: var(--color-text-secondary);
-    opacity: 0.6;
+    color: var(--text-secondary);
+    opacity: 0.7;
 }
 
 /* Floating labels */
@@ -627,14 +622,15 @@ a:hover {
 }
 
 .form-floating > label {
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
 }
 
 /* Input groups */
 .input-group-text {
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
 }
 
 .input-group > .form-control {
@@ -642,15 +638,16 @@ a:hover {
 }
 
 /* ==========================================================================
-   Botones
+   Botones - Estilo SaaS Moderno
    ========================================================================== */
 .btn {
-    padding: 0.625rem 1.25rem;
+    padding: 10px 20px;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
     border: none;
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -662,70 +659,103 @@ a:hover {
     transform: translateY(0);
 }
 
+/* Botón Principal */
 .btn-primary {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    background-color: var(--primary);
     color: white;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+    background-color: var(--primary-hover);
     color: white;
 }
 
-.btn-accent {
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+/* Botón Secundario */
+.btn-secondary {
+    background-color: #E2E8F0;
+    color: #334155;
+}
+
+.btn-secondary:hover {
+    background-color: #CBD5E1;
+    color: #1E293B;
+}
+
+/* Botón Success */
+.btn-success {
+    background-color: var(--success);
     color: white;
 }
 
-.btn-accent:hover {
-    background: linear-gradient(135deg, var(--color-accent-hover) 0%, var(--color-accent) 100%);
+.btn-success:hover {
+    background-color: #15803D;
     color: white;
 }
 
+/* Botón Warning */
+.btn-warning {
+    background-color: var(--warning);
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #D97706;
+    color: #000;
+}
+
+/* Botón Danger */
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #B91C1C;
+    color: white;
+}
+
+/* Botón Info */
+.btn-info {
+    background-color: var(--info);
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #0E7490;
+    color: white;
+}
+
+/* Botones Outline */
 .btn-outline-primary {
-    border: 2px solid var(--color-primary);
-    color: var(--color-primary);
+    border: 2px solid var(--primary);
+    color: var(--primary);
     background: transparent;
 }
 
 .btn-outline-primary:hover {
-    background-color: var(--color-primary);
+    background-color: var(--primary);
     color: white;
 }
 
-.btn-outline-accent {
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
+.btn-outline-secondary {
+    border: 2px solid var(--border);
+    color: var(--text-secondary);
     background: transparent;
 }
 
-.btn-outline-accent:hover {
-    background-color: var(--color-accent);
-    color: white;
+.btn-outline-secondary:hover {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
 }
 
-.btn-success {
-    background-color: var(--color-success);
-    color: white;
-}
-
-.btn-warning {
-    background-color: var(--color-warning);
-    color: #000;
-}
-
-.btn-danger {
-    background-color: var(--color-danger);
-    color: white;
-}
-
+/* Tamaños de botones */
 .btn-sm {
-    padding: 0.375rem 0.75rem;
+    padding: 6px 12px;
     font-size: 0.875rem;
 }
 
 .btn-lg {
-    padding: 0.75rem 1.5rem;
+    padding: 12px 24px;
     font-size: 1.05rem;
 }
 
@@ -737,21 +767,21 @@ a:hover {
 }
 
 /* ==========================================================================
-   Tablas
+   Tablas - Diseño Moderno
    ========================================================================== */
 .table {
     margin-bottom: 0;
 }
 
 .table thead th {
-    background-color: var(--color-primary);
+    background-color: var(--sidebar-bg);
     color: white;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: none;
-    padding: 0.875rem 1rem;
+    padding: 12px 16px;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -763,45 +793,47 @@ a:hover {
 }
 
 .table-hover tbody tr:hover {
-    background-color: #e3f2fd;
-    cursor: pointer;
+    background-color: #F1F5F9;
 }
 
 [data-theme="dark"] .table-hover tbody tr:hover {
-    background-color: rgba(0, 180, 216, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .table td {
-    padding: 0.875rem 1rem;
+    padding: 12px 16px;
     vertical-align: middle;
-    color: var(--color-text);
+    color: var(--text-primary);
+    border-color: var(--border);
 }
 
 /* ==========================================================================
-   Badges
+   Badges - Etiquetas de Estado
    ========================================================================== */
 .badge {
-    font-weight: 500;
-    padding: 0.4em 0.7em;
-    border-radius: var(--radius-md);
-    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
-.badge.bg-primary { background-color: var(--color-primary) !important; }
-.badge.bg-success { background-color: var(--color-success) !important; }
-.badge.bg-warning { background-color: var(--color-warning) !important; color: #000; }
-.badge.bg-danger { background-color: var(--color-danger) !important; }
-.badge.bg-info { background-color: var(--color-info) !important; }
-.badge.bg-secondary { background-color: var(--color-text-secondary) !important; }
+.badge.bg-primary { background-color: var(--primary) !important; }
+.badge.bg-success { background-color: var(--success) !important; }
+.badge.bg-warning { background-color: var(--warning) !important; color: #000; }
+.badge.bg-danger { background-color: var(--danger) !important; }
+.badge.bg-info { background-color: var(--info) !important; }
+.badge.bg-secondary { background-color: var(--secondary) !important; }
 
-/* Badge suave */
+/* Badge suave (soft) */
 .badge-soft-success {
-    background-color: var(--color-success-bg);
-    color: var(--color-success);
+    background-color: var(--success-bg);
+    color: var(--success);
 }
 
 .badge-soft-warning {
-    background-color: var(--color-warning-bg);
+    background-color: var(--warning-bg);
     color: var(--color-warning);
 }
 
