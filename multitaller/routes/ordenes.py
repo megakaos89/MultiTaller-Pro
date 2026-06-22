@@ -79,7 +79,7 @@ def nueva_orden():
         
         # IDs de dispositivos seleccionados
         dispositivo_ids = request.form.getlist('dispositivo_ids[]', type=int)
-        problemas_reportados = request.form.getlist('problema_reportado[]', '')
+        problemas_reportados = request.form.getlist('problema_reportado[]')
         
         if not cliente_id or not dispositivo_ids:
             flash('Cliente y al menos un dispositivo son obligatorios', 'warning')
