@@ -5,11 +5,9 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Database
-multitaller/instance/*.db
-
-# Logs
+# Logs and temp files
 *.log
+*.tmp
 
 # Environment
 .env
@@ -19,20 +17,4 @@ multitaller/instance/*.db
 # Dependencies
 .venv/
 venv/
-pip-log.txt
-pipenv.lock
-
-# Coverage reports
-.coverage
-htmlcov/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
 ```

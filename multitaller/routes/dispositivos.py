@@ -115,8 +115,8 @@ def nuevo_dispositivo():
 @login_required
 def editar_dispositivo(id):
     """Editar dispositivo existente"""
-    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
-    if not Dispositivo:
+    dispositivo = db.session.get(Dispositivo, id)
+    if not dispositivo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -160,8 +160,8 @@ def editar_dispositivo(id):
 @role_required('admin')
 def eliminar_dispositivo(id):
     """Eliminar dispositivo (solo admin)"""
-    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
-    if not Dispositivo:
+    dispositivo = db.session.get(Dispositivo, id)
+    if not dispositivo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -184,8 +184,8 @@ def eliminar_dispositivo(id):
 @login_required
 def ver_dispositivo(id):
     """Ver detalle del dispositivo con historial"""
-    dispositivo = Dispositivo = db.session.get(Dispositivo, id)
-    if not Dispositivo:
+    dispositivo = db.session.get(Dispositivo, id)
+    if not dispositivo:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     

@@ -49,7 +49,7 @@ def nuevo_cliente():
         telefono_fijo = request.form.get('telefono_fijo', '').strip()
         telefono_movil = request.form.get('telefono_movil', '').strip()
         direccion = request.form.get('direccion', '').strip()
-        tipo_cliente = request.form.get('tipo_cliente', 'Particular')
+        tipo_cliente = request.form.get('tipo_cliente', 'Persona natural')
         identificacion = request.form.get('identificacion', '').strip()
         
         if not nombres or not apellidos:
@@ -90,7 +90,7 @@ def editar_cliente(id):
         cliente.telefono_fijo = request.form.get('telefono_fijo', '').strip()
         cliente.telefono_movil = request.form.get('telefono_movil', '').strip()
         cliente.direccion = request.form.get('direccion', '').strip()
-        cliente.tipo_cliente = request.form.get('tipo_cliente', 'Particular')
+        cliente.tipo_cliente = request.form.get('tipo_cliente', 'Persona natural')
         cliente.identificacion = request.form.get('identificacion', '').strip()
         
         db.session.commit()
