@@ -74,10 +74,10 @@
   --background: #0F172A;
   --surface: #1E293B;
   --surface-hover: #334155;
-  --border: #334155;
+  --border: #374151;
   --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
   --sidebar-bg: #020617;
   --sidebar-hover: #0F172A;
   --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
@@ -395,21 +395,22 @@ a:hover {
     padding: 0.75rem 1.25rem;
     margin: 0.125rem 0.5rem;
     border-radius: var(--radius-md);
-    color: var(--sidebar-text);
+    color: #9CA3AF;
     text-decoration: none;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-normal);
     border-left: 3px solid transparent;
     gap: 0.75rem;
 }
 
 .sidebar-item:hover {
     background-color: var(--sidebar-hover);
-    color: var(--sidebar-text-active);
+    color: #FFFFFF;
+    transform: translateX(2px);
 }
 
 .sidebar-item.active {
-    background: rgba(37,99,235,.15);
-    color: var(--sidebar-text-active);
+    background: rgba(37,99,235,.2);
+    color: #FFFFFF;
     border-left: 3px solid var(--primary);
 }
 
@@ -423,6 +424,7 @@ a:hover {
 
 .sidebar-item.active .sidebar-item-icon {
     opacity: 1;
+    color: #60A5FA;
 }
 
 .sidebar-item-text {
@@ -585,34 +587,34 @@ a:hover {
    Formularios - Estilo Moderno
    ========================================================================== */
 .form-label {
-    font-weight: 500;
-    color: var(--text-primary);
+    font-weight: 600;
+    color: #E5E7EB;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
 
 .form-control,
 .form-select {
-    border: 1px solid var(--border);
+    border: 1px solid #374151;
     border-radius: var(--radius-md);
     padding: 10px 12px;
     height: 44px;
     font-size: 0.95rem;
     background-color: var(--surface);
-    color: var(--text-primary);
+    color: #E5E7EB;
     transition: all var(--transition-fast);
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
     outline: none;
 }
 
 .form-control::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.7;
+    color: #9CA3AF;
+    opacity: 1;
 }
 
 /* Floating labels */
@@ -628,13 +630,17 @@ a:hover {
 /* Input groups */
 .input-group-text {
     background-color: var(--surface-hover);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
+    border: 1px solid #374151;
+    color: #9CA3AF;
     border-radius: var(--radius-md);
 }
 
 .input-group > .form-control {
     border-radius: var(--radius-md);
+}
+
+.form-select {
+    cursor: pointer;
 }
 
 /* ==========================================================================
@@ -663,11 +669,16 @@ a:hover {
 .btn-primary {
     background-color: var(--primary);
     color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* Botón Secundario */
