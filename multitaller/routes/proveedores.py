@@ -74,8 +74,8 @@ def nuevo_proveedor():
 @role_required('admin', 'tecnico')
 def editar_proveedor(id):
     """Editar proveedor existente"""
-    proveedor = Proveedor = db.session.get(Proveedor, id)
-    if not Proveedor:
+    proveedor = db.session.get(Proveedor, id)
+    if not proveedor:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -97,8 +97,8 @@ def editar_proveedor(id):
 @role_required('admin')
 def eliminar_proveedor(id):
     """Eliminar proveedor (solo admin)"""
-    proveedor = Proveedor = db.session.get(Proveedor, id)
-    if not Proveedor:
+    proveedor = db.session.get(Proveedor, id)
+    if not proveedor:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     
@@ -117,8 +117,8 @@ def eliminar_proveedor(id):
 @login_required
 def ver_proveedor(id):
     """Ver detalle del proveedor"""
-    proveedor = Proveedor = db.session.get(Proveedor, id)
-    if not Proveedor:
+    proveedor = db.session.get(Proveedor, id)
+    if not proveedor:
         flash('Registro no encontrado', 'danger')
         return redirect(url_for('dashboard.index'))
     piezas = Pieza.query.filter_by(proveedor_id=id).all()
