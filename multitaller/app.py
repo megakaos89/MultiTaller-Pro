@@ -32,7 +32,9 @@ from routes.ayuda import ayuda_bp
 def create_app():
     """Factory de aplicación Flask"""
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'multitaller-secret-key-2026-cuba'
+    
+    # SECRET_KEY desde variable de entorno o valor por defecto seguro
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(32).hex())
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///multitaller.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
@@ -170,15 +172,17 @@ def crear_usuario_admin():
     """Crea usuario administrador por defecto si no existe"""
     admin = Usuario.query.filter_by(username='admin').first()
     if not admin:
+        # Verificar si la contraseña está en variables de entorno
+        admin_password = os.environ.get('ADMIN_PASSWORD', 'admin123')
         admin = Usuario(
             username='admin',
-            password_hash=generate_password_hash('admin123'),
+            password_hash=generate_password_hash(admin_password),
             nombre_completo='Administrador',
             rol='admin'
         )
         db.session.add(admin)
         db.session.commit()
-        print("Usuario admin creado: admin / admin123")
+        print(f"Usuario admin creado: admin / {admin_password}")
 
 
 def inicializar_configuracion():
