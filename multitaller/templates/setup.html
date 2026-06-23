@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Configuración inicial</h2>
+  <p>Configure la cuenta de administrador y los datos básicos del taller.</p>
+  <form method="post" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="username" class="form-label">Usuario administrador</label>
+      <input type="text" class="form-control" id="username" name="username" value="admin" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="mb-3">
+      <label for="password_confirm" class="form-label">Confirmar contraseña</label>
+      <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+    </div>
+
+    <h4 class="mt-4">Datos del taller</h4>
+    <div class="mb-3">
+      <label for="nombre_taller" class="form-label">Nombre del taller</label>
+      <input type="text" class="form-control" id="nombre_taller" name="nombre_taller">
+    </div>
+    <div class="mb-3">
+      <label for="direccion_taller" class="form-label">Dirección</label>
+      <input type="text" class="form-control" id="direccion_taller" name="direccion_taller">
+    </div>
+    <div class="mb-3">
+      <label for="telefono_taller" class="form-label">Teléfono</label>
+      <input type="text" class="form-control" id="telefono_taller" name="telefono_taller">
+    </div>
+    <div class="mb-3">
+      <label for="email_contacto" class="form-label">Email de contacto</label>
+      <input type="email" class="form-control" id="email_contacto" name="email_contacto">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear administrador y guardar</button>
+  </form>
+</div>
+{% endblock %}

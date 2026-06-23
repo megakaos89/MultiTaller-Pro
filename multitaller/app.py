@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, render_template, redirect, url_for, flash, session, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import db, Usuario, Configuracion, Licencia
+from dotenv import load_dotenv
 
 # Importar rutas
 from routes.auth import auth_bp
@@ -27,11 +28,15 @@ from routes.reportes import reportes_bp
 from routes.configuracion import configuracion_bp
 from routes.licencias import licencias_bp
 from routes.ayuda import ayuda_bp
+from routes.setup import setup_bp
 
 
 def create_app():
     """Factory de aplicación Flask"""
     app = Flask(__name__)
+
+    # Cargar variables de entorno desde .env local si existe
+    load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
     
     # SECRET_KEY desde variable de entorno o valor por defecto seguro
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(32).hex())
@@ -52,6 +57,7 @@ def create_app():
     db.init_app(app)
     
     # Registrar blueprints
+    app.register_blueprint(setup_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(clientes_bp)
@@ -71,6 +77,10 @@ def create_app():
     @app.route('/')
     def index():
         """Página principal - redirige según estado de autenticación y licencia"""
+        # Si no existe usuario administrador, redirigir a la pantalla de configuración inicial
+        if db.session.query(Usuario).filter_by(rol='admin').first() is None:
+            return redirect(url_for('setup.setup'))
+
         if 'usuario_id' not in session:
             return redirect(url_for('auth.login'))
         
@@ -168,10 +178,9 @@ def create_app():
             'mensaje': 'Período de prueba iniciado'
         }
     
-    # Crear tablas y usuario admin por defecto
+    # Crear tablas y preparar configuración inicial
     with app.app_context():
         db.create_all()
-        crear_usuario_admin()
         inicializar_configuracion()
     
     return app
