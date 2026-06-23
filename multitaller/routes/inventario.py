@@ -4,7 +4,10 @@ Blueprint para gestión de inventario de piezas
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
 from datetime import datetime, timezone
-from ..models import db, Pieza, Proveedor, MovimientoInventario, PiezaCompatible, ModeloEquipo
+try:
+    from ..models import db, Pieza, Proveedor, MovimientoInventario, PiezaCompatible, ModeloEquipo
+except Exception:
+    from models import db, Pieza, Proveedor, MovimientoInventario, PiezaCompatible, ModeloEquipo
 from routes.auth import login_required, role_required
 
 inventario_bp = Blueprint('inventario', __name__)

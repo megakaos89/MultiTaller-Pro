@@ -3,7 +3,10 @@ Blueprint para configuración del sistema
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from ..models import db, Configuracion, LogoTaller
+try:
+    from ..models import db, Configuracion, LogoTaller
+except Exception:
+    from models import db, Configuracion, LogoTaller
 from routes.auth import login_required, admin_required
 import json
 

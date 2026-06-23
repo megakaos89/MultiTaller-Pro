@@ -3,7 +3,10 @@ Blueprint para gestión de modelos de equipos
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
-from ..models import db, ModeloEquipo, PiezaCompatible
+try:
+    from ..models import db, ModeloEquipo, PiezaCompatible
+except Exception:
+    from models import db, ModeloEquipo, PiezaCompatible
 from routes.auth import login_required, role_required
 import json
 

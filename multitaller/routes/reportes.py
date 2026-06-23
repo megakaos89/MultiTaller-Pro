@@ -4,7 +4,10 @@ Blueprint para reportes y exportaciones
 
 from flask import Blueprint, render_template, request, send_file, session
 from datetime import datetime, timedelta, timezone
-from ..models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
+try:
+    from ..models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
+except Exception:
+    from models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
 from routes.auth import login_required
 import csv
 from io import BytesIO

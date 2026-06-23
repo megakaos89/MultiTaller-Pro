@@ -4,7 +4,10 @@ Blueprint para gestión de órdenes de servicio
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
 from datetime import datetime, timedelta, timezone
-from ..models import db, Orden, Cliente, Dispositivo, OrdenDispositivo, OrdenPieza, Pieza, Tecnico, OrdenHistorialEstado, OrdenNota
+try:
+    from ..models import db, Orden, Cliente, Dispositivo, OrdenDispositivo, OrdenPieza, Pieza, Tecnico, OrdenHistorialEstado, OrdenNota
+except Exception:
+    from models import db, Orden, Cliente, Dispositivo, OrdenDispositivo, OrdenPieza, Pieza, Tecnico, OrdenHistorialEstado, OrdenNota
 from routes.auth import login_required, role_required
 
 ordenes_bp = Blueprint('ordenes', __name__)

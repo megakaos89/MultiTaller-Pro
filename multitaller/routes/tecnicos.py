@@ -3,7 +3,10 @@ Blueprint para gestión de técnicos y productividad
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from ..models import db, Tecnico, Orden
+try:
+    from ..models import db, Tecnico, Orden
+except Exception:
+    from models import db, Tecnico, Orden
 from routes.auth import login_required, role_required
 
 tecnicos_bp = Blueprint('tecnicos', __name__)
