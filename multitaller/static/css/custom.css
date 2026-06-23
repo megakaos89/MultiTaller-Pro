@@ -406,6 +406,25 @@ a:hover {
     padding-top: 102px;
 }
 
+/* Fixes: ensure contrast and icon fallback */
+/* Make muted text readable in dark mode */
+body:not([data-theme="light"]) .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* Ensure elements explicitly marked text-white stay visible */
+body:not([data-theme="light"]) .text-white {
+    color: #ffffff !important;
+}
+
+/* Ensure icon elements have correct display settings */
+.bi, [class^="bi-"] {
+    display: inline-block; /* ensure icons occupy space */
+    vertical-align: middle;
+}
+
+/* If local font is missing, the CDN stylesheet is loaded as fallback in base.html */
+
 /* ==========================================================================
    Sidebar Profesional - Estilo SaaS Enterprise
    ========================================================================== */
