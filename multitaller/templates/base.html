@@ -6,10 +6,8 @@
     <title>{% block title %}MultiTaller{% endblock %}</title>
     <!-- Bootstrap 5 local -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <!-- Bootstrap Icons (local, fallback to CDN if fonts missing) -->
+    <!-- Bootstrap Icons (local) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
-    <!-- Fallback CDN for Bootstrap Icons (useful if local font files are missing) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-+0a2e9fY2k6QfYgQ0k+VfX1R5Gk9sV6VZl5s2E1vQ6tZp2qF7x2J3h5Qk9p8R7Kc" crossorigin="anonymous">
     <!-- Estilos personalizados modernos -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     {% block extra_css %}{% endblock %}
