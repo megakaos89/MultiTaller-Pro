@@ -9,7 +9,12 @@ import json
 from datetime import datetime, timedelta, timezone
 from flask import Flask, render_template, redirect, url_for, flash, session, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import db, Usuario, Configuracion, Licencia
+try:
+    from .models import db, Usuario, Configuracion, Licencia
+except Exception:
+    # Support running app.py both as a package (python -m multitaller.app)
+    # and as a script from the multitaller/ directory (python app.py)
+    from models import db, Usuario, Configuracion, Licencia
 from dotenv import load_dotenv
 
 # Importar rutas
