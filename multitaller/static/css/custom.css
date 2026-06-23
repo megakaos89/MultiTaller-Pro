@@ -1034,6 +1034,33 @@ body:not([data-theme="light"]) .text-white {
     color: var(--text-secondary) !important;
 }
 
+/* Legibilidad en tablas (global) y ajustes para tema oscuro */
+.table th, .table td, .table td * {
+    color: var(--text-primary) !important;
+}
+
+.table thead th {
+    color: var(--text-primary) !important;
+}
+
+/* Ajustes específicos para tema oscuro */
+[data-theme="dark"] .table thead th {
+    background-color: var(--sidebar-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .table a {
+    color: var(--primary) !important;
+}
+
+[data-theme="dark"] .table td.text-muted {
+    color: var(--text-secondary) !important;
+}
+
 /* ==========================================================================
    Badges - Etiquetas de Estado
    ========================================================================== */
