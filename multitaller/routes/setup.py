@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash
-from ..models import db, Usuario, Configuracion
+try:
+    from ..models import db, Usuario, Configuracion
+except Exception:
+    from models import db, Usuario, Configuracion
 
 setup_bp = Blueprint('setup', __name__, template_folder='..\templates')
 
