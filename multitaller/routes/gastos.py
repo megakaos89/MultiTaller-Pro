@@ -4,7 +4,7 @@ Blueprint para gestión de gastos operativos
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from datetime import datetime, timezone
-from models import db, Gasto, CategoriaGasto
+from ..models import db, Gasto, CategoriaGasto
 from routes.auth import login_required, role_required
 
 gastos_bp = Blueprint('gastos', __name__)

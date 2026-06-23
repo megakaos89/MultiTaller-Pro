@@ -3,7 +3,7 @@ Blueprint para gestión de dispositivos de clientes
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, current_app
-from models import db, Dispositivo, Cliente, ModeloEquipo, OrdenDispositivo
+from ..models import db, Dispositivo, Cliente, ModeloEquipo, OrdenDispositivo
 from routes.auth import login_required, role_required
 import os
 from werkzeug.utils import secure_filename

@@ -9,7 +9,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from flask import Flask, render_template, redirect, url_for, flash, session, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, Usuario, Configuracion, Licencia
+from .models import db, Usuario, Configuracion, Licencia
 
 # Importar rutas
 from routes.auth import auth_bp
@@ -178,20 +178,30 @@ def create_app():
 
 
 def crear_usuario_admin():
-    """Crea usuario administrador por defecto si no existe"""
+    """Crea usuario administrador por defecto si no existe.
+
+    Requiere la variable de entorno ADMIN_PASSWORD para crear la cuenta por seguridad.
+    Si no está presente, se omite la creación y se informa en stdout.
+    """
     admin = Usuario.query.filter_by(username='admin').first()
-    if not admin:
-        # Verificar si la contraseña está en variables de entorno
-        admin_password = os.environ.get('ADMIN_PASSWORD', 'admin123')
-        admin = Usuario(
-            username='admin',
-            password_hash=generate_password_hash(admin_password),
-            nombre_completo='Administrador',
-            rol='admin'
-        )
-        db.session.add(admin)
-        db.session.commit()
-        print(f"Usuario admin creado: admin / {admin_password}")
+    if admin:
+        return
+
+    admin_password = os.environ.get('ADMIN_PASSWORD')
+    if not admin_password:
+        # No crear usuario por defecto si no se proporcionó contraseña en entorno
+        print('ADMIN_PASSWORD no establecido. Saltando creación de usuario admin por seguridad.')
+        return
+
+    admin = Usuario(
+        username='admin',
+        password_hash=generate_password_hash(admin_password),
+        nombre_completo='Administrador',
+        rol='admin'
+    )
+    db.session.add(admin)
+    db.session.commit()
+    print('Usuario admin creado: admin (contraseña tomada de ADMIN_PASSWORD)')
 
 
 def inicializar_configuracion():

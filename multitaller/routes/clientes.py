@@ -3,7 +3,7 @@ Blueprint para gestión de clientes
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from models import db, Cliente, Dispositivo, Orden
+from ..models import db, Cliente, Dispositivo, Orden
 from routes.auth import login_required, role_required
 
 clientes_bp = Blueprint('clientes', __name__)

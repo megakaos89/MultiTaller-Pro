@@ -5,7 +5,7 @@ Blueprint para autenticación de usuarios
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
-from models import db, Usuario
+from ..models import db, Usuario
 
 auth_bp = Blueprint('auth', __name__)
 

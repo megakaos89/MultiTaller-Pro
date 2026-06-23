@@ -4,7 +4,7 @@ Blueprint para reportes y exportaciones
 
 from flask import Blueprint, render_template, request, send_file, session
 from datetime import datetime, timedelta, timezone
-from models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
+from ..models import db, Orden, Pieza, Cliente, Tecnico, Gasto, Configuracion
 from routes.auth import login_required
 import csv
 from io import BytesIO
@@ -148,7 +148,7 @@ def reporte_piezas_utilizadas():
         fecha_inicio = hoy - timedelta(days=30)
     
     # Obtener todas las piezas usadas en órdenes del período
-    from models import OrdenPieza, OrdenDispositivo, Orden
+    from ..models import OrdenPieza, OrdenDispositivo, Orden
     
     ordenes_periodo = Orden.query.filter(
         Orden.fecha_creacion >= fecha_inicio,

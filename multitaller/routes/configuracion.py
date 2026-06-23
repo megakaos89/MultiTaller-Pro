@@ -3,7 +3,7 @@ Blueprint para configuración del sistema
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from models import db, Configuracion, LogoTaller
+from ..models import db, Configuracion, LogoTaller
 from routes.auth import login_required, admin_required
 import json
 
@@ -96,7 +96,7 @@ def editar_configuracion():
                 archivo.save(ruta_completa)
                 
                 # Registrar en base de datos
-                from models import LogoTaller
+                from ..models import LogoTaller
                 # Desactivar logos anteriores
                 LogoTaller.query.update({'activo': False})
                 nuevo_logo = LogoTaller(

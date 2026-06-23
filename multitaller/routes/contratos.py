@@ -4,7 +4,7 @@ Blueprint para gestión de contratos de mantenimiento
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, send_file
 from datetime import datetime, timedelta
-from models import db, Contrato, Cliente
+from ..models import db, Contrato, Cliente
 from routes.auth import login_required, role_required
 import csv
 from io import BytesIO

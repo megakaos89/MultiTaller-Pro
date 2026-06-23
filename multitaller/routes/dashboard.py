@@ -4,7 +4,7 @@ Blueprint para el dashboard (panel de control)
 
 from flask import Blueprint, render_template, session, request
 from datetime import datetime, timedelta, timezone
-from models import db, Orden, Pieza, Cliente, Contrato, Gasto, Configuracion
+from ..models import db, Orden, Pieza, Cliente, Contrato, Gasto, Configuracion
 
 dashboard_bp = Blueprint('dashboard', __name__)
 

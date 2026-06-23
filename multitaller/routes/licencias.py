@@ -8,7 +8,7 @@ import hashlib
 import platform
 from datetime import datetime, timezone
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
-from models import db, Configuracion, Licencia
+from ..models import db, Configuracion, Licencia
 from routes.auth import login_required, admin_required
 
 licencias_bp = Blueprint('licencias', __name__)

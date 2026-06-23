@@ -3,7 +3,7 @@ Blueprint para gestión de proveedores
 """
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from models import db, Proveedor, Pieza
+from ..models import db, Proveedor, Pieza
 from routes.auth import login_required, role_required
 
 proveedores_bp = Blueprint('proveedores', __name__)
