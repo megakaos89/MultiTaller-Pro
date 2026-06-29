@@ -81,12 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
     loadThemePreference();
     
     // ==========================================================================
-    // SIDEBAR COLAPSABLE
+    // SIDEBAR COLAPSABLE (Estilo WordPress)
     // ==========================================================================
     
     const menuToggleBtn = document.getElementById('menu-toggle');
     const wrapper = document.getElementById('wrapper');
     const sidebar = document.getElementById('sidebar-wrapper');
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
     
     // Toggle del menú
     function toggleSidebar() {
@@ -99,11 +100,53 @@ document.addEventListener('DOMContentLoaded', function() {
             // En escritorio, alternar modo mini
             if (wrapper) {
                 wrapper.classList.toggle('sidebar-mini');
+                
+                // Agregar tooltips cuando se minimiza
+                updateSidebarTooltips();
+                
+                // Animación suave del ícono del botón
+                updateToggleButtonIcon();
             }
             
             // Guardar estado en localStorage
             const isMini = wrapper && wrapper.classList.contains('sidebar-mini');
             localStorage.setItem('multitaller-sidebar-mini', isMini ? 'true' : 'false');
+        }
+    }
+    
+    // Actualizar tooltips de los items del sidebar
+    function updateSidebarTooltips() {
+        const isMini = wrapper && wrapper.classList.contains('sidebar-mini');
+        
+        sidebarItems.forEach(item => {
+            // Eliminar tooltip anterior si existe
+            const tooltipInstance = bootstrap.Tooltip.getInstance(item);
+            if (tooltipInstance) {
+                tooltipInstance.dispose();
+            }
+            
+            if (isMini) {
+                // Obtener el texto del item
+                const text = item.querySelector('.sidebar-item-text');
+                if (text) {
+                    item.setAttribute('data-bs-toggle', 'tooltip');
+                    item.setAttribute('data-bs-placement', 'right');
+                    item.setAttribute('title', text.textContent.trim());
+                    new bootstrap.Tooltip(item, {
+                        trigger: 'hover'
+                    });
+                }
+            }
+        });
+    }
+    
+    // Actualizar ícono del botón toggle
+    function updateToggleButtonIcon() {
+        const isMini = wrapper && wrapper.classList.contains('sidebar-mini');
+        const icon = menuToggleBtn.querySelector('i');
+        if (icon) {
+            // El ícono ya tiene transition de CSS
+            icon.className = isMini ? 'bi bi-chevron-right' : 'bi bi-chevron-left';
         }
     }
     
@@ -118,6 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedSidebarState = localStorage.getItem('multitaller-sidebar-mini');
     if (savedSidebarState === 'true' && window.innerWidth > 768 && wrapper) {
         wrapper.classList.add('sidebar-mini');
+        updateToggleButtonIcon();
+        // Esperar a que el DOM esté listo para los tooltips
+        setTimeout(updateSidebarTooltips, 100);
     }
     
     // Cerrar sidebar al hacer clic fuera en móviles
@@ -128,6 +174,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    
+    // Actualizar tooltips cuando se carga la página
+    setTimeout(updateSidebarTooltips, 200);
     
     // ==========================================================================
     // ANIMACIONES DE ENTRADA
