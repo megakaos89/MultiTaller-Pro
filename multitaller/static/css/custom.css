@@ -974,58 +974,89 @@ body:not([data-theme="light"]) .text-white {
 }
 
 /* ==========================================================================
-   Tablas - Diseño Moderno
+   Tablas - Diseño Moderno con Contraste Optimizado Dark/Light Mode
    ========================================================================== */
+
+/* Reset de variables CSS de Bootstrap para tablas */
+.table {
+    --bs-table-color: var(--text-primary);
+    --bs-table-bg: var(--surface);
+    --bs-table-striped-color: var(--text-primary);
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+    --bs-table-hover-color: var(--text-primary);
+    --bs-table-hover-bg: var(--surface-hover);
+}
+
 .table {
     margin-bottom: 0;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
+    border-collapse: collapse;
+    background-color: var(--surface);
+}
+
+/* Encabezados de tabla - Alto contraste */
+.table thead {
+    background-color: var(--sidebar-bg);
 }
 
 .table thead th {
-    background-color: var(--sidebar-bg);
-    color: white;
+    background-color: var(--sidebar-bg) !important;
+    color: var(--text-primary) !important;
     font-weight: 600;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: none;
     padding: 12px 16px;
-    border-bottom: 2px solid var(--border);
+    border-bottom: 2px solid var(--primary);
+}
+
+/* Cuerpo de tabla - Filas con contraste mejorado */
+.table tbody {
+    background-color: var(--surface);
+}
+
+.table tbody tr {
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
-[data-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.02);
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: var(--surface);
 }
 
+/* Hover effect con transición suave */
 .table-hover tbody tr:hover {
     background-color: var(--surface-hover);
     transition: background-color var(--transition-fast);
 }
 
-[data-theme="dark"] .table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
+/* Celdas de datos */
 .table td {
     padding: 12px 16px;
     vertical-align: middle;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     border-color: var(--border);
     border-bottom: 1px solid var(--border);
 }
 
+.table th {
+    color: var(--text-primary) !important;
+}
+
+/* Enlaces en tablas */
 .table a {
-    color: var(--primary);
+    color: var(--primary) !important;
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
 .table a:hover {
-    color: var(--primary-hover);
+    color: var(--primary-hover) !important;
     text-decoration: underline;
 }
 
@@ -1034,31 +1065,118 @@ body:not([data-theme="light"]) .text-white {
     color: var(--text-secondary) !important;
 }
 
-/* Legibilidad en tablas (global) y ajustes para tema oscuro */
-.table th, .table td, .table td * {
+/* Legibilidad general en tablas */
+.table th,
+.table td,
+.table td *,
+.table tbody tr td {
     color: var(--text-primary) !important;
 }
 
+/* Asegurar que el texto siempre sea visible en encabezados */
 .table thead th {
     color: var(--text-primary) !important;
 }
 
-/* Ajustes específicos para tema oscuro */
-[data-theme="dark"] .table thead th {
+/* Estilos específicos para Light Mode */
+[data-theme="light"] .table {
+    --bs-table-color: #0F172A;
+    --bs-table-bg: #FFFFFF;
+    --bs-table-striped-color: #0F172A;
+    --bs-table-striped-bg: #F8FAFC;
+    --bs-table-hover-color: #0F172A;
+    --bs-table-hover-bg: #F1F5F9;
+}
+
+[data-theme="light"] .table {
+    background-color: #FFFFFF;
+}
+
+[data-theme="light"] .table thead {
+    background-color: #F1F5F9;
+}
+
+[data-theme="light"] .table thead th {
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-bottom: 2px solid #3B82F6;
+}
+
+[data-theme="light"] .table tbody tr {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+[data-theme="light"] .table tbody tr:nth-of-type(odd) {
+    background-color: #F8FAFC;
+}
+
+[data-theme="light"] .table td {
+    color: #0F172A !important;
+    border-color: #E2E8F0;
+}
+
+[data-theme="light"] .table td * {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .table-hover tbody tr:hover {
+    background-color: #F1F5F9;
+}
+
+/* Estilos específicos para Dark Mode (por defecto) */
+.table thead th {
     background-color: var(--sidebar-bg) !important;
     color: var(--text-primary) !important;
 }
 
-[data-theme="dark"] .text-muted {
+.table td,
+.table td * {
+    color: var(--text-primary) !important;
+}
+
+.text-muted {
     color: var(--text-secondary) !important;
 }
 
-[data-theme="dark"] .table a {
+.table a {
     color: var(--primary) !important;
 }
 
-[data-theme="dark"] .table td.text-muted {
+.table td.text-muted {
     color: var(--text-secondary) !important;
+}
+
+/* Asegurar visibilidad de bordes en tablas */
+.table-responsive {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+/* Estilos adicionales para mejorar legibilidad en tablas */
+.table small,
+.table .text-secondary,
+.table .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* Asegurar visibilidad de enlaces dentro de tablas */
+.table a,
+.table .btn-link {
+    color: var(--primary) !important;
+}
+
+.table a:hover,
+.table .btn-link:hover {
+    color: var(--primary-hover) !important;
+}
+
+/* Light mode overrides para tablas */
+[data-theme="light"] .table small,
+[data-theme="light"] .table .text-secondary,
+[data-theme="light"] .table .text-muted {
+    color: #64748B !important;
 }
 
 /* ==========================================================================

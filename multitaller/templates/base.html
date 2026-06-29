@@ -25,79 +25,79 @@
             </div>
             <nav class="sidebar-menu">
                 <a href="{{ url_for('dashboard.index') }}" class="sidebar-item {% if request.endpoint == 'dashboard.index' %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-speedometer2"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-graph-up"></i></span>
                     <span class="sidebar-item-text">Panel de Control</span>
                 </a>
                 
                 <a href="{{ url_for('ordenes.listar_ordenes') }}" class="sidebar-item {% if 'ordenes' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-clipboard-check"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-hammer"></i></span>
                     <span class="sidebar-item-text">Órdenes de Servicio</span>
                 </a>
                 
                 <a href="{{ url_for('clientes.listar_clientes') }}" class="sidebar-item {% if 'clientes' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-people"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-person-circle"></i></span>
                     <span class="sidebar-item-text">Clientes</span>
                 </a>
                 
                 <a href="{{ url_for('dispositivos.listar_dispositivos') }}" class="sidebar-item {% if 'dispositivos' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-laptop"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-phone"></i></span>
                     <span class="sidebar-item-text">Dispositivos</span>
                 </a>
                 
                 <a href="{{ url_for('modelos.listar_modelos') }}" class="sidebar-item {% if 'modelos' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-box-seam"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-collection"></i></span>
                     <span class="sidebar-item-text">Modelos de Equipos</span>
                 </a>
                 
                 <a href="{{ url_for('inventario.listar_piezas') }}" class="sidebar-item {% if 'inventario' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-boxes"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-box2"></i></span>
                     <span class="sidebar-item-text">Inventario</span>
                 </a>
                 
                 <a href="{{ url_for('proveedores.listar_proveedores') }}" class="sidebar-item {% if 'proveedores' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-truck"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-shop"></i></span>
                     <span class="sidebar-item-text">Proveedores</span>
                 </a>
                 
                 {% if usuario.rol == 'admin' %}
                 <a href="{{ url_for('tecnicos.listar_tecnicos') }}" class="sidebar-item {% if 'tecnicos' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-person-gear"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-tools"></i></span>
                     <span class="sidebar-item-text">Técnicos</span>
                 </a>
                 
                 <a href="{{ url_for('contratos.listar_contratos') }}" class="sidebar-item {% if 'contratos' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-file-earmark-text"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-file-earmark-contract"></i></span>
                     <span class="sidebar-item-text">Contratos</span>
                 </a>
                 
                 <a href="{{ url_for('gastos.listar_gastos') }}" class="sidebar-item {% if 'gastos' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-cash-coin"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-credit-card"></i></span>
                     <span class="sidebar-item-text">Gastos</span>
                 </a>
                 
                 <a href="{{ url_for('reportes.menu_reportes') }}" class="sidebar-item {% if 'reportes' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-graph-up"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-bar-chart"></i></span>
                     <span class="sidebar-item-text">Reportes</span>
                 </a>
                 
                 <a href="{{ url_for('auth.gestionar_usuarios') }}" class="sidebar-item {% if request.endpoint == 'auth.gestionar_usuarios' %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-person-badge"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-people-fill"></i></span>
                     <span class="sidebar-item-text">Usuarios</span>
                 </a>
                 
                 <a href="{{ url_for('configuracion.ver_configuracion') }}" class="sidebar-item {% if 'configuracion' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-gear"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-sliders2"></i></span>
                     <span class="sidebar-item-text">Configuración</span>
                 </a>
                 
                 <a href="{{ url_for('licencias.gestionar_licencias') }}" class="sidebar-item {% if 'licencias.gestionar' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-patch-check"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-shield-check"></i></span>
                     <span class="sidebar-item-text">Licencias</span>
                 </a>
                 {% endif %}
                 
                 <a href="{{ url_for('ayuda.index') }}" class="sidebar-item {% if 'ayuda' in request.endpoint %}active{% endif %}">
-                    <span class="sidebar-item-icon"><i class="bi bi-question-circle"></i></span>
+                    <span class="sidebar-item-icon"><i class="bi bi-chat-left-quote"></i></span>
                     <span class="sidebar-item-text">Ayuda</span>
                 </a>
             </nav>
